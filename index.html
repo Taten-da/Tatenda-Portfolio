@@ -4,23 +4,29 @@
     <title>Tatenda Takavarasha</title>
     <link rel="icon" type="image/png" href="/images/favicon.png"/>
     <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400&display=swap" rel="stylesheet">
-    <style> 
+    <style>
     
-
+    
+    body {
+        background-color: #0F0F0F;
+        min-height: 100svh;
+        margin: 0;
+        padding: 0;
+      }
 
       .hero-heading {
         font-family: 'General Sans', sans-serif;
         font-weight: 400;
-        font-size: 2.3rem;
-        line-height: 2.6rem;
+        font-size: 36px;
+        line-height: 110%;
         color: #ffffff;
       }
 
       .name {
         font-family: 'General Sans', sans-serif;
         font-weight: 400;
-        font-size: 2.3rem;
-        line-height: 2.6rem;
+        font-size: 36px;
+        line-height: 110%;
         color: #616161;
         display: flex;
         margin: 0;
@@ -31,42 +37,44 @@
       .body-text {
         font-family: 'General Sans', sans-serif;
         font-weight: 400;
-        font-size: 1rem;
+        font-size: 16px;
         color: #ffffff;
 
+      }
+
+      .work-link {
+        font-family: 'General Sans', sans-serif;
+        font-weight: 400;
+        font-size: 36px;
+        line-height: 100%;
+        color: #ffffff;
+        text-decoration: underline;
+        cursor: pointer;
+        display: inline-block
       }
 
       .body-grey {
         font-family: 'General Sans', sans-serif;
         font-weight: 400;
-        font-size: 1rem;
+        font-size: 16px;
         color: #616161;
       }
-
-      body {
-        background-color: #0F0F0F;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-      }
-
 
       .hero-section {
         display: flex;
         align-items: center;
         margin-left: 18%;
-        margin-right: 0;
+        margin-right: 18%;
         background-color: #0F0F0F;
+        min-height: 100svh;
         overflow: hidden;
-        min-height: 100vh;
-        
       }
 
       .hero-container {
         display: flex;
         flex-direction: column;
-        max-width: 50rem;
-        gap: 2rem;
+        max-width: 1000px;
+        gap: 56px;
         
       }
       .hero-one {
@@ -95,7 +103,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        gap: 5px;
+        gap: 6px;
         
       }
 
@@ -112,6 +120,133 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        width: fit-content;
+      }
+
+      .project {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #0F0F0F;
+        min-height: 100svh;
+        overflow: hidden;
+      }
+
+      .project-carousel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #222222;
+        max-height: 90svh;
+        width: 90svw;
+        flex-grow: 1;
+        overflow: hidden;
+        border-radius: 25px;
+      }
+
+      .project-list {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        height: 90svh;
+        padding-top: 1rem;
+        transition: transform 0.5s ease-in-out;
+      }
+/*
+        .project-item {
+        display: flex;
+        width: 60svw;
+        height: 80svh;
+        background-color: #3A3A3A;
+        border-radius: 30px;
+      
+} */
+      
+      .project-item {
+        display: flex;
+        width: 60svw;
+        height: 100%;
+        background-color: #3A3A3A;
+        border-radius: 30px;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+        font-family: 'General Sans', sans-serif;
+        color: #ffffff;
+      }
+
+      
+      .project-item-text {
+        display: flex;
+        width: 60svw;
+        height: 100%;
+        background-color: #3A3A3A;
+        border-radius: 30px;
+        overflow: hidden;
+      }
+
+      .blurb {
+        display: flex;
+        padding: 4rem;
+        max-width: 45svw;
+        font-size: 2rem;        
+        font-family: 'General Sans', sans-serif;
+        color: #ffffff;
+
+      }
+
+      .project-handle {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        min-width: 85svw;
+        align-items: center;
+        height: 3rem;
+        padding-left: 1rem;
+      }
+
+      .project-name-container {
+        display: flex; 
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .likes {
+        font-family: 'General Sans', sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        color: #ffffff;
+      }
+
+
+      .left-arrow {
+        font-family: 'General Sans', sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        color: #ffffff;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 90svh;
+        width: 14svw;
+        left: 4.5svw;
+
+      }
+      .right-arrow {
+        font-family: 'General Sans', sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        color: #ffffff;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 90svh;
+        width: 14svw;
+        right: 4.5svw;
       }
 
     </style>
@@ -122,41 +257,117 @@
       <div class="hero-container">
         <div class="hero-one">
           <div class="name">Tatenda Takavarasha</div>
-          <div class="hero-heading">Hi, I’m Tatenda, a designer who embraces ambiguity and delivers award-winning products. From idea to launch I help connect the dots; collaborating closely with front-end developers, software engineers, and key stakeholders to deliver solutions that hit the mark.</div>
+          <div class="hero-heading">Digital UI/UX Designer based in London, currently at Cappfinity. Designed products for <div class="work-link" onclick="openInNewTab('https://deloitte.preparationplus.com/');">Deloitte</div>, <div class="work-link" onclick="openInNewTab('https://hsbcskillsmatcher.preparationplus.com/');">HSBC</div>, <div class="work-link" onclick="openInNewTab('https://lbg.preparationplus.com/');">Lloyds Bank</div>, Deutsche Bank, Aviva and more. I thrive in ambiguity and help connect the dots from idea to launch. Collaborating closely with CPO’s, front-end developers, software engineers, and key stakeholders to deliver solutions that hit the mark.</div>
         </div>
         <div class="hero-two">
           <div class="experience-container"> 
-            <div class="body-grey">Experience</div>
+            <div class="body-text">Experience</div>
             <div class="jobs-container">
               <div class="jobs">
-                <div class="body-text">Digital Designer</div>
+                <div class="body-grey">Digital Designer UX/UI</div>
                 <div class="body-grey">Cappfinity, 2023 – Current</div>
               </div>
               <div class="jobs">
-                <div class="body-text">Digital Graphic Designer</div>
+                <div class="body-grey">Digital Graphic Designer</div>
                 <div class="body-grey">Mott MacDonald, 2015 – 2023</div>
               </div>
                 <div class="jobs">
-                <div class="body-text">Junior Graphic Designer</div>
+                <div class="body-grey">Junior Graphic Designer</div>
                 <div class="body-grey">Texaco, 2013 – 2015</div>
                 <div></div>
               </div>   
             </div>
           </div>
+          <div class="experience-container">
+            <div class="body-text">Recent Award</div>
+           
+              <div class="jobs-container">
+                <div class="jobs">
+                <div class="body-grey">Winner 2025</div>
+                <div class="body-grey">Talent Labs Best Candidate Experience</div>
+              </div>
+              <div class="jobs">
+                <div class="body-grey">Client:</div>
+                <div class="body-grey">Deloitte x Cappfinity</div>
+              </div>
+                <div class="jobs">
+                <div class="body-grey">Role:</div>
+                <div class="body-grey">Creative Lead UX/UI</div>
+              </div>   
+            </div>
+        
+          </div> 
+
           <div class="links-container">
-            <div class="body-grey">Links</div>
+            <div class="body-text">Links</div>
             <div>
-              <div class="body-text">LinkedIn</div>
-              <div class="body-text">Instagram</div>
+              <div class="body-grey">LinkedIn</div>
+              <div class="body-grey">Instagram</div>
             </div> 
           </div> 
+
         </div>
       </div>
     </div>
 
+    <!-- Project Carousel
+  <div class="project"> 
+    <div class="project-carousel">
+      <div class="project-list">  
+        <div class="project-item current-slide">1</div>
+        <div class="project-item"><div class="blurb"> Hi, I’m Tatenda, a designer who embraces ambiguity and delivers award-winning products. </div></div>
+        <div class="project-item">1</div>
+        <div class="project-item">1</div>
+        <div class="project-item">1</div>
+        <div class="project-item">1</div>
+        <div class="project-item">1</div>
+      </div> 
+      <div class="project-handle"> 
+      <div class="project-name-container"> 
+          <div class="body-text">Project Name</div>
+          <div class="body-grey">Web Product, 2025</div> 
+      </div>
+      <div class="likes"> 100 likes </div>
+      </div> 
+      <div class="left-arrow">Left</div>
+      <div class="right-arrow">Right</div>
+    </div>
+  </div>
+   -->
+
 
 
     <script>
+      function openInNewTab(url) {
+      window.open(url, '_blank').focus();
+    }
+
+
+      const track = document.querySelector('.project-list');
+      const slides = Array.from (track.children);
+      const nextButton = document.querySelector('.right-arrow');
+      const prevButton = document.querySelector('.left-arrow'); 
+
+      const slideWidth = slides[0].getBoundingClientRect().width;
+
+      // arrange the slides next to one another
+
+      setSlidePosition = (slide, index) => {
+        slide.style.left = slideWidth * index + 'px';
+      };  
+      
+      slides.forEach(setSlidePosition);
+
+      nextButton.addEventListener('click', e => {
+        const currentSlide = track.querySelector('.current-slide');
+        const nextSlide = currentSlide.nextElementSibling;
+        const amountToMove = nextSlide.style.left;
+        track.style.transform = 'translateX(-' + amountToMove + ')';
+        currentSlide.classList.remove('current-slide');
+        nextSlide.classList.add('current-slide');
+
+
+      });
 
     </script>
   </body>
