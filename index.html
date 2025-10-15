@@ -253,6 +253,8 @@
         font-style: normal;
         letter-spacing: 0px;
         color: #FFFFFF;
+        user-select: none; /* Prevent text selection */
+        touch-action: manipulation; /* Improve touch response */
       }
 }
 
@@ -334,7 +336,7 @@
     </video></div>
         <div class="Work-footer"> 
           <div class="Description">
-            <div class="Status">BRAND IDENTITY</div>
+            <div class="Status">LOGO + BRAND IDENTITY</div>
             <div class="Project-Title">Convo™</div>
           </div>
           <div class="Likes" data-project-id="Project-2"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
@@ -447,6 +449,10 @@ async function updateLikesInDB(projectId, newCount) {
 // Event delegation for multiple like buttons
 document.addEventListener('click', async function(e) {
   if (e.target.closest('.like-button')) {
+
+    e.preventDefault(); // Prevent double-firing on mobile
+    e.stopPropagation(); // Stop event bubbling
+
     const likeBtn = e.target.closest('.like-button');
     
     // Find associated counter if it exists
