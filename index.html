@@ -255,19 +255,20 @@
         color: #FFFFFF;
         user-select: none; /* Prevent text selection */
         touch-action: manipulation; /* Improve touch response */
+        transform: scale(1); /* Set explicit default scale */
+        transition: transform 0.2s ease-out;
       }
 
       /* Only apply hover on devices that support hover (not touch screens) */
 @media (hover: hover) and (pointer: fine) {
     .like-button:hover {
         transform: scale(1.5);
-        transition: transform 0.2s ease-out;
     }
 }
 
       .like-button:active {
       transform: scale(0.95);
-      transition: transform 0.2s ease-out;
+      transition: transform 0.1s ease-out;
       }
 
 }
