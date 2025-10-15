@@ -8,6 +8,10 @@
     <title>Tatenda Takavarasha's Portfolio</title>
     <link rel="icon" type="image/png" href="/images/TT-Logog.png"/>
     <link href="https://use.typekit.net/fln4jhp.css" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- GSAP for animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <!-- Google tag (gtag.js) -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-QHF28VQZY4"></script>
@@ -146,9 +150,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 700px;
+        flex: 1; /* This will make it take remaining space */
+        width: 100%;
         background-color: red;
         border-radius: 10px;
+        overflow: hidden;
       }
 
       .Work-footer {
@@ -159,11 +165,18 @@
         padding: 3px;
       }
 
+      .Description {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
       .Likes {
         display: flex;
         flex-direction: row;
         gap: 5px;
         align-items: center;
+
       }
 
       .like-button {
@@ -171,8 +184,8 @@
         z-index: 10;
         display: flex;
         flex-direction: row;
-        gap: 5px;
         align-items: center;
+        font-size: 1.2rem;
         }
 
         .like-button:hover {
@@ -185,10 +198,6 @@
             transition: transform 0.2s ease-out;
         }
 
-        .like-button.liked {
-          animation: pulse 0.3s ease-out;
-          transition: transform 0.2s ease-out;
-        }
 
         @keyframes pulse {
             100%, 100% { transform: scale(1); }
@@ -301,28 +310,82 @@
     </div>
     <div class="Feed">
 
-    <!-- Work Start -->
+  <!-- Work Start -->
       <div class="Work">  
-        <div class="Image-Video">IMAGE/VIDEO 1</div>
+      <div class="Image-Video"><video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+      <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-2nd-video-UX-UI.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video></div>
         <div class="Work-footer"> 
           <div class="Description">
-            <div class="Status">LIVE PROJECT</div>
-            <div class="Project-Title">HSBC Matching Tool</div>
+            <div class="Status">MOTION WORK</div>
+            <div class="Project-Title">The Human Touch</div>
           </div>
-          <div class="Likes"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
+          <div class="Likes" data-project-id="Project-1"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
+        </div>
+        </div>
+    <!-- Work End --> 
+
+       <!-- Work Start -->
+      <div class="Work">  
+        <div class="Image-Video"><video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+      <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/03-Page-header-video-Convo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video></div>
+        <div class="Work-footer"> 
+          <div class="Description">
+            <div class="Status">BRANDING</div>
+            <div class="Project-Title">Convo™</div>
+          </div>
+          <div class="Likes" data-project-id="Project-2"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
+        </div>
+        </div>
+      <!-- Work End -->   
+
+    <!-- Work Start -->
+      <div class="Work">  
+        <div class="Image-Video"><video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+      <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/07-MM-header-video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video></div>
+        <div class="Work-footer"> 
+          <div class="Description">
+            <div class="Status">SHOWREEL</div>
+            <div class="Project-Title">Mott MacDonald</div>
+          </div>
+          <div class="Likes" data-project-id="Project-3"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
         </div>
         </div>
       <!-- Work End -->
 
-    <!-- Work Start -->
+  <!-- Work Start -->
       <div class="Work">  
-        <div class="Image-Video">IMAGE/VIDEO 1</div>
+        <div class="Image-Video"><video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+      <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/02-Forty.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video></div>
         <div class="Work-footer"> 
           <div class="Description">
-            <div class="Status">LIVE PROJECT</div>
-            <div class="Project-Title">HSBC Matching Tool</div>
+            <div class="Status">LOGO</div>
+            <div class="Project-Title">Forty™ - Frangrance</div>
           </div>
-          <div class="Likes"> <div class="like-button" id="likeBtn">❤️</div> Likes:<span class="like-count">0</span></div>
+          <div class="Likes" data-project-id="Project-4"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
+        </div>
+        </div>
+      <!-- Work End -->
+
+      <!-- Work Start -->
+      <div class="Work">  
+        <div class="Image-Video"><video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+      <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/01-Social_header+v2.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video></div>
+        <div class="Work-footer"> 
+          <div class="Description">
+            <div class="Status">VISUAL IDENTITY</div>
+            <div class="Project-Title">Social Media Event 2023</div>
+          </div>
+          <div class="Likes" data-project-id="Project-5"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
         </div>
         </div>
       <!-- Work End -->
@@ -332,73 +395,120 @@
   </div> 
 
   <script>
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDph0klb9jAwHMuKfC7PuGhmR6I4nujna8",
+  authDomain: "portfolio-like-counter-47b48.firebaseapp.com",
+  projectId: "portfolio-like-counter-47b48",
+  storageBucket: "portfolio-like-counter-47b48.appspot.com",
+  messagingSenderId: "523939149509",
+  appId: "YOUR_APP_ID" 
+};
 
-    function openInNewTab(url) {
-      window.open(url, '_blank').focus();
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+function openInNewTab(url) {
+  window.open(url, '_blank').focus();
+}
+
+// Load likes from database when page loads
+async function loadLikes() {
+  const likeContainers = document.querySelectorAll('.Likes[data-project-id]');
+  
+  for (const container of likeContainers) {
+    const projectId = container.dataset.projectId;
+    const likeCount = container.querySelector('.like-count');
+    
+    try {
+      const doc = await db.collection('likes').doc(projectId).get();
+      if (doc.exists) {
+        likeCount.textContent = doc.data().count || 0;
+      }
+    } catch (error) {
+      console.error('Error loading likes:', error);
+    }
+  }
+}
+
+// Update likes in database
+async function updateLikesInDB(projectId, newCount) {
+  try {
+    await db.collection('likes').doc(projectId).set({
+      count: newCount,
+      lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  } catch (error) {
+    console.error('Error updating likes:', error);
+  }
+}
+
+// Event delegation for multiple like buttons
+document.addEventListener('click', async function(e) {
+  if (e.target.closest('.like-button')) {
+    const likeBtn = e.target.closest('.like-button');
+    
+    // Find associated counter if it exists
+    const container = likeBtn.closest('.Likes');
+    const likeCount = container ? container.querySelector('.like-count') : null;
+    const projectId = container ? container.dataset.projectId : null;
+    
+    if (likeCount && projectId) {
+      let count = parseInt(likeCount.textContent) || 0;
+      count++;
+      likeCount.textContent = count;
+      
+      // Update database
+      await updateLikesInDB(projectId, count);
     }
 
-    // Event delegation for multiple like buttons
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.like-button')) {
-                const likeBtn = e.target.closest('.like-button');
-                
-                // Find associated counter if it exists
-                const container = likeBtn.closest('.Likes');
-                const likeCount = container ? container.querySelector('.like-count') : null;
-                
-                if (likeCount) {
-                    let count = parseInt(likeCount.textContent) || 0;
-                    count++;
-                    likeCount.textContent = count;
-                }
+    // Add pulse effect to button
+    likeBtn.classList.add('liked');
+    setTimeout(() => likeBtn.classList.remove('liked'), 300);
 
-                // Add pulse effect to button
-                likeBtn.classList.add('liked');
-                setTimeout(() => likeBtn.classList.remove('liked'), 300);
+    // Create multiple hearts
+    const numHearts = Math.floor(Math.random() * 3) + 3;
+    
+    for (let i = 0; i < numHearts; i++) {
+      setTimeout(() => createFloatingHeart(), i * 100);
+    }
+  }
+});
 
-                // Create multiple hearts
-                const numHearts = Math.floor(Math.random() * 3) + 3; // 3-5 hearts
-                
-                for (let i = 0; i < numHearts; i++) {
-                    setTimeout(() => createFloatingHeart(), i * 100);
-                }
-            }
-        });
+function createFloatingHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.textContent = '❤️';
+  
+  const randomX = Math.random() * (window.innerWidth - 100);
+  
+  heart.style.left = randomX + 'px';
+  heart.style.bottom = '0px';
+  
+  document.body.appendChild(heart);
 
-        function createFloatingHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.textContent = '❤️';
-            
-            // Position heart randomly across the screen at the bottom
-            const randomX = Math.random() * (window.innerWidth - 100);
-            
-            heart.style.left = randomX + 'px';
-            heart.style.bottom = '0px';
-            
-            document.body.appendChild(heart);
+  const randomRotation = (Math.random() - 0.5) * 360;
 
-            // Random rotation
-            const randomRotation = (Math.random() - 0.5) * 360;
+  gsap.timeline({
+    onComplete: () => heart.remove()
+  })
+  .fromTo(heart, {
+    y: 0,
+    opacity: 1,
+    scale: 1
+  }, {
+    y: -window.innerHeight - 100,
+    rotation: randomRotation,
+    opacity: 1,
+    scale: 1,
+    duration: 2 + Math.random(),
+    ease: "power1.out"
+  });
+}
 
-            // Animate with GSAP from bottom to top
-            gsap.timeline({
-                onComplete: () => heart.remove()
-            })
-            .fromTo(heart, {
-                y: 0,
-                opacity: 1,
-                scale: 1
-            }, {
-                y: -window.innerHeight - 100,
-                rotation: randomRotation,
-                opacity: 1,
-                scale: 1,
-                duration: 2 + Math.random(),
-                ease: "power1.out"
-            });
-        }
-    </script>
-
+// Load likes when page loads
+window.addEventListener('DOMContentLoaded', loadLikes);
+</script>
     </body>
 </html>
