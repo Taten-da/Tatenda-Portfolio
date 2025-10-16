@@ -255,7 +255,6 @@
         color: #FFFFFF;
         user-select: none; /* Prevent text selection */
         touch-action: manipulation; /* Improve touch response */
-        transform: scale(1); /* Set explicit default scale */
         transition: transform 0.2s ease-out;
       }
 
@@ -496,6 +495,28 @@ document.addEventListener('click', async function(e) {
     }
   }
 });
+
+// Touch feedback for like buttons (mobile) - ADD THIS HERE
+document.addEventListener('touchstart', function(e) {
+  if (e.target.closest('.like-button')) {
+    const likeBtn = e.target.closest('.like-button');
+    likeBtn.style.transform = 'scale(0.95)';
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', function(e) {
+  if (e.target.closest('.like-button')) {
+    const likeBtn = e.target.closest('.like-button');
+    likeBtn.style.transform = 'scale(1)';
+  }
+}, { passive: true });
+
+document.addEventListener('touchcancel', function(e) {
+  if (e.target.closest('.like-button')) {
+    const likeBtn = e.target.closest('.like-button');
+    likeBtn.style.transform = 'scale(1)';
+  }
+}, { passive: true });
 
 function createFloatingHeart() {
   const heart = document.createElement('div');
