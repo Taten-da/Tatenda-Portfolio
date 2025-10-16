@@ -69,6 +69,15 @@
         color: #FFFFFF;
       }
 
+      .slide-title {
+        font-family: "helvetica-neue-lt-pro", sans-serif;
+        font-weight: 200;
+        font-size: 18px;
+        font-style: normal;
+        letter-spacing: 0px;
+        color: #FFFFFF;
+      }
+
       .Project-Title {
         font-family: "helvetica-neue-lt-pro", sans-serif;
         font-weight: 200;
@@ -152,7 +161,7 @@
         align-items: center;
         flex: 1; /* This will make it take remaining space */
         width: 100%;
-        background-color: red;
+        background-color: #161616;
         border-radius: 10px;
         overflow: hidden;
       }
@@ -197,6 +206,95 @@
             transform: scale(0.95);
             transition: transform 0.2s ease-out;
         }
+
+        .carousel-container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+      }
+
+      .carousel-track {
+          display: flex;
+          transition: transform 0.5s ease-in-out;
+          height: 100%;
+      }
+
+        .blurb {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        font-family: "helvetica-neue-lt-pro", sans-serif;
+        font-weight: 400;
+        font-size: 2rem;
+        font-style: normal;
+        letter-spacing: 0px;
+        width: 80%;
+        padding-left: 10%;
+        height: 100%;   
+        color: #ffffff;
+      }
+
+      .carousel-slide {
+          min-width: 100%;
+          height: 100%;
+      }
+
+      .carousel-slide video, .carousel-slide img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 10px;
+      }
+
+      .carousel-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0, 0, 0, 0.6);
+          border: none;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          color: white;
+          z-index: 20;
+          transition: all 0.3s ease;
+          opacity: 1;
+      }
+
+      .carousel-arrow:hover {
+          transform: translateY(-50%) scale(1.1);
+      }
+
+      .carousel-arrow.hidden {
+          opacity: 0;
+          pointer-events: none;
+      }
+
+      .left-arrow {
+          left: 15px;
+      }
+
+      .right-arrow {
+          right: 15px;
+      }
+
+      @media screen 
+      and (min-device-width: 320px) 
+        and (max-device-width: 660px)
+        and (-webkit-min-device-pixel-ratio: 2) {
+          .carousel-arrow {
+              width: 40px;
+              height: 40px;
+              font-size: 20px;
+          }
+      }
 
 
         @keyframes pulse {
@@ -326,21 +424,58 @@
     </div>
     <div class="Feed">
 
-  <!-- Work Start -->
-      <div class="Work">  
-      <div class="Image-Video"><video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
-      <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-2nd-video-UX-UI.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video></div>
-        <div class="Work-footer"> 
-          <div class="Description">
-            <div class="Status">MOTION + VISUAL IDENTITY</div>
-            <div class="Project-Title">The Human Touch</div>
-          </div>
-          <div class="Likes" data-project-id="Project-1"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
+ <!-- Work Carousel Start: Human Touch -->
+<div class="Work">  
+  <div class="Image-Video">
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="carousel-slide current-slide">
+          <video autoplay muted loop playsinline>
+            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-2nd-video-UX-UI.mp4" type="video/mp4">
+          </video>
         </div>
+        <div class="carousel-slide">
+          <div class="blurb"> <div class="slide-title">PROBLEM FRAMING</div> Challenge conventions, spark discussions, and explore the evolving landscape of Design. AI has taken the world by storm, more importantly, its put the spotlight on the human element or the lack thereof. We've seen a wave of AI generated content flooding our feeds with the same monotonous voice. How do we get the creative juices flowing again and add the exciting human element back? The contrast between the machine element and the human element. Binary numbers vs organic free-flowing colourful Human touch.</div>
         </div>
-    <!-- Work End --> 
+        
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/6611907251674029e0ecc699_UX-tote-bag.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+         <div class="carousel-slide">
+          <video autoplay muted loop playsinline>
+            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/UX+Landing+Page.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/660d5721ac23aa2de36a0664_UX%20Subway%20Poster%20Mockup-web.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <div class="carousel-slide">
+          <video autoplay muted loop playsinline>
+            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-header-video-UX-UI+-+60fps.mp4" type="video/mp4">
+          </video>
+        </div>
+        
+      </div>
+      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
+      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
+    </div>
+  </div>
+  <div class="Work-footer"> 
+    <div class="Description">
+      <div class="Status">MOTION + VISUAL IDENTITY</div>
+      <div class="Project-Title">The Human Touch</div>
+    </div>
+    <div class="Likes" data-project-id="Project-1">
+      <div class="like-button">❤️</div> 
+      Likes: <span class="like-count">0</span>
+    </div>
+  </div>
+</div>
+<!-- Work End -->     
+
 
        <!-- Work Start -->
       <div class="Work">  
@@ -350,7 +485,7 @@
     </video></div>
         <div class="Work-footer"> 
           <div class="Description">
-            <div class="Status">LOGO + BRAND IDENTITY</div>
+            <div class="Status">LOGO + BRAND IDENTITY + MOTION</div>
             <div class="Project-Title">Convo™</div>
           </div>
           <div class="Likes" data-project-id="Project-2"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
@@ -358,53 +493,160 @@
         </div>
       <!-- Work End -->   
 
-    <!-- Work Start -->
-      <div class="Work">  
-        <div class="Image-Video"><video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
-      <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/07-MM-header-video.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video></div>
-        <div class="Work-footer"> 
-          <div class="Description">
-            <div class="Status">SHOWREEL</div>
-            <div class="Project-Title">Mott MacDonald</div>
-          </div>
-          <div class="Likes" data-project-id="Project-3"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
+<!-- Work Carousel Start: Mott MacDonald -->
+<div class="Work">  
+  <div class="Image-Video">
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="carousel-slide current-slide">
+          <video autoplay muted loop playsinline>
+            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/07-MM-header-video-3.mp4" type="video/mp4">
+          </video>
         </div>
+        <div class="carousel-slide">
+          <div class="blurb"> <div class="slide-title">BACKGROUND</div> Worked closely with the exceptional copywriters, marketers, and social creatives to push the Mott MacDonald brand forward. I was responsible for nurturing and mentoring junior designers and the production of digital collateral: motion-centric assets for web, social, and digital campaigns, emails/newsletters, short and long-form video content, printed materials, UX/UI prototyping, HTML banner ads, and more.</div>
         </div>
-      <!-- Work End -->
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/660d6715d5eee27ecff723f6_Mockup-Spreads-web.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/660d676c093ff843f7691211_A4_Brochure_Mockup-web.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+         <div class="carousel-slide">
+          <video autoplay muted loop playsinline>
+            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/MM+Laptop+video_1.mp4" type="video/mp4">
+          </video>
+        </div>
+        
+      </div>
+      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
+      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
+    </div>
+  </div>
+  <div class="Work-footer"> 
+    <div class="Description">
+      <div class="Status">BRAND IDENTITY + EDITORIAL + MOTION</div>
+      <div class="Project-Title">Mott MacDonald</div>
+    </div>
+    <div class="Likes" data-project-id="Project-3">
+      <div class="like-button">❤️</div> 
+      Likes: <span class="like-count">0</span>
+    </div>
+  </div>
+</div>
+<!-- Work End -->     
+
+<!-- Work Carousel Start: Forty -->
+<div class="Work">  
+  <div class="Image-Video">
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="carousel-slide current-slide">
+          <video autoplay muted loop playsinline>
+            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/02-Forty.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="carousel-slide">
+          <div class="blurb"> <div class="slide-title">BACKGROUND</div>Stepping out of my comfort zone and engaging in problem solving tasks outside of my natural field. Conceptual brief to create a brand identity for a perfume aimed at women in their 40s. Began research into the target audience, finding out who they are, their core values, preferred aesthetics and current market players etc. I found many vibrant communities of women supporting each other and for many, 40 was the age they developed into a new version of themselves, one that put the most important things first, one that was more vulnerable, and one that put down the façade - a bold, unashamed version. So just say it as it is. Forty.</div>
+        </div>
+
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/6639f9b35027c3be17594d2b_Forty-billboard-1.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/660d44c769124294d29ffb23_Forty-logo-shot.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/660d44f77980f02a8e878aa9_Forty-moodboard.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/660d4707bebfc3a061d86918_forty-bottle-and-box.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+         <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/660d4726d0c29838b13e1a07_forty-aerial-multi-bottle.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        
+      </div>
+      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
+      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
+    </div>
+  </div>
+  <div class="Work-footer"> 
+    <div class="Description">
+      <div class="Status">LOGO + BRAND IDENTITY</div>
+      <div class="Project-Title">Forty™</div>
+    </div>
+    <div class="Likes" data-project-id="Project-4">
+      <div class="like-button">❤️</div> 
+      Likes: <span class="like-count">0</span>
+    </div>
+  </div>
+</div>
+<!-- Work End -->   
 
   <!-- Work Start -->
       <div class="Work">  
-        <div class="Image-Video"><video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
-      <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/02-Forty.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video></div>
+        <div class="Image-Video"> <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/66022ede69487388ccecf5a4_04-FMTM5-ezgif.com-optimize.gif" type="image/gif" alt="Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
         <div class="Work-footer"> 
           <div class="Description">
-            <div class="Status">LOGO + BRAND IDENTITY</div>
-            <div class="Project-Title">Forty™</div>
-          </div>
-          <div class="Likes" data-project-id="Project-4"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
-        </div>
-        </div>
-      <!-- Work End -->
-
-      <!-- Work Start -->
-      <div class="Work">  
-        <div class="Image-Video"><video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
-      <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/01-Social_header+v2.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video></div>
-        <div class="Work-footer"> 
-          <div class="Description">
-            <div class="Status">VISUAL IDENTITY</div>
-            <div class="Project-Title">Social Media Event 2023</div>
+            <div class="Status">LOGO + BRAND IDENTITY + NAMING</div>
+            <div class="Project-Title">From Me To Me™</div>
           </div>
           <div class="Likes" data-project-id="Project-5"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
         </div>
         </div>
-      <!-- Work End -->
+    <!-- Work End -->
+
+   <!-- Work Carousel Start: Social Media Event -->
+<div class="Work">  
+  <div class="Image-Video">
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="carousel-slide current-slide">
+          <video autoplay muted loop playsinline>
+            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/01-Social_header+v5.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="carousel-slide">
+          <div class="blurb"> <div class="slide-title">BACKGROUND</div>Passion project aimed at helping people learn popular social media slang terms. As designers its important to keep our eyes peeled at current cultural trends and expectations, as working in line with these helps us position ourselves appropriately with our audience. Inspired by the retro visuals from the  80s and 90s.</div>
+        </div>
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/66021f4179601dd4557a9e80_01-Social-gif-2.gif" type="image/gif" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/66038d53a47f76d383ce143d_At-the-event-presentation-web.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+          <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/66038e13f40263d55c88058c_Nope-vibes.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        
+        <div class="carousel-slide">
+          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/66038ddbdeec2b26f53725f0_Square-GIFs2.gif" type="image/gif" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        
+      </div>
+      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
+      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
+    </div>
+  </div>
+  <div class="Work-footer"> 
+    <div class="Description">
+      <div class="Status">VISUAL IDENTITY + MERCH + MOTION</div>
+      <div class="Project-Title">Social Media Event Concept</div>
+    </div>
+    <div class="Likes" data-project-id="Project-6">
+      <div class="like-button">❤️</div> 
+      Likes: <span class="like-count">0</span>
+    </div>
+  </div>
+</div>
+<!-- Work End -->     
 
       </div> 
     </div>
@@ -500,7 +742,7 @@ document.addEventListener('click', async function(e) {
 document.addEventListener('touchstart', function(e) {
   if (e.target.closest('.like-button')) {
     const likeBtn = e.target.closest('.like-button');
-    likeBtn.style.transform = 'scale(0.95)';
+    likeBtn.style.transform = 'scale(0.5)';
   }
 }, { passive: true });
 
@@ -551,6 +793,117 @@ function createFloatingHeart() {
 
 // Load likes when page loads
 window.addEventListener('DOMContentLoaded', loadLikes);
+
+// Carousel functionality
+function initCarousels() {
+  const carousels = document.querySelectorAll('.carousel-container');
+  
+  carousels.forEach(container => {
+    const track = container.querySelector('.carousel-track');
+    const slides = Array.from(track.children);
+    const nextButton = container.querySelector('.right-arrow');
+    const prevButton = container.querySelector('.left-arrow');
+    
+    // If only one slide, hide arrows and return
+    if (slides.length <= 1) {
+      nextButton.classList.add('hidden');
+      prevButton.classList.add('hidden');
+      return;
+    }
+    
+    // Function to set slide positions
+    const setSlidePosition = (slide, index) => {
+      const slideWidth = slides[0].getBoundingClientRect().width;
+      slide.style.left = slideWidth * index + 'px';
+    };
+    
+    // Function to update carousel position
+    const updateCarouselPosition = () => {
+      const slideWidth = slides[0].getBoundingClientRect().width;
+      const currentSlide = track.querySelector('.current-slide');
+      const currentIndex = slides.indexOf(currentSlide);
+      
+      // Reposition all slides
+      slides.forEach(setSlidePosition);
+      
+      // Update transform to current slide
+      track.style.transform = 'translateX(-' + (slideWidth * currentIndex) + 'px)';
+    };
+    
+    // Initial setup
+    slides.forEach(setSlidePosition);
+    
+    // Update arrow visibility
+    const updateArrows = () => {
+      const currentSlide = track.querySelector('.current-slide');
+      const currentIndex = slides.indexOf(currentSlide);
+      
+      // Hide left arrow if at first slide
+      if (currentIndex === 0) {
+        prevButton.classList.add('hidden');
+      } else {
+        prevButton.classList.remove('hidden');
+      }
+      
+      // Hide right arrow if at last slide
+      if (currentIndex === slides.length - 1) {
+        nextButton.classList.add('hidden');
+      } else {
+        nextButton.classList.remove('hidden');
+      }
+    };
+    
+    // Initial arrow state
+    updateArrows();
+    
+    // Next slide
+    nextButton.addEventListener('click', e => {
+      e.stopPropagation();
+      const currentSlide = track.querySelector('.current-slide');
+      const nextSlide = currentSlide.nextElementSibling;
+      
+      if (!nextSlide) return;
+      
+      const amountToMove = nextSlide.style.left;
+      track.style.transform = 'translateX(-' + amountToMove + ')';
+      currentSlide.classList.remove('current-slide');
+      nextSlide.classList.add('current-slide');
+      
+      updateArrows();
+    });
+    
+    // Previous slide
+    prevButton.addEventListener('click', e => {
+      e.stopPropagation();
+      const currentSlide = track.querySelector('.current-slide');
+      const prevSlide = currentSlide.previousElementSibling;
+      
+      if (!prevSlide) return;
+      
+      const amountToMove = prevSlide.style.left;
+      track.style.transform = 'translateX(-' + amountToMove + ')';
+      currentSlide.classList.remove('current-slide');
+      prevSlide.classList.add('current-slide');
+      
+      updateArrows();
+    });
+    
+    // Handle window resize with debounce
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        updateCarouselPosition();
+      }, 100);
+    });
+  });
+}
+
+// Initialize carousels when page loads
+window.addEventListener('DOMContentLoaded', () => {
+  loadLikes();
+  initCarousels();
+});
 </script>
     </body>
 </html>
