@@ -288,11 +288,18 @@
       and (min-device-width: 320px) 
         and (max-device-width: 660px)
         and (-webkit-min-device-pixel-ratio: 2) {
-          .carousel-arrow {
+          .carousel-arrow{
               width: 40px;
               height: 40px;
               font-size: 20px;
           }
+
+           .carousel-arrow svg, .carousel-arrow img {
+        width: 100%; /* Slightly smaller on mobile */
+        height: 100%;
+    }
+
+          
       }
 
 
@@ -451,6 +458,12 @@
         <div class="carousel-slide">
           <div class="blurb"> <div class="slide-title">PROBLEM FRAMING</div> Challenge conventions, spark discussions, and explore the evolving landscape of Design. AI has taken the world by storm, more importantly, its put the spotlight on the human element or the lack thereof. We've seen a wave of AI generated content flooding our feeds with the same monotonous voice. How do we get the creative juices flowing again and add the exciting human element back? The contrast between the machine element and the human element. Binary numbers vs organic free-flowing colourful Human touch.</div>
         </div>
+
+        <div class="carousel-slide">
+          <video autoplay muted loop playsinline>
+            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-header-video-UX-UI+-Final.mp4" type="video/mp4">
+          </video>
+        </div>
         
         <div class="carousel-slide">
           <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/6611907251674029e0ecc699_UX-tote-bag.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
@@ -466,11 +479,7 @@
           <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/660d5721ac23aa2de36a0664_UX%20Subway%20Poster%20Mockup-web.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
 
-        <div class="carousel-slide">
-          <video autoplay muted loop playsinline>
-            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-header-video-UX-UI+-+60fps.mp4" type="video/mp4">
-          </video>
-        </div>
+
         
       </div>
       <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
