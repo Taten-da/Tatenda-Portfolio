@@ -277,11 +277,11 @@
       }
 
       .left-arrow {
-          left: 1rem;
+          left: 16px;
       }
 
       .right-arrow {
-          right: 1rem;
+          right: 16px;
       }
 
         @keyframes pulse {
@@ -1085,7 +1085,10 @@ function initCarousels() {
 // With this:
 window.addEventListener('DOMContentLoaded', loadLikes);
 
-
+// Wait for ALL content (images, videos) to load before initializing carousels
+window.addEventListener('load', () => {
+  initCarousels();
+});
 
 
 </script>
