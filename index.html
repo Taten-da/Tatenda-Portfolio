@@ -1097,6 +1097,15 @@ window.addEventListener('DOMContentLoaded', () => {
   loadLikes();
   initCarousels();
 });
+
+window.addEventListener('load', () => {
+  document.documentElement.style.height = '100%';
+  document.body.style.height = '100%';
+  // Force Safari to recalc zoom/layout
+  window.scrollTo(0, 1);
+  window.scrollTo(0, 0);
+});
+
 </script>
     </body>
 </html>
