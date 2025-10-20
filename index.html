@@ -298,15 +298,8 @@
         }
 
         /* Media query for when Feed would be under 500px */
-@media screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 660px)
-  and (-webkit-min-device-pixel-ratio: 2)  
-  {
-
-    
-
-    
+@media screen and (max-width: 660px)  
+  {    
     .carousel-arrow {
               width: -40px;
               height: -40px;
@@ -989,9 +982,6 @@ function createFloatingHeart() {
   });
 }
 
-// Load likes when page loads
-window.addEventListener('DOMContentLoaded', loadLikes);
-
 // Carousel functionality
 function initCarousels() {
   const carousels = document.querySelectorAll('.carousel-container');
@@ -1097,9 +1087,11 @@ function initCarousels() {
   });
 }
 
-// Initialize carousels when page loads
-window.addEventListener('DOMContentLoaded', () => {
-  loadLikes();
+// With this:
+window.addEventListener('DOMContentLoaded', loadLikes);
+
+// Wait for ALL content (images, videos) to load before initializing carousels
+window.addEventListener('load', () => {
   initCarousels();
 });
 </script>
