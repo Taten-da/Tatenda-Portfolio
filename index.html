@@ -4,7 +4,7 @@
   <!-- Glad you've taken a look under the hood. Just HTML, CSS and little bit of JS, enjoy -->
    
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tatenda Takavarasha's Portfolio</title>
     <link rel="icon" type="image/png" href="/images/TT-Logog.png"/>
     <link href="https://use.typekit.net/fln4jhp.css" rel="stylesheet">
@@ -308,14 +308,14 @@
 
     
     .carousel-arrow {
-              width: 40px;
-              height: 40px;
+              width: -40px;
+              height: -40px;
               font-size: 20px;
           }
 
     .carousel-arrow svg, {
-        width: 80%; /* Slightly smaller on mobile */
-        height: 80%;
+        width: -40px; /* Slightly smaller on mobile */
+        height: -40px;
     }
 
 
@@ -1097,15 +1097,6 @@ window.addEventListener('DOMContentLoaded', () => {
   loadLikes();
   initCarousels();
 });
-
-window.addEventListener('load', () => {
-  document.documentElement.style.height = '100%';
-  document.body.style.height = '100%';
-  // Force Safari to recalc zoom/layout
-  window.scrollTo(0, 1);
-  window.scrollTo(0, 0);
-});
-
 </script>
     </body>
 </html>
