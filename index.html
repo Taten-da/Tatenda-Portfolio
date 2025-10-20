@@ -1084,11 +1084,8 @@ function initCarousels() {
 
 // With this:
 window.addEventListener('DOMContentLoaded', loadLikes);
+window.addEventListener('DOMContentLoaded', initCarousels);
 
-// Wait for ALL content (images, videos) to load before initializing carousels
-window.addEventListener('load', () => {
-  initCarousels();
-});
 
 
 </script>
