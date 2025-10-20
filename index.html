@@ -1093,11 +1093,13 @@ window.addEventListener('load', () => {
   initCarousels();
 });
 
-// Prevent layout shift on mobile
-document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-window.addEventListener('resize', () => {
-  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+// Forced page refresh
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    window.location.reload();
+  }, 500);
 });
+
 </script>
     </body>
 </html>
