@@ -4,6 +4,7 @@
   <!-- Glad you've taken a look under the hood. Just HTML, CSS and little bit of JS, enjoy -->
    
   <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -981,121 +982,17 @@ function createFloatingHeart() {
   });
 }
 
-// Load likes when page loads
-window.addEventListener('DOMContentLoaded', loadLikes);
-
-// Carousel functionality
-function initCarousels() {
-  const carousels = document.querySelectorAll('.carousel-container');
-  
-  carousels.forEach(container => {
-    const track = container.querySelector('.carousel-track');
-    const slides = Array.from(track.children);
-    const nextButton = container.querySelector('.right-arrow');
-    const prevButton = container.querySelector('.left-arrow');
-    
-    // If only one slide, hide arrows and return
-    if (slides.length <= 1) {
-      nextButton.classList.add('hidden');
-      prevButton.classList.add('hidden');
-      return;
-    }
-    
-    // Function to set slide positions
-    const setSlidePosition = (slide, index) => {
-      const slideWidth = slides[0].getBoundingClientRect().width;
-      slide.style.left = slideWidth * index + 'px';
-    };
-    
-    // Function to update carousel position
-    const updateCarouselPosition = () => {
-      const slideWidth = slides[0].getBoundingClientRect().width;
-      const currentSlide = track.querySelector('.current-slide');
-      const currentIndex = slides.indexOf(currentSlide);
-      
-      // Reposition all slides
-      slides.forEach(setSlidePosition);
-      
-      // Update transform to current slide
-      track.style.transform = 'translateX(-' + (slideWidth * currentIndex) + 'px)';
-    };
-    
-    // Initial setup
-    slides.forEach(setSlidePosition);
-    
-    // Update arrow visibility
-    const updateArrows = () => {
-      const currentSlide = track.querySelector('.current-slide');
-      const currentIndex = slides.indexOf(currentSlide);
-      
-      // Hide left arrow if at first slide
-      if (currentIndex === 0) {
-        prevButton.classList.add('hidden');
-      } else {
-        prevButton.classList.remove('hidden');
-      }
-      
-      // Hide right arrow if at last slide
-      if (currentIndex === slides.length - 1) {
-        nextButton.classList.add('hidden');
-      } else {
-        nextButton.classList.remove('hidden');
-      }
-    };
-    
-    // Initial arrow state
-    updateArrows();
-    
-    // Next slide
-    nextButton.addEventListener('click', e => {
-      e.stopPropagation();
-      const currentSlide = track.querySelector('.current-slide');
-      const nextSlide = currentSlide.nextElementSibling;
-      
-      if (!nextSlide) return;
-      
-      const amountToMove = nextSlide.style.left;
-      track.style.transform = 'translateX(-' + amountToMove + ')';
-      currentSlide.classList.remove('current-slide');
-      nextSlide.classList.add('current-slide');
-      
-      updateArrows();
-    });
-    
-    // Previous slide
-    prevButton.addEventListener('click', e => {
-      e.stopPropagation();
-      const currentSlide = track.querySelector('.current-slide');
-      const prevSlide = currentSlide.previousElementSibling;
-      
-      if (!prevSlide) return;
-      
-      const amountToMove = prevSlide.style.left;
-      track.style.transform = 'translateX(-' + amountToMove + ')';
-      currentSlide.classList.remove('current-slide');
-      prevSlide.classList.add('current-slide');
-      
-      updateArrows();
-    });
-    
-    // Handle window resize with debounce
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        updateCarouselPosition();
-      }, 100);
-    });
-  });
-}
-
-// Initialize carousels when page loads
-window.addEventListener('DOMContentLoaded', loadLikes);
-
+// Load likes and initialize carousels when page loads
 window.addEventListener('load', () => {
-  // Small delay to ensure all rendering is complete
+  loadLikes();
+  // Small delay to ensure all rendering is complete before initializing carousels
   setTimeout(() => {
     initCarousels();
+    // A second, slightly longer delay to force a final recalculation on mobile
+    // This helps fix the initial load sizing issue on devices like iPhone
+    setTimeout(() => {
+       window.dispatchEvent(new Event('resize'));
+    }, 300);
   }, 100);
 });
 </script>
