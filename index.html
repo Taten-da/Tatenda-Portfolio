@@ -1086,9 +1086,13 @@ function initCarousels() {
 }
 
 // Initialize carousels when page loads
-window.addEventListener('DOMContentLoaded', () => {
-  loadLikes();
-  initCarousels();
+window.addEventListener('DOMContentLoaded', loadLikes);
+
+window.addEventListener('load', () => {
+  // Small delay to ensure all rendering is complete
+  setTimeout(() => {
+    initCarousels();
+  }, 100);
 });
 </script>
     </body>
