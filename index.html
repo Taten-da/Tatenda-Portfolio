@@ -28,6 +28,7 @@
   
     body {
         background-color: #0A0A0A;
+        min-height: calc(var(--vh, 1vh) * 100);
         min-height: 100svh;
         margin: 0;
         padding: 0;
@@ -299,16 +300,18 @@
 
         /* Media query for when Feed would be under 500px */
 @media screen and (max-width: 660px)  
-  {    
+  {  
+      
     .carousel-arrow {
-              width: -40px;
-              height: -40px;
-              font-size: 20px;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
           }
 
     .carousel-arrow svg, {
-        width: -40px; /* Slightly smaller on mobile */
-        height: -40px;
+        width: 40px; /* Slightly smaller on mobile */
+        height: 40px;
     }
 
 
@@ -1093,6 +1096,12 @@ window.addEventListener('DOMContentLoaded', loadLikes);
 // Wait for ALL content (images, videos) to load before initializing carousels
 window.addEventListener('load', () => {
   initCarousels();
+});
+
+// Prevent layout shift on mobile
+document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+window.addEventListener('resize', () => {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
 });
 </script>
     </body>
