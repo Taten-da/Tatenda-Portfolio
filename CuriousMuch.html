@@ -30,16 +30,19 @@
             width: 100%;
             max-width: 450px;
             padding: 20px;
+            align-items: center;
         }
 
-        .stats-bar {
+        .stats-bar {;
+            position: fixed;
+            top: 20px;
             display: flex;
-            justify-content: space-around;
+            flex-direction: row;
             padding: 15px;
-            border: 5px solid #E0E0E0;
+            border: 4px solid #BCBCBC;
             border-radius: 20px;
-            margin-bottom: 5px;
-            gap: 10px;
+            height: 40px;
+            gap: 23px;
         }
 
         .stat-item {
@@ -127,6 +130,11 @@
             user-select: none;
             touch-action: none;
             transition: transform 0.3s ease-out;
+        }
+
+        quiz-container {
+            display: flex;
+            flex-direction: column;
         }
 
         .card.animating {
@@ -261,6 +269,13 @@
                 font-size: 2rem;
             }
 
+            h1 {
+            font-family: 'Switzer', sans-serif;
+            font-weight: 600;
+            font-size: 42px;
+            letter-spacing: -1px;
+        }
+
          
         }
 
@@ -268,16 +283,18 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             color: rgb(0, 0, 0);
+            gap: 20px;
         }
 
         h1 {
             font-family: 'Switzer', sans-serif;
             font-weight: 600;
-            font-size: 42px;
+            font-size: 80px;
             letter-spacing: -1px;
+            line-height: 75px;
         }
 
         p {
@@ -310,50 +327,43 @@
 </head>
 <body>
     <div class="container">
-        <!-- Stats bar visible on all screens -->
-        <div class="stats-bar" id="statsBar">
+         <div class="stats-bar" id="statsBar">
             <div class="stat-item">
-                
                 <div class="stat-label">Visits</div>
                 <div class="stat-value" id="visitCount">0</div>
-                    
-                
+            </div>
+            <div class="stat-item">    
+                <div class="stat-label">Completed</div>
+                <div class="stat-value" id="completedCount">0</div>        
             </div>
             <div class="stat-item">
-                
-              <div class="stat-label">Completed</div>
-              <div class="stat-value" id="completedCount">0</div>
-                    
-                
-            </div>
-            <div class="stat-item">
-                
                <div class="stat-label">Avg Score</div>
               <div class="stat-value" id="avgScore">0</div>
-                    
-              
             </div>
         </div>
 
         <div class="start-screen" id="startScreen">
-            <h1>👀 Curious Much?</h1>
+            <h1>👀How Curious are you?</h1>
+            <!-- Stats bar visible on all screens -->
+       
             <p>⤺ Swipe left for NO, Swipe right for YES ↷</p>
             <button class="start-btn" onclick="startQuiz()">Lets find out</button>
         </div>
 
         <div class="quiz-container" id="quizContainer" style="display: none;">
             <div class="header">
-                <h1>👀 Curious Much?</h1>
+                <h1>👀Curious Much?</h1>
                 <div class="progress" id="progress"></div>
             </div>
-
             <div class="card-container" id="cardContainer"></div>
             <div class="header">
-                <p><br>⤺ Swipe left for NO, Swipe right for YES ↷</p>
+                <p>⤺ Swipe left for NO, Swipe right for YES ↷</p>
             </div>
         </div>
 
-        <div class="results" id="results"></div>
+        <div class="results" id="results">
+            
+        </div>
     </div>
 
     <script>
