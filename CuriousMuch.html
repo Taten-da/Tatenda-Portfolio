@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,600&display=swap" rel="stylesheet">
-    <title>Curiosity Swipe Quiz</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <title>Curious Much?</title>
     <style>
         * {
             margin: 0;
@@ -29,8 +32,43 @@
             padding: 20px;
         }
 
-        .header {
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            border: 5px solid #E0E0E0;
+            border-radius: 20px;
+            margin-bottom: 5px;
+            gap: 10px;
+        }
 
+        .stat-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-emoji {
+            font-size: 1.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Switzer', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #000;
+        }
+
+        .stat-label {
+            font-family: 'Switzer', sans-serif;
+            font-weight: 400;
+            font-size: 1.2rem;
+            color: #666;
+            letter-spacing: -0.5px;
+        }
+
+        .header {
             padding: 10px;
             text-align: center;
             color: rgb(0, 0, 0);   
@@ -124,7 +162,6 @@
             letter-spacing: -1px;
             text-align: center;
             color: #000000;
-            
         }
 
         .swipe-indicators {
@@ -163,38 +200,6 @@
         .card.swiping-left .swipe-indicators.left,
         .card.swiping-right .swipe-indicators.right {
             opacity: 0.7;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-            border: 3px solid #b00000;
-        }
-
-        .btn {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 5px solid #59D657;
-           
-        }
-
-
-        .btn:hover {
-            transform: scale(1.1);
-        }
-
-        .btn:active {
-            transform: scale(0.95);
         }
 
         .results {
@@ -236,10 +241,6 @@
             margin: 0 auto 30px;
         }
 
-        .restart-btn:hover {
-            transform: translateY(-2px);
-        }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -259,6 +260,17 @@
             .card-question {
                 font-size: 2rem;
             }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .stat-item {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+            }
         }
 
         .start-screen {
@@ -268,7 +280,6 @@
             justify-content: center;
             align-items: center;
             color: rgb(0, 0, 0);
-        
         }
 
         h1 {
@@ -281,7 +292,6 @@
         p {
             font-family: 'Switzer', sans-serif;
             font-weight: 400;
-            font-size: 3rem;
             font-size: 1.3rem;
             letter-spacing: -1px;
             margin-bottom: 40px;
@@ -300,15 +310,40 @@
             cursor: pointer;
             transition: all 0.3s;
             width: fit-content;
-            
+        }
 
-        .start-btn:hover {
+        .start-btn:hover, .restart-btn:hover {
             transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Stats bar visible on all screens -->
+        <div class="stats-bar" id="statsBar">
+            <div class="stat-item">
+                
+                
+                    <div class="stat-value" id="visitCount">0</div>
+                    <div class="stat-label">Visits</div>
+                
+            </div>
+            <div class="stat-item">
+                
+              
+                    <div class="stat-value" id="completedCount">0</div>
+                    <div class="stat-label">Completed</div>
+                
+            </div>
+            <div class="stat-item">
+                
+               
+                    <div class="stat-value" id="avgScore">0</div>
+                    <div class="stat-label">Avg Score</div>
+              
+            </div>
+        </div>
+
         <div class="start-screen" id="startScreen">
             <h1>👀 Curious Much?</h1>
             <p>⤺ Swipe left for NO, Swipe right for YES ↷</p>
@@ -331,10 +366,24 @@
     </div>
 
     <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDph0klb9jAwHMuKfC7PuGhmR6I4nujna8",
+            authDomain: "portfolio-like-counter-47b48.firebaseapp.com",
+            projectId: "portfolio-like-counter-47b48",
+            storageBucket: "portfolio-like-counter-47b48.appspot.com",
+            messagingSenderId: "523939149509",
+            appId: "YOUR_APP_ID" 
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         const questions = [
             "When you see a \"Do Not Touch\" sign… do you feel an itch in your fingers?",
             "Have you ever Googled something mid-conversation just to prove (or disprove) a point?",
-            "Do you sometimes end up 12 Wikipedia tabs deep from your original search topic?",
+            "Do you sometimes end up 12 tabs deep from your original search topic?",
             "Do you read \"About this company\" pages for fun?",
             "When someone says, \"It's complicated,\" do you immediately want them to explain exactly how?",
             "Do you prefer mystery podcasts over true-crime because \"there's still something to figure out\"?",
@@ -358,6 +407,64 @@
         let isDragging = false;
         let currentCard = null;
         let nextCard = null;
+
+        // Load stats from Firebase
+        async function loadStats() {
+            try {
+                const statsDoc = await db.collection('quiz-stats').doc('curiosity-quiz').get();
+                if (statsDoc.exists) {
+                    const data = statsDoc.data();
+                    document.getElementById('visitCount').textContent = data.visits || 0;
+                    document.getElementById('completedCount').textContent = data.completed || 0;
+                    const avgScore = data.totalScore && data.completed ? (data.totalScore / data.completed).toFixed(1) : 0;
+                    document.getElementById('avgScore').textContent = avgScore;
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Increment visit count
+        async function incrementVisits() {
+            try {
+                const statsRef = db.collection('quiz-stats').doc('curiosity-quiz');
+                await db.runTransaction(async (transaction) => {
+                    const doc = await transaction.get(statsRef);
+                    const currentVisits = doc.exists ? (doc.data().visits || 0) : 0;
+                    transaction.set(statsRef, {
+                        visits: currentVisits + 1
+                    }, { merge: true });
+                });
+                await loadStats();
+            } catch (error) {
+                console.error('Error incrementing visits:', error);
+            }
+        }
+
+        // Record quiz completion
+        async function recordCompletion(finalScore) {
+            try {
+                const statsRef = db.collection('quiz-stats').doc('curiosity-quiz');
+                await db.runTransaction(async (transaction) => {
+                    const doc = await transaction.get(statsRef);
+                    const data = doc.exists ? doc.data() : { completed: 0, totalScore: 0 };
+                    transaction.set(statsRef, {
+                        completed: (data.completed || 0) + 1,
+                        totalScore: (data.totalScore || 0) + finalScore,
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                });
+                await loadStats();
+            } catch (error) {
+                console.error('Error recording completion:', error);
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', async () => {
+            await loadStats();
+            await incrementVisits();
+        });
 
         function startQuiz() {
             document.getElementById('startScreen').style.display = 'none';
@@ -402,37 +509,32 @@
                 return;
             }
 
-            // Remove old next card if it exists
             if (nextCard) {
                 nextCard.remove();
                 nextCard = null;
             }
 
-            // Create current card
             const card = document.createElement('div');
             card.className = 'card entering';
             card.style.zIndex = '2';
             card.innerHTML = `
                 <div class="swipe-indicators left">Nope</div>
-                <div class="swipe-indicators right">That’s me</div>
+                <div class="swipe-indicators right">That's me</div>
                 <div class="card-question">${questions[currentQuestion]}</div>
             `;
 
             container.appendChild(card);
             currentCard = card;
 
-            // Trigger entering animation
             setTimeout(() => {
                 card.style.opacity = '1';
                 card.style.transform = 'scale(1)';
             }, 10);
 
-            // Remove entering class after animation
             setTimeout(() => {
                 card.classList.remove('entering');
             }, 300);
 
-            // Create next card if there is one
             if (currentQuestion + 1 < questions.length) {
                 nextCard = document.createElement('div');
                 nextCard.className = 'card next-card';
@@ -476,10 +578,9 @@
                 const rotation = currentX / 20;
                 card.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${rotation}deg)`;
 
-                // Reveal next card based on drag distance
                 if (nextCard) {
                     const dragProgress = Math.min(Math.abs(currentX) / 150, 1);
-                    const scale = 0.85 + (dragProgress * 0.1); // 0.85 to 0.95
+                    const scale = 0.85 + (dragProgress * 0.1);
                     const opacity = dragProgress;
                     
                     if (dragProgress > 0.1) {
@@ -514,7 +615,6 @@
                     card.style.transform = 'translate(0px, 0px) rotate(0deg)';
                     card.classList.remove('swiping-left', 'swiping-right');
                     
-                    // Reset next card
                     if (nextCard) {
                         nextCard.classList.remove('revealing');
                         nextCard.style.opacity = '0';
@@ -564,7 +664,7 @@
             }, 500);
         }
 
-        function showResults() {
+        async function showResults() {
             document.getElementById('quizContainer').style.display = 'none';
             const resultsDiv = document.getElementById('results');
             
@@ -579,6 +679,9 @@
             `;
             
             resultsDiv.classList.add('active');
+
+            // Record completion in Firebase
+            await recordCompletion(score);
         }
 
         function restartQuiz() {
