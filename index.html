@@ -5,8 +5,11 @@
    
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tatenda Takavarasha's Portfolio</title>
-    <link rel="icon" type="image/png" href="/images/TT-Logog.png"/>
+    <title>Tatenda Takavarasha — Portfolio</title>
+    <link rel="icon" type="image/png" href="/images/favicon-2.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link href="https://use.typekit.net/fln4jhp.css" rel="stylesheet">
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -24,7 +27,10 @@
         </script>
 
     <style>
-    
+    html {
+          scroll-behavior: smooth;
+          scroll-padding-top: 10px;
+        }
   
     body {
         background-color: #0A0A0A;
@@ -33,25 +39,58 @@
         padding: 0;
       }
 
+
+      .nav-heading {
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 600;
+        font-size: 20px;
+        font-style: normal;
+        letter-spacing: -0.5px;
+        color: #FFFFFF;
+      }
+
+      .cta-heading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        padding: 20px 100px 20px 100px;
+        height: 100%;
+        gap: 20px;    
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 600;
+        font-size: 48px;
+        font-style: normal;
+        letter-spacing: -0.7px;
+        line-height: 54px;
+        color: #FFFFFF;
+      }
+
     .Body-grey {
-        font-family: "helvetica-neue-lt-pro", sans-serif;
-        font-weight: 200;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
         font-size: 16px;
         font-style: normal;
-        letter-spacing: 0px;
+        letter-spacing: -0.5px;
         color: #868686;
       }
 
       .Links {
-        font-family: "helvetica-neue-lt-pro", sans-serif;
-        font-weight: 200;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
         font-size: 16px;
         font-style: normal;
-        letter-spacing: 0px;
+        letter-spacing: -0.5px;
         color: #868686;
         cursor: pointer;
         text-decoration: none;
       }
+
 
       .Links:hover {
         color: #FFFFFF;
@@ -60,29 +99,32 @@
 
       
       .Heading, .Image-Video, .Status, .Likes, .counter {
-        font-family: "helvetica-neue-lt-pro", sans-serif;
-        font-weight: 200;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
         font-size: 12px;
         font-style: normal;
-        letter-spacing: 0px;
+        letter-spacing: -0.5px;
         color: #FFFFFF;
       }
 
       .slide-title {
-        font-family: "helvetica-neue-lt-pro", sans-serif;
-        font-weight: 200;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
         font-size: 18px;
-        font-style: normal;
-        letter-spacing: 0px;
+        line-height: 18px;
+        letter-spacing: -0.5px;
         color: #FFFFFF;
       }
 
       .Project-Title {
-        font-family: "helvetica-neue-lt-pro", sans-serif;
-        font-weight: 200;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
         font-size: 16px;
         font-style: normal;
-        letter-spacing: 0px;
+        letter-spacing: -0.5px;
         color: #FFFFFF;
       }
 
@@ -99,12 +141,12 @@
         position: sticky;
         top: 0;
         height: 100svh;
-        width: 370px;
+        width: 500px;
         background-color: #0A0A0A;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 30px;
+        padding: 50px 50px 50px 50px;
         box-sizing: border-box;
       }
   
@@ -224,15 +266,18 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        font-family: "helvetica-neue-lt-pro", sans-serif;
-        font-weight: 400;
+        text-align: center;
+        align-items: center;
+        padding: 20px 100px 20px 100px;
+        height: 100%;
+        gap: 10px;   
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
         font-size: 32px;
         font-style: normal;
-        letter-spacing: 0px;
-        width: 80%;
-        padding-left: 10%;
-        height: 100%;   
-        color: #ffffff;
+        letter-spacing: -0.7px;
       }
 
       .carousel-slide {
@@ -325,6 +370,7 @@
         position: relative;
         width: 100%;
         height: 750px;
+        padding: 50px 50px 50px 50px;
     }
     
     .Feed {
@@ -338,27 +384,61 @@
         height: 350px  ;
     }
 
+    .nav-heading {
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 600;
+        font-size: 18px;
+        font-style: normal;
+        letter-spacing: -0.5px;
+        color: #FFFFFF;
+      }
+
+      .cta-heading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        padding: 10px 40px 10px 40px;
+        height: 100%;
+        gap: 10px;    
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 600;
+        font-size: 24px;
+        font-style: normal;
+        letter-spacing: -0.7px;
+        line-height: 28px;
+        color: #FFFFFF;
+      }
+
     .blurb {
-          font-family: "helvetica-neue-lt-pro", sans-serif;
-          font-weight: 400;
-          font-size: 14px;
-          font-style: normal;
-          letter-spacing: 0px;
-          padding-left: 10%;
-          padding-right: 10%;
-          width: 80%;  /* 90% + 5% + 5% = 100% */
-          max-width: 100%;
-          box-sizing: border-box; 
-          color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        padding: 10px 40px 10px 40px;
+        height: 100%;
+        gap: 10px;   
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
+        font-size: 18px;
+        font-style: normal;
+        letter-spacing: -0.7px;
         }
 
         
       .slide-title {
-        font-family: "helvetica-neue-lt-pro", sans-serif;
-        font-weight: 200;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
         font-size: 12px;
         font-style: normal;
-        letter-spacing: 0px;
+        letter-spacing: -0.7px;
         color: #FFFFFF;
         display: block;
       }
@@ -370,11 +450,12 @@
     }
 
     .like-button {
-        font-family: "helvetica-neue-lt-pro", sans-serif;
-        font-weight: 200;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
         font-size: 2rem;
         font-style: normal;
-        letter-spacing: 0px;
+        letter-spacing: -1px;
         color: #FFFFFF;
         user-select: none; /* Prevent text selection */
         touch-action: manipulation; /* Improve touch response */
@@ -394,9 +475,6 @@
       }
 
 }
-
-       
-
   </style>
   </head>
   
@@ -404,67 +482,39 @@
   <body>
   <div class="Hero">
     <div class="Hero-Sticky">
-      <div class="Logo"><img src="images/TT-Logog.png"></div>
+     
       <div class="Hero-body">
-        <div class="Body-Section"> 
-          <div class="Heading">BRIEF INTRO</div>
-          <div class="Body-grey">Hi👋, I’m Tatenda Takavarasha, a designer focused on UX/UI at Cappfinity, based in London. Designed products for HSBC, Deloitte, Deutsche Bank, Lloyds Bank and more. I help connect the dots from idea to launch. Collaborating closely with CPO’s, front-end developers, software engineers, and key stakeholders to deliver solutions that hit the mark.</div>
-        </div>
-        <div class="Body-Section"> 
-          
-          <div class="Heading">PRODUCTS SHIPPED 24—25 (UX/UI LEAD)</div>
-          <div class="Links-Section"> 
-          <div class="Links" onclick="openInNewTab('https://deloitte.preparationplus.com/');">Deloitte Candidate Zone <img src="images/Up-arrow.svg"> </div>
-          <div class="Links" onclick="openInNewTab('https://deloittediscover.preparationplus.com/');">Deloitte Matching Tool <img src="images/Up-arrow.svg"> </div>
-          <div class="Links" onclick="openInNewTab('https://hsbcskillsmatcher.preparationplus.com/');">HSBC Skills Matching Tool <img src="images/Up-arrow.svg"></div>
-          <div class="Links" onclick="openInNewTab('https://lbg.preparationplus.com/');">Lloyds Banking Group Preparation Plus <img src="images/Up-arrow.svg"></div>
-          </div>
+            <div class="Body-Section" style="gap: 3.5rem;"> 
+             <div class="Logo"><img src="images/Mangooo-icon.png"></div>  
+              
+            <div class="nav-heading">Hi, I'm <a onclick="openInNewTab('https://www.linkedin.com/in/tatendataka/');" style="color: #727272; cursor: pointer;">Tatenda</a>, a Digital Designer specialising in product, brand and motion. <br> I take ownership of the full design lifecycle, from early concepting and ambiguous problem framing to high-fidelity prototypes and shipped products. Recently shipped projects — <a onclick="openInNewTab('https://deloitte.preparationplus.com/');" style="color: #727272; cursor: pointer;">Deloitte</a> (Won Talent Labs Best User Experience 2025), <a onclick="openInNewTab('https://hsbcskillsmatcher.preparationplus.com/');" style="color: #727272; cursor: pointer;">HSBC</a>, <a onclick="openInNewTab('https://lbg.preparationplus.com/');" style="color: #727272; cursor: pointer;">Lloyds Bank</a>. I collaborate with product, design, front-end and engineering teams to ship solutions that deliver value to business and users.</div>
+            </div>
 
-        </div>
-        <div class="Body-Section"> 
-          <div class="Heading">RECENT AWARD</div>
-          <div class="Body-grey">Winner 2025: Talent Labs – Best Candidate Experience, Project: Deloitte Candidate Zone, Role: Creative Lead, UX/UI</div>
-        </div>
-
-  
+         
+            
       </div>
+
+  <div style="gap: 2rem; display: flex; flex-direction: column;"> 
       <div class="Hero-footer"> 
-      
         <div class="Body-Section"> 
-        <div class="Heading">LINKS</div>
+          <div class="Heading">LINKS</div>
        
-        <div class="Links-Section">  
-        <a class="Links" href="mailto:takavarashatatenda@yahoo.co.uk">Email <img src="images/Up-arrow.svg"></a>
-          <div class="Links" onclick="openInNewTab('https://www.linkedin.com/in/tatendataka/');">LinkedIn <img src="images/Up-arrow.svg"></div>
-          <div class="Links" onclick="openInNewTab('https://www.instagram.com/tatenda_taka/');">Instagram <img src="images/Up-arrow.svg"></div>
+            <div class="Links-Section">  
+              <a class="Links" href="mailto:takavarashatatenda@yahoo.co.uk">Email <img src="images/Up-arrow.svg"></a>
+              <div class="Links" onclick="openInNewTab('https://www.linkedin.com/in/tatendataka/');">LinkedIn <img src="images/Up-arrow.svg"></div>
+              <div class="Links" onclick="openInNewTab('https://www.instagram.com/tatenda_taka/');">Instagram <img src="images/Up-arrow.svg"></div>
+            </div>
 
-          </div>
-          </div>
-
-      
-        <div class="Heading">FEED <img src="images/Arrow-Down.svg"></div>
         </div>
-
+        <div class="Heading">FEED <img src="images/Arrow-Down.svg"></div>
+      </div>
+    </div>
 
     </div>
     
     <div class="Feed">
 
-      
-                  <!-- Work Start -->
-                      <div class="Work">  
-                        <div class="Image-Video"> <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Iterative-Approach-Final.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
-                        <div class="Work-footer"> 
-                          <div class="Description">
-                            <div class="Status">PRODUCT UX/UI + BRAND IDENTITY</div>
-                            <div class="Project-Title">Timebucket™</div>
-                          </div>
-                          <div class="Likes" data-project-id="Project-10"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
-                        </div>
-                        </div>
-                    <!-- Work End -->
-
-                     <!-- Work Start -->
+       <!-- Work Start -->
                       <div class="Work">  
                         <div class="Image-Video"> 
                           <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain; background-color: #FFFFFF;">
@@ -481,6 +531,91 @@
                         </div>
                     <!-- Work End -->
 
+
+
+      <!-- Work Carousel Start: Deloitte Candidate Zone -->
+                <div class="Work">  
+                  <div class="Image-Video">
+                    <div class="carousel-container">
+                      <div class="carousel-track">
+
+                        <div class="carousel-slide current-slide">
+                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Deloitte-Candidate-Zone-v2.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        
+                        <div class="carousel-slide">
+                          <div class="blurb"> <div class="slide-title">BACKGROUND</div>Working closely with key stakeholders and our front-end development team, we built a digital experience to guide candidates through Deloitte’s assessment journey. As Creative Lead (UX/UI), I shaped the visual direction, interaction design, and overall user experience, ensuring the platform felt engaging, intuitive, and aligned with Deloitte’s brand vision.</div>
+                        </div>
+
+                        <div class="carousel-slide">
+                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Screenshot+2025-10-18+at+18.12.42.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+
+                        <div class="carousel-slide">
+                          <div class="blurb"> <div class="slide-title">CHALLENGES</div>Keep it simple. Reduce cognitive load. Candidates had to work through a lot of content, so kept UI complexity to a minimum. Everything within reach and clearly labelled, nothing ambiguous.</div>
+                        </div>
+
+                        <div class="carousel-slide">
+                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Screenshot+2025-10-18+at+18.13.39.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+
+                        <div class="carousel-slide">
+                          <div class="blurb"> <div class="slide-title">WORKFLOW</div>Speed and consistency. With over 50 pages of content, auto-layout was essential. Allowing me to quickly build / repurpose / adjust / tweak designs at speed and scale. It also reduced friction from design to code for the dev team.</div>
+                        </div>
+
+                        <div class="carousel-slide">
+                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Deloitte-Feature+4.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+
+
+                        <div class="carousel-slide">
+                          <div class="blurb"> <div class="slide-title">CANDIDATE QUOTE</div>"This was easily the best assessment experience I've had with a company"</div>
+                        </div>
+
+                        <div class="carousel-slide">
+                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Talent+Awards+Video+High-Res+v3.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        
+                        
+                      </div>
+                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
+                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
+                    </div>
+                  </div>
+                  <div class="Work-footer"> 
+                    <div class="Description">
+                      <div class="Status">PRODUCT UX / UI + VISUAL DESIGN</div>
+                      <div class="Project-Title" onclick="openInNewTab('https://deloitte.preparationplus.com/');" style="cursor: pointer;">Deloitte Candidate Zone <img src="images/Up-arrow.svg"></div>
+                    </div>
+                    <div class="Likes" data-project-id="Project-9">
+                      <div class="like-button">❤️</div> 
+                      Likes: <span class="like-count">0</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Work End -->   
+
+
+                   
+
+
+
+                  <!-- Work TimeBucket App -->
+                      <div class="Work">  
+                        <div class="Image-Video"> <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Iterative-Approach-Final.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                        <div class="Work-footer"> 
+                          <div class="Description">
+                            <div class="Status">PRODUCT UX/UI + BRAND IDENTITY</div>
+                            <div class="Project-Title">Timebucket™</div>
+                          </div>
+                          <div class="Likes" data-project-id="Project-10"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
+                        </div>
+                        </div>
+                    <!-- Work End -->
+
+                    
 
   <!-- Work Carousel Start: Like Heart Interaction -->
                 <div class="Work">  
@@ -541,72 +676,6 @@
                 </div>
                 <!-- Work End -->
 
-                 <!-- Work Carousel Start: Deloitte Candidate Zone -->
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-
-                        <div class="carousel-slide current-slide">
-                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Deloitte-Candidate-Zone-v2.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">BACKGROUND</div>Working closely with key stakeholders and our front-end development team, we built a digital experience to guide candidates through Deloitte’s assessment journey. As Creative Lead (UX/UI), I shaped the visual direction, interaction design, and overall user experience, ensuring the platform felt engaging, intuitive, and aligned with Deloitte’s brand vision.</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Screenshot+2025-10-18+at+18.12.42.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">CHALLENGES</div>Keep it simple. Reduce cognitive load. Candidates had to work through a lot of content, so kept UI complexity to a minimum. Everything within reach and clearly labelled, nothing ambiguous.</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Screenshot+2025-10-18+at+18.13.39.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">WORKFLOW</div>Speed and consistency. With over 50 pages of content, auto-layout was essential. Allowing me to quickly build / repurpose / adjust / tweak designs at speed and scale. It also reduced friction from design to code for the dev team.</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Deloitte-Feature+4.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">CANDIDATE QUOTE</div>"This was easily the best assessment experience I've had with a company"</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Talent+Awards+Video+High-Res+v3.mp4" type="video/mp4">
-                          </video>
-                        </div>
-                        
-                        
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status">PRODUCT UX / UI + VISUAL DESIGN</div>
-                      <div class="Project-Title">Deloitte Candidate Zone</div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-9">
-                      <div class="like-button">❤️</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- Work End -->   
-
-
-  
 
 
                 <!-- Work Carousel Start: Human Touch -->
@@ -616,7 +685,8 @@
                       <div class="carousel-track">
                         <div class="carousel-slide current-slide">
                           <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-2nd-video-UX-UI.mp4" type="video/mp4">
+                            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-header-video-UX-UI+-Final.mp4" type="video/mp4">
+                            
                           </video>
                         </div>
                         <div class="carousel-slide">
@@ -624,8 +694,8 @@
                         </div>
 
                         <div class="carousel-slide">
-                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-header-video-UX-UI+-Final.mp4" type="video/mp4">
+                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">                
+                            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Page-2nd-video-UX-UI.mp4" type="video/mp4">
                           </video>
                         </div>
 
@@ -670,7 +740,7 @@
 
 
 
-                <!-- Work Start -->
+                <!-- Quote Start -->
                       <div class="Work">  
                         <div class="Image-Video"><div class="blurb"> <div class="slide-title">STEVE JOBS</div>Design is not just what it looks like and feels like.<br> Design is how it works.</div> </div>
                         <div class="Work-footer"> 
@@ -681,7 +751,7 @@
                           <div class="Likes" data-project-id="Project-7"> <div class="like-button" id="likeBtn">❤️</div> Likes: <span class="like-count">0</span> </div>
                         </div>
                         </div>
-                      <!-- Work End -->
+                      <!-- Quote End -->
                       
                       
 
