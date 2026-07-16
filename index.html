@@ -33,7 +33,7 @@
         }
   
     body {
-        background-color: #000000;
+        background-color: #ffffff;
         min-height: 100svh;
         margin: 0;
         padding: 0;
@@ -77,16 +77,17 @@
 
 
       .Links:hover {
-        color: #FFFFFF;
+        color: #000000;
         transition: color 0.2s ease-out;
+        font-style: bold;
       }
 
       
-      .Heading, .Image-Video, .Status, .counter {
+      .Heading, .Image-Video, .counter {
         font-family: "Inter", sans-serif;
         font-optical-sizing: auto;
         font-weight: 400;
-        font-size: 0.7rem;
+        font-size:  0.875rem;
         font-style: normal;
         letter-spacing: -0.5px;
         color: #6A6A78;
@@ -96,13 +97,20 @@
         display: flex;
         gap: 3px;
         flex-wrap: wrap;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-size:  0.75rem;
+        font-style: normal;
+        letter-spacing: -0.5px;
+        color: #1D1D1F;
       }
 
       .Likes {
         font-family: "Inter", sans-serif;
         font-optical-sizing: auto;
         font-weight: 400;
-        font-size: 0.7rem;
+        font-size:  0.875rem;
         font-style: normal;
         letter-spacing: -0.5px;
         color: #6A6A78;
@@ -124,10 +132,10 @@
         font-family: "Inter", sans-serif;
         font-optical-sizing: auto;
         font-weight: 400;
-        font-size: 0.875rem;
+        font-size: 1.25rem;
         font-style: normal;
         letter-spacing: -0.5px;
-        color: #ffffff;
+        color: #1D1D1F;
       }
 
       .Hero {
@@ -144,7 +152,7 @@
         top: 0;
         height: 100svh;
         width: 24.6rem;
-        background-color: #000000;
+        background-color: #ffffff;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -204,9 +212,10 @@
         align-items: center;
         flex: 1; /* This will make it take remaining space */
         width: 100%;
-        background-color: #121216;
+        background-color: rgba(12, 12, 13, 0.05);
         overflow: hidden;
         border-radius: 4px;
+       
       }
 
       .Work-footer {
@@ -274,7 +283,7 @@
         padding: 20px 100px 20px 100px;
         height: 100%;
         gap: 10px;   
-        color: #ffffff;
+        color: #121212;
         font-family: "Inter", sans-serif;
         font-optical-sizing: auto;
         font-weight: 400;
@@ -343,6 +352,99 @@
             pointer-events: none;
             z-index: 1;
         }
+
+          /* ---- flex container that fills all available space ---- */
+
+
+  .stage {
+    width: 100%;
+    height: 100%;             /* grows to fill whatever room its parent gives it */
+    display: flex;
+    align-items: flex-end;   /* cards live at the bottom edge */
+    justify-content: center;
+    border: 1px dashed var(--line);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;        /* clips the portion of each card that's "below" the stage */
+  }
+
+  .deck {
+    position: relative;
+    width: 100%;
+    height: 85%;      /* full card height, so translateY % math is against this */
+  }
+
+  .card {
+    position: absolute;
+    left: 50%;
+    width: 50rem;
+    height:30rem;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--ink);
+    transition: transform .40s cubic-bezier(.16,.84,.32,1), box-shadow .4s ease;
+    will-change: transform;
+  }
+
+ 
+
+
+
+  /*
+    Resting stack: each card is shifted down by translateY(40%) — 40% of its
+    OWN height (CSS transform percentages are relative to the element's box),
+    so 40% sits below the stage's clipped bottom edge and 60% stays visible.
+  */
+  .card.c1 { transform: translate(-50%, 0%) rotate(-6deg); z-index: 1; }
+  .card.c2 { transform: translate(-50%, 0%) rotate(0deg);  z-index: 1; }
+  .card.c3 { transform: translate(-50%, 0%) rotate(6deg);  z-index: 1; }
+
+  /*
+    Fanned state: cards rise so only 10% of their height stays hidden below
+    the fold (90% visible), and spread apart with a bit of rotation — the
+    "dealt" look. transition-delay staggers the peel-apart, no JS needed.
+  */
+  .stage:hover .card.c1 {
+    transform: translate(calc(-50% - 130px), 10%) rotate(-16deg);
+    transition-delay: .1s;
+  }
+  .stage:hover .card.c2 {
+    transform: translate(-50%, 2%) rotate(0deg);
+    transition-delay: .06s;
+  }
+  .stage:hover .card.c3 {
+    transform: translate(calc(-50% + 130px), 10%) rotate(16deg);
+    transition-delay: 0s;
+  }
+  .stage:hover .card { box-shadow: 0 22px 40px rgba(0,0,0,0.1); }
+
+  .caption {
+    max-width: 640px;
+    margin: 18px auto 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  code {
+    background: rgba(255,255,255,0.06);
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+  }
 
         /* Media query for when Feed would be under 500px */
 @media screen and (max-width: 660px)  
@@ -420,7 +522,7 @@
         font-family: "Inter", sans-serif;
         font-optical-sizing: auto;
         font-weight: 500;
-        font-size: 0.7rem;
+        font-size:  0.875rem;
         font-style: normal;
         letter-spacing: -0.7px;
         
@@ -468,26 +570,26 @@
     <div class="Hero-Sticky">
       <div class="Hero-body">
           <div style=" display: flex; flex-direction: row; gap: 14px; align-items:center"> 
-            <div class="Logo"><img src="images/Profile-img.png" style="width: 40px; height: 40px; object-fit: cover;"></div>
-              <div style=" display: flex; flex-direction: column; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.875rem; color: #ffffff; cursor: pointer; letter-spacing: -2%; gap:3px;"><a onclick="openInNewTab('https://www.linkedin.com/in/tatendataka/');">Tatenda Takavarasha</a> 
-                <div style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.785rem; color: #636373; cursor: pointer; letter-spacing: -2%; gap: 1px;">Digital Designer UX/UI</div>
+            <div class="Logo"><img src="images/Profile-img.png" style="width: 60px; height: 60px; object-fit: cover;"></div>
+              <div style=" display: flex; flex-direction: column; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 1rem; color: #1D1D1F;  letter-spacing: -2%; gap:2px;"><a onclick="openInNewTab('https://www.linkedin.com/in/tatendataka/');">Tatenda Takavarasha</a> 
+                <div style="font-family: 'Inter', sans-serif; font-weight:  400; font-size: 0.9rem; color: #636373; letter-spacing: -2%;">Digital Designer UX/UI</div>
               </div>
           </div>  
                   
-        <div class="nav-heading">I design products that people enjoy to use, with a keen eye for visual craft and user empathy. Currently at <a class="Links" style="font-size: 1rem; font-weight: 400;"  onclick="openInNewTab('https://www.linkedin.com/company/cappfinity/posts/?feedView=all');">Cappfinity</a>. Recently shipped — <a class="Links" style="font-size: 1rem; font-weight: 400;"  onclick="openInNewTab('https://deloitte.preparationplus.com/');">Deloitte Candidate Zone</a>, <a onclick="openInNewTab('https://hsbcskillsmatcher.preparationplus.com/');" class="Links" style="font-size: 1rem; font-weight: 400;">HSBC Skills Matcher</a>, <a onclick="openInNewTab('https://lbg.preparationplus.com/');"class="Links" style="font-size: 1rem; font-weight: 400;" >Lloyds Bank Preparation Hub</a>.</div>
+        <div style="font-family: 'Inter', sans-serif; font-weight:350;  letter-spacing: -2%; font-size: 1.2rem; color: #636373; ">Designing products that people enjoy to use, with a keen eye for visual craft and user empathy. Currently at <a class="Links" style="font-size: 1.2rem; font-weight:350;" onclick="openInNewTab('https://www.linkedin.com/company/cappfinity/posts/?feedView=all');">Cappfinity</a>.</div>
         </div>
 
         <div style="gap: 2rem; display: flex; flex-direction: column;"> 
           <div class="Hero-footer"> 
             <div class="Body-Section"> 
-              <div class="Heading">LINKS</div>
+              <div class="Heading"></div>
                 <div class="Links-Section">  
                   <a class="Links" href="mailto:tatendatakavarasha@gmail.com">Email <img src="images/Arrow-Up-S.svg"></a>
                   <div class="Links" onclick="openInNewTab('https://www.linkedin.com/in/tatendataka/');">LinkedIn <img src="images/Arrow-Up-S.svg"></div>
                   <div class="Links" onclick="openInNewTab('https://www.instagram.com/tatenda_taka/');">Instagram <img src="images/Arrow-Up-S.svg"></div>
                 </div>
             </div>
-            <div class="Heading">FEED <img src="images/Arrow-Down-S.svg"></div>
+            <div class="Heading">Feed <img src="images/Arrow-Down-S.svg"></div>
           </div>
         </div>
     </div>
@@ -503,41 +605,56 @@
                       <div class="carousel-track">
 
                         <div class="carousel-slide current-slide">
-                           <video loading="lazy" preload="none" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Cappfinity-Website-Refresh-Short.mp4" type="video/mp4">
-                          </video>
+                                 <div class="stage">
+                                  <div class="deck">
+                                    
+                                    <div class="card c1"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Variation-of-Brand.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
+                                    <div class="card c2"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Components.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
+                                    <div class="card c3"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Capp-Website-Hero-Section.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                                  </div>
+                                </div>
                         </div>
+
+                        <div class="carousel-slide">
+                          <div class="blurb"> <div class="slide-title">TEAM</div>Ben Jackson <br> Izzy Aaboud <br>Sophie Marsh <br> Dani Sloan <br> Robin Stephens <br> Jordan Gittens <br> Tatenda Takavarasha <br> Richard England-Lee</div>
+                        </div>
+
+                  
                         
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">BACKGROUND</div> In the age of AI, a strong brand and great product experiences are the moat that keep us ahead of the pack. Working along talented colleagues I co-led the Cappfinity brand refresh, bringing this new look and feel into our website and products, and enhancing the overall user experience.</div>
+                          <div class="blurb"> <div class="slide-title">Overview</div>Strong brand and great product experiences. That's the moat. <br> Working along our talented brand team, I helped develop the new brand identity, bringing this new look and feel into our website, products, and enhancing the overall user experience.</div>
                         </div>
 
                       
-                        <div class="carousel-slide">
-                          <img loading="lazy"  src="https://d1zr7xh2e5ai67.cloudfront.net/Capp-Website-Hero-Section.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; ">
+                          <div class="carousel-slide">
+                          <div class="blurb"> <div class="slide-title">OPPORTUNITY</div>Because the assessment space is quite technical and complex <br> it's often easy to default to generic visuals as can be seen on many competitor sites. <br> We took an active step to create a more visual engaging but still meaningful experience. Tastefully employing motion to carry the message.</div>
                         </div>
 
                          <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">WEBSITE REFRESH</div>The website is our core business touchpoint, it's the front desk, so it needs to be good. Persuasive copy, visual excellence, and a great experience are non-negotiable here.</div>
+                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain;">
+                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Blended-Development.webm" type="video/mp4">
+                          </video>
                         </div>
 
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">WEBSITE REFRESH</div>Working with the team, we mapped out all the content and the sitemap. From there, I created a number of prototypes that mapped the core user journey end-to-end, based on a non-technical persona. These were helpful in reducing friction with key stakeholders and getting the necessary feedback early before we went to build.</div>
+                          <div class="blurb"> <div class="slide-title">APPROACH</div>We mapped out all the content and the sitemap. From there, I created a number of interactive prototypes that mapped the core user journey end-to-end. These were helpful in reducing friction with key stakeholders and getting the necessary feedback early before we went to build.</div>
                         </div>
 
 
                         
                         <div class="carousel-slide">
-                          <img loading="lazy"  src="https://d1zr7xh2e5ai67.cloudfront.net/Under-The-Hood.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;">
+                          <img    src="https://d1zr7xh2e5ai67.cloudfront.net/Under-The-Hood.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;">
                         </div>
 
                          <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">CHALLENGE + AI SUPPORT</div>The nav was the main challenge. With over 30 products, it needed to be intuitive and efficient, allowing anyone without prior knowledge to easily find and understand what they were looking for without feeling overwhelmed. With limited time and resources, I used ChatGPT and Claude to review the screens, spot the obvious blockers that would hinder the user experience, and applied the insights that were relevant to us.</div>
+                          <div class="blurb"> <div class="slide-title">CHALLENGE + AI SUPPORT</div>The nav was the main challenge. With over 30 products, it needed to be intuitive and efficient. I used ChatGPT and Claude to review the screens and spot the blockers that would hinder the user experience, and applied the insights that were relevant to us.</div>
                         </div>
 
 
                         <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Components.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;">
+                           <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Cappfinity-Website-Refresh-Short.mp4" type="video/mp4">
+                          </video>
                         </div>
 
                    
@@ -545,8 +662,8 @@
                         <div class="blurb"> <div class="slide-title">COMPONENTS</div>We created a comprehensive set of reusable components to ensure consistency and efficiency in our design. This in essence became our design system that our Devs could pull from.</div>
                         </div>
 
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Variation-of-Brand.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+                         <div class="carousel-slide">
+                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Components.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;">
                         </div>
 
 
@@ -562,13 +679,13 @@
                   </div>
                   <div class="Work-footer"> 
                     <div class="Description">
-                      <div class="Status"><div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">PRODUCT DESIGN UX/UI</div> <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">WEB PRODUCT</div> <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">PROTOYPING</div>
+                      <div class="Status"><div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">PRODUCT DESIGN UX/UI</div> <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #5F5F66;">WEB PRODUCT</div> <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">PROTOYPING</div>
                             <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">INTERACTION DESIGN</div>
                            <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">MOTION</div>
                            <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">VISUAL DESIGN</div>
                            <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">AI RESEARCH</div>
                           </div>
-                      <div class="Project-Title">Cappfinity<a onclick="openInNewTab('https://cappfinity.com/');" class="Links"> Visit Site <img src="images/Arrow-Up-S.svg"></a></div>
+                      <div class="Project-Title">Cappfinity.com<a onclick="openInNewTab('https://cappfinity.com/');" class="Links"> Visit Site <img src="images/Arrow-Up-S.svg"></a></div>
                     </div>
                     <div class="Likes" data-project-id="Project-12">
                       <div class="like-button">🫰</div> 
@@ -587,7 +704,7 @@
                       <div class="carousel-track">
 
                         <div class="carousel-slide current-slide">
-                           <video loading="lazy" preload="none" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                           <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
                             <source src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-Matching-Tool-v2.mp4" type="video/mp4">
                           </video>
                         </div>
@@ -626,7 +743,7 @@
                         </div>
 
                         <div class="carousel-slide">
-                          <video loading="lazy" preload="none" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
                             <source src="https://d1zr7xh2e5ai67.cloudfront.net/Talent+Awards+Video+High-Res+v3.mp4" type="video/mp4">
                           </video>
                         </div>
@@ -748,7 +865,7 @@
        <!-- Work Start -->
                       <div class="Work">  
                         <div class="Image-Video"> 
-                          <video loading="lazy" preload="none" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain; background-color: #FFFFFF;">
+                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain; background-color: #FFFFFF;">
                             <source src="https://d1zr7xh2e5ai67.cloudfront.net/HSBC-Tool-Template.mp4" type="video/mp4">
                           </video>
                         </div>
@@ -832,7 +949,7 @@
                     <div class="carousel-container">
                       <div class="carousel-track">
                         <div class="carousel-slide current-slide">
-                          <video loading="lazy" preload="none" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
                             <source src="https://d1zr7xh2e5ai67.cloudfront.net/Page-header-video-UX-UI+-Final.mp4" type="video/mp4">
                             
                           </video>
@@ -842,7 +959,7 @@
                         </div>
 
                         <div class="carousel-slide">
-                          <video loading="lazy" preload="none" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">                
+                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">                
                             <source src="https://d1zr7xh2e5ai67.cloudfront.net/Page-2nd-video-UX-UI.mp4" type="video/mp4">
                           </video>
                         </div>
@@ -856,7 +973,7 @@
                         </div>
 
                         <div class="carousel-slide">
-                          <video loading="lazy" preload="none" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
                             <source src="https://d1zr7xh2e5ai67.cloudfront.net/UX+Landing+Page.mp4" type="video/mp4">
                           </video>
                         </div>
@@ -948,7 +1065,7 @@
                     <div class="carousel-container">
                       <div class="carousel-track">
                         <div class="carousel-slide current-slide">
-                          <video loading="lazy" preload="none" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
                             <source src="https://d1zr7xh2e5ai67.cloudfront.net/03-Page-header-video-Convo.mp4" type="video/mp4">
                           </video>
                         </div>
@@ -975,7 +1092,7 @@
 
 
                         <div class="carousel-slide">
-                          <video loading="lazy" preload="none" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
                             <source src="https://d1zr7xh2e5ai67.cloudfront.net/Mobile+preview.mp4" type="video/mp4">
                           </video>
                         </div>
@@ -1130,7 +1247,7 @@ document.addEventListener('click', async function(e) {
 
     // Add pulse effect to button
     likeBtn.classList.add('liked');
-    setTimeout(() => likeBtn.classList.remove('liked'), 300);
+    setTimeout(() => likeBtn.classList.remove('liked'),  400);
 
     // Create multiple hearts
     const numHearts = Math.floor(Math.random() * 3) + 3;
