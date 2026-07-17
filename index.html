@@ -25,7 +25,6 @@
 
           gtag('config', 'G-QHF28VQZY4');
         </script>
-
     <style>
     html {
           scroll-behavior: smooth;
@@ -377,12 +376,10 @@
   .card {
     position: absolute;
     left: 50%;
-    width: 50rem;
-    height:30rem;
+
     border-radius: 14px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.12);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    filter: drop-shadow(#8686866c 5px 5px 20px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -402,9 +399,9 @@
     OWN height (CSS transform percentages are relative to the element's box),
     so 40% sits below the stage's clipped bottom edge and 60% stays visible.
   */
-  .card.c1 { transform: translate(-50%, 0%) rotate(-6deg); z-index: 1; }
-  .card.c2 { transform: translate(-50%, 0%) rotate(0deg);  z-index: 1; }
-  .card.c3 { transform: translate(-50%, 0%) rotate(6deg);  z-index: 1; }
+  .card.c1 { transform: translate(-150%, 70%) rotate(0deg); z-index: 1; }
+  .card.c2 { transform: translate(-50%, 0%) rotate(0deg);  z-index: 0; }
+  .card.c3 { transform: translate(25%, 45%) rotate(0deg);  z-index: 1; }
 
   /*
     Fanned state: cards rise so only 10% of their height stays hidden below
@@ -412,18 +409,18 @@
     "dealt" look. transition-delay staggers the peel-apart, no JS needed.
   */
   .stage:hover .card.c1 {
-    transform: translate(calc(-50% - 130px), 10%) rotate(-16deg);
+    transform: translate(calc(-130% - 100px), 60%) rotate(-3deg);
     transition-delay: .1s;
   }
   .stage:hover .card.c2 {
-    transform: translate(-50%, 2%) rotate(0deg);
+    transform: translate(-50%, -5%) rotate(0deg);
     transition-delay: .06s;
   }
   .stage:hover .card.c3 {
-    transform: translate(calc(-50% + 130px), 10%) rotate(16deg);
+    transform: translate(calc(10% + 100px), 10%) rotate(3deg);
     transition-delay: 0s;
   }
-  .stage:hover .card { box-shadow: 0 22px 40px rgba(0,0,0,0.1); }
+  .stage:hover .card { box-shadow: 0 22px 40px rgba(0,0,0,0); }
 
   .caption {
     max-width: 640px;
@@ -608,9 +605,9 @@
                                  <div class="stage">
                                   <div class="deck">
                                     
-                                    <div class="card c1"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Variation-of-Brand.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
-                                    <div class="card c2"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Components.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
-                                    <div class="card c3"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Capp-Website-Hero-Section.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                                    <div class="card c1"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Typography-Card.png" type="image/png" alt="Image" style="width: 60%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
+                                    <div class="card c2"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Assessment -in-Context-v2.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
+                                    <div class="card c3"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Colour-Card.png" type="image/png" alt="Image" style="width: 60%; height: 100%; object-fit: cover;"></div>
                                   </div>
                                 </div>
                         </div>
@@ -704,18 +701,14 @@
                       <div class="carousel-track">
 
                         <div class="carousel-slide current-slide">
-                           <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-Matching-Tool-v2.mp4" type="video/mp4">
-                          </video>
+                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-CZ-v5.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; ">
                         </div>
                         
                         <div class="carousel-slide">
                           <div class="blurb"> <div class="slide-title">BACKGROUND</div>Working closely with key stakeholders and our front-end development team, we built a digital experience to guide candidates through Deloitte’s assessment journey. As Creative Lead (UX/UI), I shaped the visual direction, interaction design, and overall user experience, ensuring the platform felt engaging, intuitive, and aligned with Deloitte’s brand vision.</div>
                         </div>
 
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-Candidate-Zone-v2.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; ">
-                        </div>
+                     
 
                         <div class="carousel-slide">
                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/Screenshot+2025-10-18+at+18.12.42.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;">
@@ -734,7 +727,7 @@
                         </div>
 
                         <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-Feature+4.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
+                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-CZ-Cohorts.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 100% 10%;">
                         </div>
 
 
@@ -862,7 +855,7 @@
 
 
                     
-       <!-- Work Start -->
+       <!-- Work Start
                       <div class="Work">  
                         <div class="Image-Video"> 
                           <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain; background-color: #FFFFFF;">
@@ -878,7 +871,7 @@
                           <div class="Likes" data-project-id="Project-13"> <div class="like-button" id="likeBtn">🫰</div> Likes: <span class="like-count">0</span> </div>
                         </div>
                         </div>
-                    <!-- Work End -->
+                  Work End -->
                 
 
   <!-- Work Carousel Start: Like Heart Interaction -->
