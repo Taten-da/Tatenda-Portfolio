@@ -376,51 +376,19 @@
   .card {
     position: absolute;
     left: 50%;
-
     border-radius: 14px;
     overflow: hidden;
-    filter: drop-shadow(#8686866c 5px 5px 20px);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    color: var(--ink);
-    transition: transform .40s cubic-bezier(.16,.84,.32,1), box-shadow .4s ease;
     will-change: transform;
+
+
   }
 
- 
-
-
-
-  /*
-    Resting stack: each card is shifted down by translateY(40%) — 40% of its
-    OWN height (CSS transform percentages are relative to the element's box),
-    so 40% sits below the stage's clipped bottom edge and 60% stays visible.
-  */
-  .card.c1 { transform: translate(-150%, 70%) rotate(0deg); z-index: 1; }
-  .card.c2 { transform: translate(-50%, 0%) rotate(0deg);  z-index: 0; }
-  .card.c3 { transform: translate(25%, 45%) rotate(0deg);  z-index: 1; }
-
-  /*
-    Fanned state: cards rise so only 10% of their height stays hidden below
-    the fold (90% visible), and spread apart with a bit of rotation — the
-    "dealt" look. transition-delay staggers the peel-apart, no JS needed.
-  */
-  .stage:hover .card.c1 {
-    transform: translate(calc(-130% - 100px), 60%) rotate(-3deg);
-    transition-delay: .1s;
-  }
-  .stage:hover .card.c2 {
-    transform: translate(-50%, -5%) rotate(0deg);
-    transition-delay: .06s;
-  }
-  .stage:hover .card.c3 {
-    transform: translate(calc(10% + 100px), 10%) rotate(3deg);
-    transition-delay: 0s;
-  }
-  .stage:hover .card { box-shadow: 0 22px 40px rgba(0,0,0,0); }
+  .card.c1 { z-index: 1; }
+  .card.c2 { z-index: 0; }
+  .card.c3 { z-index: 1; }
 
   .caption {
     max-width: 640px;
@@ -605,9 +573,9 @@
                                  <div class="stage">
                                   <div class="deck">
                                     
-                                    <div class="card c1"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Typography-Card.png" type="image/png" alt="Image" style="width: 60%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
-                                    <div class="card c2"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Assessment -in-Context-v2.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
-                                    <div class="card c3"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Colour-Card.png" type="image/png" alt="Image" style="width: 60%; height: 100%; object-fit: cover;"></div>
+                                    <div class="card c1"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Typography-Card-v3.png" type="image/svg+xml" alt="Image" style="width: 60%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
+                                    <div class="card c2"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Assessment-in-Context-v6.png" type="image/svg+xml" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
+                                    <div class="card c3"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Colour-Card-v4.png" type="image/svg+xml" alt="Image" style="width: 60%; height: 100%; object-fit: cover;"></div>
                                   </div>
                                 </div>
                         </div>
@@ -701,7 +669,7 @@
                       <div class="carousel-track">
 
                         <div class="carousel-slide current-slide">
-                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-CZ-v5.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; ">
+                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-CZ-Hero-v4.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; ">
                         </div>
                         
                         <div class="carousel-slide">
@@ -735,12 +703,7 @@
                           <div class="blurb"> <div class="slide-title">CANDIDATE QUOTE</div>"This was easily the best assessment experience I've had with a company"</div>
                         </div>
 
-                        <div class="carousel-slide">
-                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Talent+Awards+Video+High-Res+v3.mp4" type="video/mp4">
-                          </video>
-                        </div>
-                        
+                                         
                         
                       </div>
                       <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
@@ -855,24 +818,7 @@
 
 
                     
-       <!-- Work Start
-                      <div class="Work">  
-                        <div class="Image-Video"> 
-                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain; background-color: #FFFFFF;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/HSBC-Tool-Template.mp4" type="video/mp4">
-                          </video>
-                        </div>
-                        <div class="Work-footer"> 
-                          <div class="Description">
-                            <div class="Status"><div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">PRODUCT DESIGN UX/UI</div> <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">WEB PRODUCT</div> <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">PROTOYPING</div>
-                            <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">INTERACTION DESIGN</div></div>
-                            <div class="Project-Title">HSBC x Cappfinity<a onclick="openInNewTab('https://hsbcskillsmatcher.preparationplus.com/');" class="Links"> Visit Site <img src="images/Arrow-Up-S.svg"></a></div>
-                          </div>
-                          <div class="Likes" data-project-id="Project-13"> <div class="like-button" id="likeBtn">🫰</div> Likes: <span class="like-count">0</span> </div>
-                        </div>
-                        </div>
-                  Work End -->
-                
+
 
   <!-- Work Carousel Start: Like Heart Interaction -->
                 <div class="Work">  
@@ -933,122 +879,6 @@
                   </div>
                 </div>
                 <!-- Work End -->
-
-
-
-                <!-- Work Carousel Start: Human Touch
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-                        <div class="carousel-slide current-slide">
-                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Page-header-video-UX-UI+-Final.mp4" type="video/mp4">
-                            
-                          </video>
-                        </div>
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">PROBLEM FRAMING</div> Challenge conventions, spark discussions, and explore the evolving landscape of Design. AI has taken the world by storm, more importantly, its put the spotlight on the human element or the lack thereof. We've seen a wave of AI generated content flooding our feeds with the same monotonous voice. How do we get the creative juices flowing again and add the exciting human element back? The contrast between the machine element and the human element. Binary numbers vs organic free-flowing colourful Human touch.</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">                
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Page-2nd-video-UX-UI.mp4" type="video/mp4">
-                          </video>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/UX-Event.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/UX-tote-bag.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/UX+Landing+Page.mp4" type="video/mp4">
-                          </video>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/660d5721ac23aa2de36a0664_UX%20Subway%20Poster%20Mockup-web.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-
-                        
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status"><div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">MOTION</div> <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">VISUAL IDENTITY</div> <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">PROTOYPING</div>
-                            <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">INTERACTION DESIGN</div></div>
-                      <div class="Project-Title">The Human Touch</div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-1">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div>
-               Work End -->
-
-
-
-                      
-                      
-                <!-- Work Carousel Start: Social Media Event 
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-
-                        <div class="carousel-slide current-slide">
-                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/nope-vibes.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">BACKGROUND</div>Passion project aimed at helping people learn popular social media slang terms. As designers its important to keep our eyes peeled at current cultural trends and expectations, as working in line with these helps us position ourselves appropriately with our audience. Inspired by the retro visuals from the  80s and 90s.</div>
-                        </div>
-                        <div class="carousel-slide">
-                          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/66021f4179601dd4557a9e80_01-Social-gif-2.gif" type="image/gif" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="carousel-slide">
-                          <img src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/Screenshot-3.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                      <div class="carousel-slide">
-                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://tatendaselectedworks.s3.eu-north-1.amazonaws.com/01-Social_header+v5.mp4" type="video/mp4">
-                          </video>
-                        </div>
-                        
-                        <div class="carousel-slide">
-                          <img src="https://cdn.prod.website-files.com/6601266f39b44a8b66df76c7/66038ddbdeec2b26f53725f0_Square-GIFs2.gif" type="image/gif" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status"><div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">MOTION</div> <div style="display: inline-block; padding: 5px 10px; border-radius: 10px; border-width: 1px; border-style: solid; border-color: #6A6A78;">VISUAL IDENTITY</div></div>
-                      <div class="Project-Title">Social Media Event Concept</div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-6">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div>
-                Work End -->   
-                
 
 
 
@@ -1304,6 +1134,91 @@ function createFloatingHeart() {
   });
 }
 
+/* ============================================================
+   Card fan interaction — GSAP version
+   ------------------------------------------------------------
+   Same visual idea as before (three cards peeking up from the
+   bottom of the stage, fanning out on hover) but now driven by
+   GSAP instead of CSS `:hover` + `transition-delay`. Why bother:
+
+     - transition-delay was approximating a "deal" sequence —
+       GSAP gives an actual stagger you control in one place.
+     - if the mouse re-enters mid-animation, competing CSS
+       transitions can visibly stutter. GSAP's `overwrite: "auto"`
+       cleanly takes over an in-flight tween instead.
+     - one easing curve, one duration, one object per card — all
+       readable in a single `layout` map rather than split across
+       several `.stage:hover .card.cX` rules.
+   ============================================================ */
+
+function initCardFan() {
+  // querySelectorAll (not querySelector) so this stays reusable if the
+  // fan pattern gets reused on another project tile later.
+  const stages = document.querySelectorAll('.stage');
+
+  stages.forEach(stage => {
+    const cards = stage.querySelectorAll('.card');
+    if (!cards.length) return;
+
+    // Each card's "resting" (stacked/peeking) and "fanned" (hover)
+    // position, expressed the way GSAP wants it:
+    //   xPercent / yPercent -> % of the CARD'S OWN size — this is what
+    //                          the old `transform: translate(%, %)` did.
+    //   x                   -> an extra fixed offset (px/rem). GSAP adds
+    //                          this together with xPercent for you, which
+    //                          is exactly what `calc(-130% - 2rem)` was
+    //                          doing by hand before.
+    //   rotation            -> degrees, same as the old `rotate()`.
+    const layout = {
+      c1: {
+        rest:   { xPercent: -125, yPercent: 60, rotation: 0 },
+        fanned: { xPercent: -128, yPercent: 55, rotation: -5 }
+      },
+      c2: {
+        rest:   { xPercent: -50, yPercent: -5,  rotation: 0 },
+        fanned: { xPercent: -50, yPercent: -10, rotation: 0 }
+      },
+      c3: {
+        rest:   { xPercent: 15, yPercent: 35, rotation: 0 },
+        fanned: { xPercent: 20, yPercent: 25, rotation: 5 }
+      }
+    };
+
+    // Paint the resting position with GSAP itself (gsap.set = instant,
+    // no animation) rather than leaving it to a CSS `transform:` rule.
+    // That way GSAP owns the transform from frame one — nothing for it
+    // to "fight" with when the first hover tween kicks off.
+    cards.forEach(card => {
+      const key = [...card.classList].find(c => layout[c]);
+      if (key) gsap.set(card, layout[key].rest);
+    });
+
+    // Deal order on hover-in: c3 first, then c2, then c1 — mirrors the
+    // old transition-delay values (0s / .06s / .1s).
+    const dealOrder = ['c3', 'c2', 'c1'];
+    // Gather order on hover-out: reverse, like scooping the fan back
+    // into your hand starting with the card nearest you.
+    const gatherOrder = ['c1', 'c2', 'c3'];
+
+    function animateTo(state, order) {
+      order.forEach((key, i) => {
+        const card = stage.querySelector('.card.' + key);
+        if (!card) return;
+        gsap.to(card, {
+          ...layout[key][state],
+          duration: 0.45,
+          ease: 'power3.out',   // close match to the old cubic-bezier(.16,.84,.32,1)
+          delay: i * 0.03,      // the stagger between cards
+          overwrite: 'auto'     // takes over cleanly if hover fires again mid-tween
+        });
+      });
+    }
+
+    stage.addEventListener('mouseenter', () => animateTo('fanned', dealOrder));
+    stage.addEventListener('mouseleave', () => animateTo('rest', gatherOrder));
+  });
+}
+
 // Carousel functionality
 function initCarousels() {
   const carousels = document.querySelectorAll('.carousel-container');
@@ -1412,6 +1327,7 @@ function initCarousels() {
 // With this:
 window.addEventListener('DOMContentLoaded', loadLikes);
 window.addEventListener('DOMContentLoaded', initCarousels);
+window.addEventListener('DOMContentLoaded', initCardFan);
 
 
 
