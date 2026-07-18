@@ -198,7 +198,7 @@
       .Work {
         display: flex;
         flex-direction: column;
-        height: 740px;
+        height: 85svh;
         gap: 15px;
 
         overflow: hidden;
@@ -359,25 +359,22 @@
     width: 100%;
     height: 100%;             /* grows to fill whatever room its parent gives it */
     display: flex;
-    align-items: flex-end;   /* cards live at the bottom edge */
     justify-content: center;
-    border: 1px dashed var(--line);
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;        /* clips the portion of each card that's "below" the stage */
+    align-items: center;
+
   }
 
   .deck {
-    position: relative;
     width: 100%;
-    height: 85%;      /* full card height, so translateY % math is against this */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .card {
     position: absolute;
-    left: 50%;
     border-radius: 14px;
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -386,9 +383,9 @@
 
   }
 
-  .card.c1 { z-index: 1; }
+  .card.c1 { z-index: -1; }
   .card.c2 { z-index: 0; }
-  .card.c3 { z-index: 1; }
+  .card.c3 { z-index: -1; }
 
   .caption {
     max-width: 640px;
@@ -573,9 +570,9 @@
                                  <div class="stage">
                                   <div class="deck">
                                     
-                                    <div class="card c1"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Typography-Card-v3.png" type="image/svg+xml" alt="Image" style="width: 60%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
-                                    <div class="card c2"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Assessment-in-Context-v6.png" type="image/svg+xml" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
-                                    <div class="card c3"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Colour-Card-v4.png" type="image/svg+xml" alt="Image" style="width: 60%; height: 100%; object-fit: cover;"></div>
+                                    <div class="card c1"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Typography-Card-v7.png" type="image/svg+xml" alt="Image" style="width: 18svw; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
+                                    <div class="card c2"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Assessment-in-Context-v7.png" type="image/svg+xml" alt="Image" style="width: 50svw; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
+                                    <div class="card c3"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Colour-Card-v7.png" type="image/svg+xml" alt="Image" style="width: 25svw; height: 100%; object-fit: cover;"></div>
                                   </div>
                                 </div>
                         </div>
@@ -592,12 +589,13 @@
 
                       
                           <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">OPPORTUNITY</div>Because the assessment space is quite technical and complex <br> it's often easy to default to generic visuals as can be seen on many competitor sites. <br> We took an active step to create a more visual engaging but still meaningful experience. Tastefully employing motion to carry the message.</div>
+                          <div class="blurb"> <div class="slide-title">OPPORTUNITY</div> 
+                          Assessments can be quite technical, so it's easy to default to generic visuals as can be seen on many competitor sites. We took a different approach. We showcased each product's UI and core value in a clear, engaging way, while staying true to the actual product. This simplifies our offerings to clients and clearly positions the us a software business.</div>
                         </div>
 
                          <div class="carousel-slide">
                           <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Blended-Development.webm" type="video/mp4">
+                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Product-Visuals.mp4" type="video/mp4">
                           </video>
                         </div>
 
@@ -633,7 +631,7 @@
 
 
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">OUTCOMES</div>Website was shipped successfully and we've received lots of positive feedback internally and externally. "Tremendous work!" - Key stakeholder </div>
+                          <div class="blurb"> <div class="slide-title">RESULTS</div> In the end we delivered a modular website that provides a great user experience and can flex to business demands. Engagement sits at 46% or 2.24 minutes per session. </div>
                         </div>
 
                         
@@ -698,12 +696,15 @@
                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-CZ-Cohorts.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 100% 10%;">
                         </div>
 
+                        <div class="carousel-slide">
+                          <div class="blurb"> <div class="slide-title">RESULTS</div>14k users in first 4 months and 93% satifaction rate.</div>
+                        </div>
+
 
                         <div class="carousel-slide">
                           <div class="blurb"> <div class="slide-title">CANDIDATE QUOTE</div>"This was easily the best assessment experience I've had with a company"</div>
                         </div>
 
-                                         
                         
                       </div>
                       <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
@@ -1171,16 +1172,16 @@ function initCardFan() {
     //   rotation            -> degrees, same as the old `rotate()`.
     const layout = {
       c1: {
-        rest:   { xPercent: -125, yPercent: 60, rotation: 0 },
-        fanned: { xPercent: -128, yPercent: 55, rotation: -5 }
+        rest:   { xPercent: -140, yPercent: 5, rotation: 0 },
+        fanned: { xPercent: -146, yPercent: -5, rotation: -5 }
       },
       c2: {
-        rest:   { xPercent: -50, yPercent: -5,  rotation: 0 },
-        fanned: { xPercent: -50, yPercent: -10, rotation: 0 }
+        rest:   { xPercent: -0, yPercent: 22,  rotation: 0 },
+        fanned: { xPercent: -0, yPercent: 19, rotation: 0 }
       },
       c3: {
-        rest:   { xPercent: 15, yPercent: 35, rotation: 0 },
-        fanned: { xPercent: 20, yPercent: 25, rotation: 5 }
+        rest:   { xPercent: 85, yPercent: 10, rotation: 0 },
+        fanned: { xPercent: 90, yPercent: 5, rotation: 5 }
       }
     };
 
