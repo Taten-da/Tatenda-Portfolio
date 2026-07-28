@@ -1,0 +1,767 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Preference spectrum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* tokens pulled from the Figma node */
+    --ink: #000;
+    --card-border: #dfdfdf;
+    --track: #d1d1d1;        /* progress pills */
+    --endpoint: #7f7f7f;     /* beam end dots */
+    --thumb: #ff0000;        /* red draggable thumb */
+    --line: #000;            /* beam line */
+    --ring-track: #e6e6e6;   /* countdown ring track */
+
+    --row-h: 2.25rem;        /* one number slot in the counter window (36px @16) */
+
+    /* springy settle ease (echoes the Figma damped-spring thumb ease) */
+    --ease-settle: cubic-bezier(0.34, 1.42, 0.5, 1);
+    --ease-count:  cubic-bezier(0.4, 0, 0, 1);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  /* rem-based scaling: shrinking the root font shrinks the whole design.
+     Capped at 16px, scales down with whichever viewport axis is tighter. */
+  html { font-size: min(12px, 100vw / 62.19, 100vh / 38); }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #F5F5F5;
+    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color: var(--ink);
+  }
+
+  #viewport {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  /* spacing between stacked pieces is set per-element (see margins) so the
+     collapsed timer can contribute zero height with no leftover gap */
+  #stage {
+    width: 60.1875rem;       /* 963px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ---- progress bar (now ABOVE the card) ---- */
+  .progress {
+    display: flex;
+    gap: 0.625rem;           /* 10px */
+    width: 52.5625rem;       /* 841px */
+    height: 0.5625rem;       /* 9px */
+    flex: 0 0 auto;
+    margin-bottom: 1.5rem;   /* gap down to the timer / card */
+  }
+  .progress > span {
+    flex: 1 0 0;
+    min-width: 1px;
+    height: 100%;
+    background: var(--track);
+    border-radius: 1.25rem;  /* 20px */
+    transition: background 0.35s ease;
+  }
+  .progress > span.on { background: #7f7f7f; }
+
+  /* ---- countdown timer (now ABOVE the card; collapsed until confirmed) ---- */
+  .timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 1.25rem;     /* 20px */
+    gap: 0.5rem;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(3.34rem);   /* Figma: y 53.5 -> 0 */
+    transition: max-height 0.4s ease, opacity 0.35s ease,
+                transform 0.4s var(--ease-settle), margin-bottom 0.4s ease;
+  }
+  .timer.show {
+    max-height: 9rem;
+    opacity: 1;
+    transform: translateY(0);
+    margin-bottom: 1.5rem;   /* space down to the card only while visible */
+  }
+  .timer .caption {
+    font-size: 1.25rem;      /* ~20px */
+    font-weight: 400;
+    margin: 0;
+  }
+  .ring-wrap {
+    position: relative;
+    width: 4.5rem;           /* 72px */
+    height: 4.5rem;
+  }
+  .ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);   /* start the arc at 12 o'clock */
+  }
+  .ring-track { fill: none; stroke: var(--ring-track); stroke-width: 6; }
+  .ring-progress {
+    fill: none;
+    stroke: #ff0000;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 188.5;      /* 2*pi*r, r=30 */
+    stroke-dashoffset: 0;         /* full */
+  }
+  .ring-progress.run {
+    stroke-dashoffset: 188.5;     /* deplete to empty */
+    transition: stroke-dashoffset var(--count-ms, 3000ms) linear;
+  }
+  .timer-num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;         /* 32px */
+    font-weight: 400;
+  }
+  .timer-num.hide { opacity: 0; }
+  .timer-check {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  .timer-check svg { width: 2.4rem; height: 2.4rem; }
+  .timer-check.show { animation: checkpop 0.5s var(--ease-settle) forwards; }
+  @keyframes checkpop {
+    0%   { transform: scale(0.83); opacity: 0; }
+    60%  { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1);    opacity: 1; }
+  }
+
+  /* ---- card ---- */
+  .card {
+    position: relative;
+    width: 60.1875rem;       /* 963px */
+    background: #fff;
+    border: 0.0625rem solid var(--card-border);
+    border-radius: 3.875rem; /* 62px */
+    box-shadow: 0 0.25rem 0.625rem 0 rgba(0, 0, 0, 0.05);
+    padding: 2.5rem 1.875rem;/* 40px 30px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 2rem;  /* 365px baseline */
+    overflow: hidden;
+    margin-bottom: 1rem;   /* gap down to the nav */
+    transition: width 0.5s var(--ease-settle);
+  }
+  /* once a choice is confirmed, the card hugs the single selected option */
+  .card.committed { width: 24rem; }
+
+  /* stack that holds the current question, vertically centred in the card */
+  .stack {
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* ---- question ---- */
+  .question {
+    width: 56.4375rem;       /* 903px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    transition: width 0.5s var(--ease-settle),
+                opacity 0.45s ease,
+                transform 0.5s var(--ease-settle);
+  }
+  .question.out      { opacity: 0; transform: translateY(3.34rem); }   /* slides down out */
+  .question.in-prep  { opacity: 0; transform: translateY(4.9375rem); } /* starts below, rises in */
+
+  .prompt {
+    font-weight: 600;
+    font-size: 1.25rem;      /* 20px */
+    text-align: center;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3125rem;          /* 5px */
+    width: 100%;
+    align-items: center;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    transition: justify-content 0s;
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;            /* 20px */
+    align-items: center;
+    width: 9.6875rem;        /* 155px */
+    overflow: visible;
+    transition: width 0.5s var(--ease-settle), opacity 0.35s ease;
+  }
+  .side .label {
+    font-size: 1.2rem;         /* 16px */
+    text-align: center;
+    line-height: normal;
+    margin: 0;
+    min-height: 2rem;   /* 75px baseline, grows to fit longer text */
+    width: 9.6875rem;        /* keep text width while parent collapses */
+  }
+
+  /* slot-machine percentage counter */
+  .counter {
+    height: var(--row-h);
+    width: 5.625rem;         /* 90px */
+    overflow: hidden;
+    position: relative;
+    flex: 0 0 auto;
+  }
+  .counter-strip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    will-change: transform;
+  }
+  .counter-strip.animate { transition: transform 0.55s var(--ease-count); }
+  .counter-num {
+    height: var(--row-h);
+    line-height: var(--row-h);
+    font-size: 2rem;         /* 32px */
+    font-weight: 400;
+    text-align: center;
+  }
+
+  /* ---- beam ---- */
+  .beam-wrap {
+    position: relative;
+    width: 29.125rem;        /* 466px */
+    height: 2.125rem;        /* 34px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    overflow: visible;
+    transition: width 0.5s var(--ease-settle), opacity 0.3s ease;
+  }
+  .beam-hit {
+    position: absolute;
+    left: 0;
+    top: -1.625rem;          /* -26px */
+    width: 29.125rem;        /* 466px */
+    height: 5.375rem;        /* 86px */
+    cursor: grab;
+    touch-action: none;
+    z-index: 3;
+  }
+  .beam-hit:active { cursor: grabbing; }
+  .beam-hit:focus { outline: none; }
+  body.using-keyboard .beam-hit:focus { outline: 0.125rem solid rgba(0, 0, 0, 0); outline-offset: 0.25rem; border-radius: 0.75rem; }
+
+  .beam {
+    position: relative;
+    width: 28.75rem;         /* 460px */
+    height: 2.125rem;        /* 34px */
+    transform-origin: 50% 50%;
+    transition: transform 0.55s var(--ease-settle);
+    will-change: transform;
+  }
+  .beam .line {
+    position: absolute; left: 0; right: 0; top: 50%;
+    height: 0.0625rem; background: var(--line);
+    transform: translateY(-0.03125rem);
+  }
+  .beam .endpoint {
+    position: absolute; top: 50%;
+    width: 0.75rem; height: 0.75rem;
+    border-radius: 1.875rem; background: var(--endpoint);
+    transform: translate(-50%, -50%);
+  }
+  .beam .endpoint.left  { left: 0; }
+  .beam .endpoint.right { left: 28.75rem; }
+
+  .beam .tick {
+    position: absolute; top: 50%; left: 14.375rem;
+    width: 0.6rem; height: 0.6rem;
+    border-radius: 1.875rem; background: #000;
+    transform: translate(-50%, -50%) rotate(-11deg);
+    opacity: 0.35;
+  }
+  .beam .thumb {
+    position: absolute; top: 50%;
+    width: 2.125rem; height: 2.125rem;
+    border-radius: 3.9375rem; background: var(--thumb);
+    transform: translate(-50%, -50%);
+    transition: left 0.55s var(--ease-settle);
+    will-change: left; z-index: 2;
+  }
+  .dragging .beam, .dragging .beam .thumb { transition: none; }
+
+  .hint {
+    font-size: 0.8125rem;    /* 13px */
+    text-align: center;
+    margin: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  /* ---- committed (a choice is confirmed): collapse to the selected option ---- */
+  .question.committed              { width: 20rem; }
+  .question.committed .row         { justify-content: center; }
+  .question.committed .beam-wrap   { width: 0; opacity: 0; overflow: hidden; }
+  .question.committed .hint        { opacity: 0; }
+  .question.committed .side        { overflow: hidden; }
+  .question.committed.sel-right .side.left  { width: 0; opacity: 0; }
+  .question.committed.sel-left  .side.right { width: 0; opacity: 0; }
+
+  /* ---- done panel ---- */
+  .done {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+  .done .done-title { font-size: 1.5rem; font-weight: 600; margin: 0; }
+  .done .done-sub   { font-size: 1rem; margin: 0; color: #444; }
+
+  /* nav buttons */
+  .nav { display: flex; gap: 0.375rem; align-items: center; margin-bottom: 1.5rem; }
+  .nav button, .restart {
+    font: inherit; font-size: 1rem; color: #000;
+    background: transparent; border: 0.0625rem solid #000;
+    border-radius: 8.25rem; padding: 0.625rem 1.25rem; cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+  }
+  .nav button:hover, .restart:hover { background: #000; color: #fff; }
+  .nav button:disabled { opacity: 0.35; cursor: default; }
+  .nav button:disabled:hover { background: transparent; color: #000; }
+
+  .instruction { font-size: 1.25rem; text-align: center; margin: 0; color: #333; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .beam, .beam .thumb, .counter-strip.animate,
+    .question, .timer, .ring-progress.run { transition: none !important; }
+    .timer-check.show { animation: none; opacity: 1; transform: scale(1); }
+  }
+</style>
+
+<div id="viewport">
+  <div id="stage">
+
+    <!-- progress bar: OUTSIDE the card, on top -->
+    <div class="progress" id="progress"></div>
+
+    <!-- countdown timer: OUTSIDE the card, on top -->
+    <div class="timer" id="timer">
+      <p class="caption">Confirmed in</p>
+      <div class="ring-wrap">
+        <svg class="ring" viewBox="0 0 72 72">
+          <circle class="ring-track" cx="36" cy="36" r="30"></circle>
+          <circle class="ring-progress" id="ring" cx="36" cy="36" r="30"></circle>
+        </svg>
+        <div class="timer-num" id="timerNum">3</div>
+        <div class="timer-check" id="timerCheck">
+          <svg viewBox="0 0 72 72" fill="none">
+            <path d="M22 38 L32 48 L50 26" stroke="#000" stroke-width="6"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- card -->
+    <div class="card" id="card">
+      <div class="stack">
+        <!-- current question -->
+        <div class="question" id="question">
+          <p class="prompt" id="prompt">I would prefer to...</p>
+          <div class="body">
+            <div class="row">
+              <div class="side left">
+                <div class="counter"><div class="counter-strip" id="strip-left"></div></div>
+                <p class="label" id="label-left"></p>
+              </div>
+
+              <div class="beam-wrap">
+                <div class="beam" id="beam">
+                  <div class="line"></div>
+                  <div class="endpoint left"></div>
+                  <div class="endpoint right"></div>
+                  <div class="tick"></div>
+                  <div class="thumb" id="thumb"></div>
+                </div>
+                <div class="beam-hit" id="hit" role="slider"
+                     tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"
+                     aria-label="Preference slider. Arrow keys to move, Enter to select."></div>
+              </div>
+
+              <div class="side right">
+                <div class="counter"><div class="counter-strip" id="strip-right"></div></div>
+                <p class="label" id="label-right"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- completion -->
+        <div class="done" id="done">
+          <p class="done-title">That's everything</p>
+          <p class="done-sub">Thanks for testing this interaction.</p>
+          <button class="restart" id="restart">Have another go</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="nav">
+      <button id="prev" disabled>Previous</button>
+      <button id="next">Next</button>
+    </div>
+
+    <p class="instruction">Drag slider or use arrow keys &larr; &rarr; and press enter to select an option</p>
+  </div>
+</div>
+
+<script>
+  (function () {
+    "use strict";
+
+    /* ---------- questions ---------- */
+    var questions = [
+      { prompt: "I would prefer to...",
+        left:  "Collaborate with a variety of people, inside and outside of the organisation",
+        right: "Work independently or with few people internally at the organisation" },
+      { prompt: "I would prefer to...",
+        left:  "Focus deeply on one project at a time",
+        right: "Juggle several projects at once" },
+      { prompt: "I would prefer to...",
+        left:  "Follow well-established processes and routines",
+        right: "Invent new approaches as I go" },
+      { prompt: "I would prefer to...",
+        left:  "Work to a steady, predictable schedule",
+        right: "Adapt to changing priorities day to day" },
+      { prompt: "I would prefer to...",
+        left:  "Make decisions from data and analysis",
+        right: "Trust intuition and experience" }
+    ];
+
+    /* ---------- constants ---------- */
+    var MAX_TILT = 10, STEP = 5, HIT_W = 466, INSET = 3;
+    var COUNT_SECONDS = 3;
+    var TIMER_IN_DELAY = 320;   // after collapse begins, reveal the timer
+    var CHECK_HOLD_MS  = 750;   // hold the checkmark before advancing
+    var OUT_MS = 460;           // question fade/slide out before swapping content
+
+    var PHASE = { IDLE: 0, CONFIRMING: 1, TRANSITION: 2, DONE: 3 };
+
+    /* ---------- elements ---------- */
+    var card   = document.getElementById("card");
+    var beam   = document.getElementById("beam");
+    var thumb  = document.getElementById("thumb");
+    var hit    = document.getElementById("hit");
+    var sLeft  = document.getElementById("strip-left");
+    var sRight = document.getElementById("strip-right");
+    var question = document.getElementById("question");
+    var promptEl = document.getElementById("prompt");
+    var labelL = document.getElementById("label-left");
+    var labelR = document.getElementById("label-right");
+    var timer  = document.getElementById("timer");
+    var ring   = document.getElementById("ring");
+    var timerNum = document.getElementById("timerNum");
+    var timerCheck = document.getElementById("timerCheck");
+    var doneEl = document.getElementById("done");
+    var nav    = document.getElementById("nav");
+    var prevBtn = document.getElementById("prev");
+    var nextBtn = document.getElementById("next");
+    var restart = document.getElementById("restart");
+
+    /* ---------- build the slot strips (100%..0%) ---------- */
+    function buildStrip(strip) {
+      var html = "";
+      for (var p = 100; p >= 0; p -= STEP) html += '<div class="counter-num">' + p + "%</div>";
+      strip.innerHTML = html;
+    }
+    buildStrip(sLeft);
+    buildStrip(sRight);
+
+    /* ---------- progress pills (one per question) ---------- */
+    var prog = document.getElementById("progress");
+    for (var i = 0; i < questions.length; i++) prog.appendChild(document.createElement("span"));
+
+    /* ---------- state ---------- */
+    var t = 0.5;
+    var qIndex = 0;
+    var answers = [];           // answers[i] = { t, rightPct, side }
+    var dragging = false;
+    var phase = PHASE.IDLE;
+    var timers = [];
+
+    function setT(fn, ms) { var id = setTimeout(fn, ms); timers.push(id); return id; }
+    function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+    function reflow(el) { void (el || document.body).offsetWidth; }
+
+    /* ---------- slider rendering (unchanged core) ---------- */
+    function snapPct(pos) { return Math.round((pos * 100) / STEP) * STEP; }
+    function stripShift(pct) {
+      var index = (100 - pct) / STEP;
+      return "translateY(calc(" + (-index) + " * var(--row-h)))";
+    }
+    function render(animate) {
+      var rightPct = snapPct(t), leftPct = 100 - rightPct;
+      thumb.style.left = (t * 100) + "%";
+      var tilt = (t - 0.5) * 2 * MAX_TILT;
+      beam.style.transform = "rotate(" + tilt + "deg)";
+      sLeft.classList.toggle("animate", !!animate);
+      sRight.classList.toggle("animate", !!animate);
+      sLeft.style.transform  = stripShift(leftPct);
+      sRight.style.transform = stripShift(rightPct);
+      hit.setAttribute("aria-valuenow", String(rightPct));
+      hit.setAttribute("aria-valuetext", leftPct + "% left / " + rightPct + "% right");
+    }
+
+    function currentSide() {                    // which option is selected
+      var rightPct = snapPct(t);
+      return rightPct >= 50 ? "right" : "left"; // tie -> right
+    }
+
+    /* ---------- question loading ---------- */
+    function loadQuestion(i) {
+      var q = questions[i];
+      promptEl.textContent = q.prompt;
+      labelL.textContent = q.left;
+      labelR.textContent = q.right;
+      t = (answers[i] != null) ? answers[i].t : 0.5;
+      render(false);
+    }
+    function updateProgress() {
+      var pills = prog.children;
+      for (var i = 0; i < pills.length; i++) pills[i].classList.toggle("on", i <= qIndex);
+      prevBtn.disabled = qIndex === 0 || phase !== PHASE.IDLE;
+      nextBtn.disabled = phase !== PHASE.IDLE || qIndex >= questions.length - 1;
+    }
+    function focusHit() { try { hit.focus({ preventScroll: true }); } catch (e) { hit.focus(); } }
+
+    /* ---------- commit -> collapse + countdown ---------- */
+    function commit() {
+      if (phase !== PHASE.IDLE) return;
+      t = snapPct(t) / 100;                     // settle onto the notch
+      render(true);
+      var side = currentSide();
+      answers[qIndex] = { t: t, rightPct: snapPct(t), side: side };
+
+      phase = PHASE.CONFIRMING;
+      question.classList.add("committed");
+      card.classList.add("committed");
+      question.classList.add(side === "right" ? "sel-right" : "sel-left");
+      updateProgress();
+
+      setT(showTimer, TIMER_IN_DELAY);
+    }
+
+    function showTimer() {
+      timerCheck.classList.remove("show");
+      timerNum.classList.remove("hide");
+      timer.classList.add("show");
+
+      var remaining = COUNT_SECONDS;
+      timerNum.textContent = remaining;
+
+      // deplete the ring over the full countdown
+      timer.style.setProperty("--count-ms", (COUNT_SECONDS * 1000) + "ms");
+      ring.classList.remove("run");
+      reflow(ring);
+      ring.classList.add("run");
+
+      var tick = function () {
+        remaining -= 1;
+        if (remaining > 0) { timerNum.textContent = remaining; setT(tick, 1000); }
+        else { confirmDone(); }
+      };
+      setT(tick, 1000);
+    }
+
+    function confirmDone() {
+      timerNum.classList.add("hide");
+      timerCheck.classList.add("show");
+      setT(function () {
+        if (qIndex + 1 >= questions.length) transitionToDone();
+        else transitionTo(qIndex + 1);
+      }, CHECK_HOLD_MS);
+    }
+
+    /* ---------- cancel the countdown (change your mind) ---------- */
+    function cancel() {
+      if (phase !== PHASE.CONFIRMING) return;
+      clearTimers();
+      hideTimer();
+      question.classList.remove("committed", "sel-left", "sel-right");
+      card.classList.remove("committed");
+      phase = PHASE.IDLE;
+      updateProgress();
+      focusHit();
+    }
+    function hideTimer() {
+      timer.classList.remove("show");
+      timerCheck.classList.remove("show");
+      timerNum.classList.remove("hide");
+      ring.classList.remove("run");
+    }
+
+    /* ---------- move to another question ---------- */
+    function transitionTo(target) {
+      phase = PHASE.TRANSITION;
+      clearTimers();
+      hideTimer();
+      question.classList.add("out");
+      setT(function () {
+        question.classList.remove("committed", "sel-left", "sel-right", "out");
+        card.classList.remove("committed");
+        qIndex = target;
+        loadQuestion(qIndex);
+        updateProgress();
+        question.classList.add("in-prep");
+        reflow(question);
+        requestAnimationFrame(function () { question.classList.remove("in-prep"); });
+        phase = PHASE.IDLE;
+        updateProgress();
+        focusHit();
+      }, OUT_MS);
+    }
+
+    function transitionToDone() {
+      phase = PHASE.TRANSITION;
+      clearTimers();
+      hideTimer();
+      question.classList.add("out");
+      setT(function () {
+        question.style.display = "none";
+        card.classList.remove("committed");
+        nav.style.display = "none";
+        doneEl.style.display = "flex";
+        phase = PHASE.DONE;
+      }, OUT_MS);
+    }
+
+    function restartAll() {
+      answers = [];
+      qIndex = 0;
+      doneEl.style.display = "none";
+      nav.style.display = "flex";
+      question.style.display = "flex";
+      question.classList.remove("committed", "sel-left", "sel-right", "out", "in-prep");
+      card.classList.remove("committed");
+      loadQuestion(0);
+      updateProgress();
+      phase = PHASE.IDLE;
+      focusHit();
+    }
+
+    /* ---------- pointer input: grab & drag anywhere ---------- */
+    function posFromEvent(clientX) {
+      var r = hit.getBoundingClientRect();
+      var inset = r.width * (INSET / HIT_W);
+      var x = (clientX - (r.left + inset)) / (r.width - inset * 2);
+      return Math.max(0, Math.min(1, x));
+    }
+    function onDown(e) {
+      if (phase !== PHASE.IDLE) return;
+      dragging = true;
+      document.body.classList.add("dragging");
+      hit.setPointerCapture && hit.setPointerCapture(e.pointerId);
+      t = posFromEvent(e.clientX);
+      render(false);
+    }
+    function onMove(e) {
+      if (!dragging) return;
+      t = posFromEvent(e.clientX);
+      render(false);
+    }
+    function onUp() {
+      if (!dragging) return;
+      dragging = false;
+      document.body.classList.remove("dragging");
+      commit();                 // releasing a drag selects (Figma: "Drag slider ... to select")
+    }
+    hit.addEventListener("pointerdown", onDown);
+    hit.addEventListener("pointermove", onMove);
+    hit.addEventListener("pointerup", onUp);
+    hit.addEventListener("pointercancel", onUp);
+
+    /* ---------- keyboard: arrows move, enter selects ---------- */
+    hit.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        if (phase === PHASE.IDLE) { e.preventDefault(); commit(); }
+        return;
+      }
+      var step = 0.05, moved = true;
+      if (e.key === "ArrowRight" || e.key === "ArrowUp")       t = Math.min(1, snapPct(t) / 100 + step);
+      else if (e.key === "ArrowLeft" || e.key === "ArrowDown") t = Math.max(0, snapPct(t) / 100 - step);
+      else if (e.key === "Home") t = 0;
+      else if (e.key === "End")  t = 1;
+      else moved = false;
+      if (moved) {
+        e.preventDefault();
+        if (phase === PHASE.CONFIRMING) cancel();   // adjusting cancels the countdown
+        if (phase === PHASE.IDLE) render(true);
+      }
+    });
+
+    /* ---------- cancel affordances (Esc, or click anywhere but a button) ---------- */
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") cancel();
+    });
+    document.addEventListener("pointerdown", function (e) {
+      document.body.classList.remove("using-keyboard");   // pointer use hides the focus ring
+      if (phase === PHASE.CONFIRMING && e.target.tagName !== "BUTTON") cancel();
+    });
+    /* show the focus ring only once the keyboard is actually used (not on load) */
+    document.addEventListener("keydown", function (e) {
+      var k = e.key || "";
+      if (k === "Tab" || k === "Enter" || k === "Home" || k === "End" || k.indexOf("Arrow") === 0)
+        document.body.classList.add("using-keyboard");
+    });
+
+    /* ---------- nav buttons ---------- */
+    prevBtn.addEventListener("click", function () {
+      if (phase === PHASE.CONFIRMING) cancel();
+      if (phase === PHASE.IDLE && qIndex > 0) transitionTo(qIndex - 1);
+    });
+    nextBtn.addEventListener("click", function () {
+      if (phase === PHASE.CONFIRMING) cancel();
+      if (phase === PHASE.IDLE && qIndex < questions.length - 1) {
+        answers[qIndex] = { t: t, rightPct: snapPct(t), side: currentSide() };
+        transitionTo(qIndex + 1);
+      }
+    });
+    restart.addEventListener("click", restartAll);
+
+    /* ---------- init ---------- */
+    loadQuestion(0);
+    updateProgress();
+    render(false);
+    focusHit();
+  })();
+</script>
