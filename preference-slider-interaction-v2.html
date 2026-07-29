@@ -41,6 +41,7 @@
   #viewport {
     min-height: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     overflow: hidden;
@@ -362,17 +363,36 @@
 
   .instruction { font-size: 1.25rem; text-align: center; margin: 0; color: #333; }
 
+  .logo img {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45rem;
+    padding: 1rem;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .beam, .beam .thumb, .counter-strip.animate,
     .question, .timer, .ring-progress.run { transition: none !important; }
     .timer-check.show { animation: none; opacity: 1; transform: scale(1); }
   }
+
+  @media screen and (max-width: 660px)  
+  {  
+      
+    .logo img {
+        visibility: hidden;
+          }
+        }
 </style>
+   <div class="logo"><img src="images/Claude-Lockup-v2.png"></div>
 
 <div id="viewport">
+  
   <div id="stage">
 
     <!-- progress bar: OUTSIDE the card, on top -->
+    
     <div class="progress" id="progress"></div>
 
     <!-- countdown timer: OUTSIDE the card, on top -->
