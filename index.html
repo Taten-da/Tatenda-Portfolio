@@ -130,7 +130,7 @@
         font-family: "Inter", sans-serif;
         font-optical-sizing: auto;
         font-weight: 400;
-        font-size: 0.875rem;
+        font-size: 1.2rem;
         line-height: 1.5;
         letter-spacing: -0.5px;
         color: #6A6A78;
@@ -288,7 +288,7 @@
         justify-content: center;
         text-align: center;
         align-items: center;
-        padding: 20px 100px 20px 100px;
+        padding: 20px 300px 20px 300px;
         height: 100%;
         gap: 10px;   
         color: #121212;
@@ -300,9 +300,25 @@
         letter-spacing: -0.7px;
       }
 
+      .key-points {
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-size: 1.2rem;
+        font-style: italic;
+        letter-spacing: -0.7px;
+      }
+
       .carousel-slide {
           min-width: 100%;
           height: 100%;
+          /* Establishes a containing block for the .slide-shimmer overlay.
+             `contain: layout` (rather than position: relative) is used on
+             purpose: the carousel JS assigns each slide an inline `left`
+             value, and making the slide positioned would activate those
+             offsets and break the track. Containment gives us the anchor
+             without changing the slide's own positioning scheme. */
+          contain: layout;
       }
 
       .carousel-slide video, .carousel-slide img {
@@ -483,17 +499,27 @@
         font-family: "Inter", sans-serif;
         font-optical-sizing: auto;
         font-weight: 500;
-        font-size: 1rem;
+        font-size: 0.8rem;
         font-style: normal;
         letter-spacing: -0.7px;
         }
+
+      .key-points {
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-size: 0.7rem;
+        font-style: italic;
+        letter-spacing: -0.7px;
+      }
+
 
         
       .slide-title {
         font-family: "Inter", sans-serif;
         font-optical-sizing: auto;
         font-weight: 500;
-        font-size:  0.875rem;
+        font-size:  0.5rem;
         font-style: normal;
         letter-spacing: -0.7px;
         
@@ -532,11 +558,122 @@
       }
 
 }
+
+      /* ============================================================
+         Loading shimmer — imported from loading-shimmer.html
+         Used in two places:
+           1. #page-preloader  — full-screen, shown first for 1s.
+           2. .slide-shimmer   — per carousel-slide skeleton overlay.
+         Both share the same sweeping .wipe bar + @keyframes sweep.
+         ============================================================ */
+
+      /* ---- 1. Full-page preloader ---- */
+      #page-preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease;
+      }
+
+      #page-preloader.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* The loading frame (from the supplied component) */
+      .loading-frame {
+        position: relative;
+        width: 300px;
+        height: 120px;
+        overflow: hidden;          /* clip the wipe to the frame, like a mask */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .loading-frame p {
+        position: relative;
+        font-family: "Inter", -apple-system, system-ui, sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: normal;
+        color: #151515;
+        white-space: nowrap;
+        z-index: 1;
+        margin: 0;
+      }
+
+      /* ---- 2. Per-slide skeleton shimmer ---- */
+      .slide-shimmer {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        overflow: hidden;          /* clip the wipe to the slide bounds */
+        background: rgba(12, 12, 13, 0.05);   /* matches .Image-Video skeleton */
+        border-radius: 4px;
+        transition: opacity 0.45s ease;
+      }
+
+      .slide-shimmer.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* ---- Shared sweeping bar ---- */
+      .wipe {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 39px;
+        height: 75px;
+        background: rgba(255, 255, 255, 0.9);
+        filter: blur(9px);
+        transform: translate(-50%, -50%) rotate(35deg);
+        z-index: 2;
+        pointer-events: none;
+        animation: sweep 1.415297s linear infinite;
+      }
+
+      /* Exact keyframes exported from Figma (independent `translate` property) */
+      @keyframes sweep {
+        0%      { translate: 119.5px 0; }
+        7.066%  { translate: 114.572px 0; }
+        14.131% { translate: 90.47px 0; }
+        21.197% { translate: 27.563px 0; }
+        28.263% { translate: -27.078px 0; }
+        35.328% { translate: -59.708px 0; }
+        42.394% { translate: -81.241px 0; }
+        49.46%  { translate: -96.425px 0; }
+        56.525% { translate: -107.47px 0; }
+        63.591% { translate: -115.574px 0; }
+        70.657% { translate: -121.462px 0; }
+        77.722% { translate: -125.61px 0; }
+        84.788% { translate: -128.348px 0; }
+        91.854% { translate: -129.915px 0; }
+        98.919% { translate: -130.49px 0; }
+        100%    { translate: -130.5px 0; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .wipe { animation: none; }
+      }
   </style>
   </head>
   
 
   <body>
+  <!-- Full-page preloader: shown first, on screen for 1s, then fades out -->
+  <div id="page-preloader">
+    <div class="loading-frame" data-name="Loading-frame">
+      <p>gathering the pixels</p>
+      <div class="wipe" data-name="Wipe"></div>
+    </div>
+  </div>
+
   <div class="Hero">
     <div class="Hero-Sticky">
       <div class="Hero-body">
@@ -547,7 +684,7 @@
               </div>
           </div>  
                   
-        <div style="font-family: 'Inter', sans-serif; font-weight:350;  letter-spacing: -2%; font-size: 1.2rem; color: #636373; ">Designing products that people enjoy to use, with a keen eye for visual craft and user empathy. Currently at <a class="Links" style="font-size: 1.2rem; font-weight:350;" onclick="openInNewTab('https://www.linkedin.com/company/cappfinity/posts/?feedView=all');">Cappfinity</a>.</div>
+        <div style="font-family: 'Inter', sans-serif; font-weight:350;  letter-spacing: -2%; font-size: 1.2rem; color: #636373; ">Designing products that people enjoy using, with a keen eye for visual craft and user empathy. Currently at <a class="Links" style="font-size: 1.2rem; font-weight:350;" onclick="openInNewTab('https://www.linkedin.com/company/cappfinity/posts/?feedView=all');">Cappfinity</a>.</div>
         </div>
 
         <div style="gap: 2rem; display: flex; flex-direction: column;"> 
@@ -588,7 +725,7 @@
           
 
                         <div class="carousel-slide">
-                              <div class="blurb"> <div class="slide-title">Discover + Define</div> <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; text-align: left;"> <div>User pain points identified: <br> 1. Static UI, not much motion or interaction. <br> 2. Navigation could be more intuitive. <br> 3. Assessments can be long and repetitive with lots of clicking and scrolling.</div>Whilst these don't immediately hurt the bottom line, in the long run there can be a cumulative effect. As AI development progresses the bar for product experiences goes up, leaving behind those who don't improve.</div> 
+                              <div class="blurb"> <div class="slide-title">Discover + Define</div> <div style="display: grid; grid-template-columns: repeat(1, 1fr); gap: 0.5rem;"> <div>I’ve identified some recurring pain points:<p class="key-points">- Static UI, not much motion or interaction. <br>- Navigation could be more intuitive. <br>- Assessments can be long and repetitive with lots of clicking and scrolling. </p></div>Whilst these don't immediately hurt the bottom line, in the long run there can be a cumulative effect. As AI development progresses, the bar for product experiences goes up, leaving behind those who don't improve.</div> 
                             </div>
                         </div>
 
@@ -615,7 +752,7 @@
                       
                           <div class="carousel-slide">
                           <div class="blurb"> <div class="slide-title">Develop + AI Workflow</div> 
-                          For the prototype, I pulled my screens into Figma Motion, animated exactly how each stage should behave, and handed it to Claude via Figma MCP to execute with a bit of prompt guidance. I had make minor changes to the CSS but the interaction came out exactly as intented.</div>
+                          For the prototype, I pulled my screens into Figma Motion, animated exactly how each stage should behave, and handed it to Claude via Figma MCP to execute with a bit of prompt guidance. I had to make minor changes to the CSS, but the interaction came out exactly as intended.</div>
                         </div>
 
                         
@@ -631,7 +768,7 @@
 
 
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Learnings</div>AI agents love clear context and intent and this setup delivers just that. Product teams can now communicate behaviour with devs and AI agents in their language. In the future, we'll likely see these agent-readable motion design systems, that teams using AI agents can pull from and build on.</div>
+                          <div class="blurb"> <div class="slide-title">Learnings</div>AI agents love clear context and intent, and this setup delivers just that. Product teams can now communicate behaviour with devs and AI agents in their language. In the future, we'll likely see these agent-readable motion design systems that teams using AI agents can pull from and build on.</div>
                         </div>
 
                         
@@ -683,13 +820,13 @@
                   
                         
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Overview</div>Strong brand and great product experiences. That's the moat. <br> Working along our talented brand team, I helped develop the new brand identity, bringing this new look and feel into our website, products, and enhancing the overall user experience.</div>
+                          <div class="blurb"> <div class="slide-title">Overview</div>Strong brand and great product experiences. That's the moat. <br> Working alongside our talented brand team, I helped develop the new brand identity, bringing this new look and feel into our website, products, and enhancing the overall user experience.</div>
                         </div>
 
                       
                           <div class="carousel-slide">
                           <div class="blurb"> <div class="slide-title">OPPORTUNITY</div> 
-                          Assessments can be quite technical, so it's easy to default to generic visuals as can be seen on many competitor sites. We took a different approach. We showcased each product's UI and core value in a clear, engaging way, while staying true to the actual product. This simplifies our offerings to clients and clearly positions the us a software business.</div>
+                          Assessments can be quite technical, so it's easy to default to generic visuals as can be seen on many competitor sites. We took a different approach. We showcased each product's UI and core value in a clear, engaging way, while staying true to the actual product. This simplifies our offerings to clients and clearly positions us as a software business.</div>
                         </div>
 
                          <div class="carousel-slide">
@@ -721,7 +858,7 @@
 
                    
                         <div class="carousel-slide">
-                        <div class="blurb"> <div class="slide-title">COMPONENTS</div>We created a comprehensive set of reusable components to ensure consistency and efficiency in our design. This in essence became our design system that our Devs could pull from.</div>
+                        <div class="blurb"> <div class="slide-title">COMPONENTS</div>We created a comprehensive set of reusable components to ensure consistency and efficiency in our design. This, in essence, became our design system that our Devs could pull from.</div>
                         </div>
 
                          <div class="carousel-slide">
@@ -730,7 +867,7 @@
 
 
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">RESULTS</div> In the end we delivered a modular website that provides a great user experience and can flex to business demands. Engagement sits at 46% or 2.24 minutes per session. </div>
+                          <div class="blurb"> <div class="slide-title">RESULTS</div> In the end, we delivered a modular website that provides a great user experience and can flex to business demands. Engagement sits at 46% or 2.24 minutes per session. </div>
                         </div>
 
                         
@@ -780,7 +917,7 @@
                         </div>
 
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">CHALLENGES</div> Candidates had to work through over 20-30 pages of content, so it was important minimise decision fatigue and reduce cognitive load. Don't make it any harder for candidates. Intuitive UI. Everything within reach and clearly labelled, nothing ambiguous.</div>
+                          <div class="blurb"> <div class="slide-title">CHALLENGES</div> Candidates had to work through over 20-30 pages of content, so it was important to minimise decision fatigue and reduce cognitive load. Don't make it any harder for candidates. Intuitive UI. Everything within reach and clearly labelled, nothing ambiguous.</div>
                         </div>
 
                         <div class="carousel-slide">
@@ -788,7 +925,7 @@
                         </div>
 
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">WORKFLOW</div>Speed and consistency. With over 50 pages of content, auto-layout was essential. Allowing me to quickly build / repurpose / adjust / tweak designs at speed and scale. It also reduced friction from design to code for the dev team.</div>
+                          <div class="blurb"> <div class="slide-title">WORKFLOW</div>Speed and consistency. With over 50 pages of content, auto-layout was essential, allowing me to quickly build / repurpose / adjust / tweak designs at speed and scale. It also reduced friction from design to code for the dev team.</div>
                         </div>
 
                         <div class="carousel-slide">
@@ -796,7 +933,7 @@
                         </div>
 
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">RESULTS</div>14k users in first 4 months and 93% satifaction rate.</div>
+                          <div class="blurb"> <div class="slide-title">RESULTS</div>14k users in the first 4 months and a 93% satisfaction rate.</div>
                         </div>
 
 
@@ -871,7 +1008,7 @@
                         </div>
                         
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">BACKGROUND</div> We brought Lloyds new brand into a preparation hub, creating a seemless digital experience from the careers page to the final offer. I was responsible for shaping the visual direction, interaction design, and overall user experience, ensuring the platform felt engaging, intuitive, and aligned with LBG's new brand.</div>
+                          <div class="blurb"> <div class="slide-title">BACKGROUND</div> We brought Lloyds' new brand into a preparation hub, creating a seamless digital experience from the careers page to the final offer. I was responsible for shaping the visual direction, interaction design, and overall user experience, ensuring the platform felt engaging, intuitive, and aligned with LBG's new brand.</div>
                         </div>
 
                         <div class="carousel-slide">
@@ -880,7 +1017,7 @@
 
                 
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">CHALLENGES</div> A New brand is great. But it hasn't been stress tested. Unique edge cases emerged during development that required creative solutions.</div>
+                          <div class="blurb"> <div class="slide-title">CHALLENGES</div> A new brand is great. But it hasn't been stress-tested. Unique edge cases emerged during development that required creative solutions.</div>
                         </div>
 
                         <div class="carousel-slide">
@@ -931,7 +1068,7 @@
                           </video>
                         </div>
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">MICRO-INTERACTIONS</div>Micro-interactions are the secret ingredient that make apps feel aVisit Site. Those tiny moments of delight make the whole experience memorable and enjoyable. I've always enjoyed micro-interactions with first and secondary reactions. When tapped / clicked more than once they trigger something more explosive for emphasis.</div>
+                          <div class="blurb"> <div class="slide-title">MICRO-INTERACTIONS</div>Micro-interactions are the secret ingredient that makes apps feel alive. Those tiny moments of delight make the whole experience memorable and enjoyable. I've always enjoyed micro-interactions with first and secondary reactions. When tapped / clicked more than once, they trigger something more explosive for emphasis.</div>
                         </div>
 
                         
@@ -949,7 +1086,7 @@
                         </div>
 
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">STEPS</div>Then I brought it into my site and styled it to my taste. Few adjustments were needed after testing on mobile as touch behaviours hadn't been accounted (didn't explicitly include this in the original prompt).</div>
+                          <div class="blurb"> <div class="slide-title">STEPS</div>Then I brought it into my site and styled it to my taste. A few adjustments were needed after testing on mobile, as touch behaviours hadn't been accounted for (I didn't explicitly include this in the original prompt).</div>
                         </div>
 
                         <div class="carousel-slide">
@@ -995,7 +1132,7 @@
                           </video>
                         </div>
                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">PROBLEM FRAMING</div>Not all mentors wear capes. Convo is conceptual project, aimed at connecting people for personal/professional development. Prioritising in-person experiences facilitated by a modern app. I've found that the positive experiences that people shared of a mentor tended to be, informal, 50/50 relationships, without pressure on one side.</div>
+                          <div class="blurb"> <div class="slide-title">PROBLEM FRAMING</div>Not all mentors wear capes. Convo is a conceptual project aimed at connecting people for personal/professional development, prioritising in-person experiences facilitated by a modern app. I've found that the positive experiences that people shared about a mentor tended to be informal, 50/50 relationships without pressure on one side.</div>
                         </div>
 
                         
@@ -1428,7 +1565,76 @@ function initCarousels() {
   });
 }
 
+/* ============================================================
+   Loading shimmer wiring
+   ------------------------------------------------------------
+   1. Full-page preloader: always shown first for exactly 1s,
+      then fades out and is removed.
+   2. Per-slide shimmer: a skeleton sweep sits on top of every
+      .carousel-slide and lifts as soon as that slide's media
+      (img / video / iframe) finishes loading. Text-only slides
+      and any broken media fall back to a short timeout so a
+      shimmer can never get stuck on screen.
+   ============================================================ */
+
+function initPagePreloader() {
+  const pre = document.getElementById('page-preloader');
+  if (!pre) return;
+  // On screen for 1 second, then fade out.
+  setTimeout(() => {
+    pre.classList.add('is-hidden');
+    setTimeout(() => pre.remove(), 600); // remove after the fade completes
+  }, 1000);
+}
+
+function initSlideShimmers() {
+  const slides = document.querySelectorAll('.carousel-slide');
+
+  slides.forEach(slide => {
+    // Build the shimmer overlay for this slide.
+    const shimmer = document.createElement('div');
+    shimmer.className = 'slide-shimmer';
+    shimmer.innerHTML = '<div class="wipe"></div>';
+    slide.appendChild(shimmer);
+
+    let hidden = false;
+    const hide = () => {
+      if (hidden) return;
+      hidden = true;
+      shimmer.classList.add('is-hidden');
+      setTimeout(() => shimmer.remove(), 500); // clean up after fade
+    };
+
+    // Reveal the slide the moment its heaviest element is ready.
+    const media = slide.querySelector('img, video, iframe');
+    if (media) {
+      const tag = media.tagName;
+      if (tag === 'IMG') {
+        if (media.complete && media.naturalWidth) hide();       // cached
+        else {
+          media.addEventListener('load', hide);
+          media.addEventListener('error', hide);
+        }
+      } else if (tag === 'VIDEO') {
+        if (media.readyState >= 2) hide();                       // already buffered
+        else {
+          media.addEventListener('loadeddata', hide);
+          media.addEventListener('error', hide);
+        }
+      } else { // IFRAME
+        media.addEventListener('load', hide);
+      }
+    }
+
+    // Fallback: text-only slides have no media to wait on, and this
+    // also protects against any media that never fires a load event.
+    setTimeout(hide, 1400);
+  });
+}
+
 // With this:
+window.addEventListener('DOMContentLoaded', initPagePreloader);
+window.addEventListener('DOMContentLoaded', initSlideShimmers);
 window.addEventListener('DOMContentLoaded', loadLikes);
 window.addEventListener('DOMContentLoaded', initCarousels);
 window.addEventListener('DOMContentLoaded', initCardFan);
