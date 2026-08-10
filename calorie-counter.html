@@ -1,0 +1,930 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Calories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --calc-bg: #f1e9fd;
+    --calc-fg: #8741e1;
+    --goal-bg: #e2fbe8;
+    --goal-fg: #4ca054;
+    --left-bg: #deeafc;
+    --left-fg: #3366e3;
+    --over-bg: #f9e3e3;
+    --over-fg: #cb3a31;
+    --muted: #b6b6b6;
+    --dot: #9c9c9c;
+
+    /* timeline constants, lifted from the Figma keyframes */
+    --e-reveal: cubic-bezier(1, -0.026, 0.622, 1);
+    --e-truncate: cubic-bezier(0.42, 0, 0, 1);
+    --e-pill: cubic-bezier(0.507, 0, 0.035, 1);
+    --e-roll: cubic-bezier(0.393, 0, 0.225, 1);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #ffffff;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #000;
+  }
+
+  #frame {
+    position: relative;
+    width: 430px;
+    max-width: 100%;
+    height: 100dvh;
+    max-height: 932px;
+    margin: 0 auto;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 100px 20px 28px;
+    overflow: hidden;
+  }
+  @media (min-width: 470px) and (min-height: 960px) {
+    #frame { margin-top: 24px; border-radius: 44px; box-shadow: 0 24px 64px rgba(0,0,0,.14); }
+  }
+
+  /* ---------- item list ---------- */
+
+  #list {
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    align-content: flex-start;
+  }
+  #list::-webkit-scrollbar { display: none; }
+
+  .item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .text-wrap {
+    position: relative;
+    width: 252px;
+    height: 56px;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: default;
+  }
+
+  .text {
+    margin: 0;
+    width: 252px;
+    font-size: 16px;
+    line-height: normal;
+    color: #000;
+    word-break: break-word;
+    outline: none;
+    caret-color: var(--calc-fg);
+  }
+
+  /* the white blurred ring that sweeps outward to reveal content */
+  .ring {
+    position: absolute;
+    width: 155px;
+    height: 155px;
+    border: 23px solid #fff;
+    border-radius: 98px;
+    filter: blur(10px);
+    pointer-events: none;
+    transform: scale(0);
+  }
+  .text-ring { left: 169px; top: 10px; }
+  .pill-ring { left: 38px; top: -14px; }
+
+  /* animated ellipsis, parked at the end of line one */
+  .dots {
+    position: absolute;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    font-size: 16px;
+    line-height: normal;
+    color: var(--dot);
+  }
+  .dots i {
+    width: 4px;
+    font-style: normal;
+    transform-origin: 48.527% 54.69%;
+    display: block;
+  }
+
+  /* ---------- calories ---------- */
+
+  .cal-info {
+    position: relative;
+    width: 108px;
+    flex-shrink: 0;
+    padding: 0px;
+    overflow: hidden;
+  }
+  .cal-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transform: translateY(35.5px);
+  }
+  .pill {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 23px;
+    padding: 0 7px;
+    border-radius: 20px;
+    background: var(--calc-bg);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .reel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--calc-fg);
+    transform: translateY(0);
+    margin-bottom: 2px;   /* nudge the whole reel up inside the bottom-aligned pill */
+  }
+  .reel span {
+    font-size: 15px;
+    line-height: 18px;
+    height: 18px;
+    white-space: nowrap;
+  }
+  .reel span.calculating { font-size: 10px; }
+  .kcal {
+    font-size: 15px;
+    line-height: 22.5px;
+    letter-spacing: -0.2344px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* ---------- splash ---------- */
+
+  #splash {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    z-index: 10;
+  }
+  .emoji {
+    position: absolute;
+    left: calc(50% - 46.89px);
+    top: calc(50% - 74.22px);
+    width: 111px;
+    height: 92px;
+    margin: 0;
+    font-size: 96px;
+    line-height: normal;
+    opacity: 0;
+  }
+  #logo-anchor {
+    position: absolute;
+    left: calc(50% - 206.5px);
+    top: calc(50% - 25px);
+    width: 413px;
+    height: 64px;
+    transform: translateY(-50%);
+    z-index: 20;
+    pointer-events: none;
+  }
+  #logo-scale {
+    position: relative;
+    width: 413px;
+    height: 64px;
+    overflow: hidden;      /* the lockup clips its own reveal ring */
+    opacity: 0;
+  }
+  .logo-word {
+    position: absolute;
+    left: 146.11px;
+    margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.96px;
+    color: #000;
+    white-space: nowrap;
+  }
+  #word-calorie { top: 0.28px; }
+  #word-counter { top: 32.28px; }
+  .logo-ring { left: 184px; top: -13.5px; }
+
+  /* ---------- composer ---------- */
+
+  #composer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 14px 0 18px;
+    border-top: 1px solid #f0f0f0;
+  }
+  #entry {
+    flex: 1 0 0;
+    border: 0;
+    outline: 0;
+    resize: none;
+    font: inherit;
+    font-size: 16px;
+    line-height: 21px;
+    max-height: 84px;
+    color: #000;
+    background: transparent;
+  }
+  #entry::placeholder { color: #c9c9c9; }
+  #add {
+    border: 0;
+    background: var(--calc-bg);
+    color: var(--calc-fg);
+    font: inherit;
+    font-size: 15px;
+    line-height: 22.5px;
+    letter-spacing: -0.2344px;
+    padding: 0 11px;
+    border-radius: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: opacity .2s ease;
+  }
+  #add:disabled { opacity: .35; cursor: default; }
+
+  /* ---------- summary ---------- */
+
+  #summary {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    align-items: flex-start;
+    width: 161px;
+  }
+  .sum-row { display: flex; align-items: center; gap: 10px; }
+  .sum-row > span:first-child {
+    font-size: 15px;
+    line-height: 22.5px;
+    letter-spacing: -0.2344px;
+    white-space: nowrap;
+  }
+  .sum-val { display: flex; align-items: center; gap: 5px; }
+  .chip {
+    padding: 0 7px;
+    border-radius: 20px;
+    font-size: 15px;
+    line-height: 22.5px;
+    letter-spacing: -0.2344px;
+    white-space: nowrap;
+  }
+  .chip.goal { background: var(--goal-bg); color: var(--goal-fg); }
+  #v-goal {
+    outline: none;
+    cursor: text;
+    caret-color: var(--goal-fg);
+    min-width: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  #v-goal:focus { box-shadow: inset 0 0 0 1px var(--goal-fg); }
+  .chip.left { background: var(--left-bg); color: var(--left-fg); }
+  .chip.over { background: var(--over-bg); color: var(--over-fg); }
+  #row-over[hidden] { display: none; }
+</style>
+
+<div id="frame">
+  <div id="splash">
+    <p class="emoji" style="transform-origin:45% 62%">🍏</p>
+    <p class="emoji" style="transform-origin:47% 58%">🍗</p>
+    <p class="emoji" style="transform-origin:45% 62%">🥑</p>
+    <p class="emoji" style="transform-origin:44% 50%">🥗</p>
+  </div>
+
+  <div id="logo-anchor">
+    <div id="logo-rise">
+      <div id="logo-scale">
+        <p class="logo-word" id="word-calorie">Calorie</p>
+        <p class="logo-word" id="word-counter">Counter™</p>
+        <div class="ring logo-ring"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="list"></div>
+
+  <div id="composer">
+    <textarea id="entry" rows="1" placeholder="What did you eat?" autocomplete="off"></textarea>
+    <button id="add" disabled>Add</button>
+  </div>
+
+  <div id="summary">
+    <div class="sum-row">
+      <span>Daily Goal</span>
+      <div class="sum-val"><span class="chip goal" id="v-goal" contenteditable="true" inputmode="numeric" role="textbox" aria-label="Daily calorie goal">1230</span><span class="kcal">kcal</span></div>
+    </div>
+    <div class="sum-row">
+      <span>Remaining</span>
+      <div class="sum-val"><span class="chip left" id="v-left">1230</span><span class="kcal">kcal</span></div>
+    </div>
+    <div class="sum-row" id="row-over" hidden>
+      <span>Surplus</span>
+      <div class="sum-val"><span class="chip over" id="v-over">0</span><span class="kcal">kcal</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   Motion constants — derived from the Figma timeline (9519.546ms loop).
+   Each item runs the same choreography, offset from its own start.
+------------------------------------------------------------------ */
+const T = 9519.546;
+const REVEAL_MS   = 0.1667 * T;   // ~1587  text ring sweep
+const TRUNCATE_MS = 0.0491 * T;   // ~467   height 56 -> 21
+const PILL_IN_MS  = 0.0541 * T;   // ~515   calories container y 35.5 -> 0
+const ROLL_MS     = 0.0802 * T;   // ~763   reel y 0 -> ~372
+const PULSE_MS    = 0.1667 * T;   // ~1587  pill ring pulse period
+
+const TRUNCATE_AT = 0.0238 * T;   // ~227   after item start
+const DOTS_AT     = 0.1259 * T;   // ~1199  after item start
+const ROLL_AT     = 0.3443 * T;   // ~3278  after item start
+
+const DOT_STAGGER = [0, 0.0056 * T, 0.0092 * T];  // 0 / ~53 / ~88ms
+const DOT_FADE_MS = 0.0095 * T;   // ~90
+
+const E_REVEAL   = "cubic-bezier(1, -0.026, 0.622, 1)";
+const E_TRUNCATE = "cubic-bezier(0.42, 0, 0, 1)";
+const E_PILL     = "cubic-bezier(0.507, 0, 0.035, 1)";
+const E_ROLL     = "cubic-bezier(0.393, 0, 0.225, 1)";
+const E_DOT      = "cubic-bezier(0.5, 0, 0.5, 1)";
+const E_INOUT    = "cubic-bezier(0.42, 0, 0.58, 1)";
+
+const EXPANDED_H = 56;
+const COLLAPSED_H = 21;
+const RING_SCALE = 6.89;
+const IDLE_MS = 3000;    // quiet period before an item truncates itself
+
+let dailyGoal = 1230;
+const LADDER = [1200,1000,900,800,700,600,500,400,300,200,100,90,80,70,60,50,40,30,20,10];
+const LANDING_ROW = 3;   // the row the reel comes to rest on
+
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+const listEl = document.getElementById("list");
+const entryEl = document.getElementById("entry");
+const addEl = document.getElementById("add");
+const items = [];
+
+/* ---------------- composer ---------------- */
+
+function sizeEntry() {
+  entryEl.style.height = "auto";
+  entryEl.style.height = Math.min(entryEl.scrollHeight, 84) + "px";
+  addEl.disabled = entryEl.value.trim().length === 0;
+}
+entryEl.addEventListener("input", sizeEntry);
+entryEl.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submit(); }
+});
+addEl.addEventListener("click", submit);
+
+function submit() {
+  const text = entryEl.value.trim();
+  if (!text) return;
+  entryEl.value = "";
+  sizeEntry();
+  addItem(text);
+}
+
+/* ---------------- item construction ---------------- */
+
+function buildItem(text) {
+  const item = document.createElement("div");
+  item.className = "item";
+
+  const textWrap = document.createElement("div");
+  textWrap.className = "text-wrap";
+  const p = document.createElement("p");
+  p.className = "text";
+  p.textContent = text;
+  const textRing = document.createElement("div");
+  textRing.className = "ring text-ring";
+  textWrap.append(p, textRing);
+
+  const dots = document.createElement("div");
+  dots.className = "dots";
+  dots.innerHTML = "<i>.</i><i>.</i><i>.</i>";
+
+  const calInfo = document.createElement("div");
+  calInfo.className = "cal-info";
+  const calContainer = document.createElement("div");
+  calContainer.className = "cal-container";
+  const pill = document.createElement("div");
+  pill.className = "pill";
+  const reel = document.createElement("div");
+  reel.className = "reel";
+  LADDER.forEach(v => {
+    const s = document.createElement("span");
+    s.textContent = v;
+    reel.appendChild(s);
+  });
+  const calcRow = document.createElement("span");
+  calcRow.className = "calculating";
+  calcRow.textContent = "Calculating";
+  reel.appendChild(calcRow);
+  pill.appendChild(reel);
+  const kcal = document.createElement("span");
+  kcal.className = "kcal";
+  kcal.textContent = "kcal";
+  const pillRing = document.createElement("div");
+  pillRing.className = "ring pill-ring";
+  calContainer.append(pill, kcal, pillRing);
+  calInfo.appendChild(calContainer);
+
+  item.append(textWrap, dots, calInfo);
+  return { item, textWrap, p, textRing, dots, calContainer, reel, pillRing };
+}
+
+/* ---------------- animations ---------------- */
+
+// scale 0 -> 6.89, the shared "reveal ring" curve
+function ringSweep(el, opts = {}) {
+  if (reduced) return null;
+  return el.animate(
+    [{ transform: "scale(0)" }, { transform: `scale(${RING_SCALE})` }],
+    { duration: PULSE_MS, easing: E_REVEAL, fill: "forwards", ...opts }
+  );
+}
+
+function slidePillIn(el) {
+  if (reduced) { el.style.transform = "translateY(0)"; return; }
+  el.animate(
+    [{ transform: "translateY(35.5px)" }, { transform: "translateY(0)" }],
+    { duration: PILL_IN_MS, easing: E_PILL, fill: "forwards" }
+  );
+}
+
+function collapse(wrap, from, to) {
+  if (reduced) { wrap.style.height = to + "px"; return null; }
+  return wrap.animate(
+    [{ height: from + "px" }, { height: to + "px" }],
+    { duration: TRUNCATE_MS, easing: E_TRUNCATE, fill: "forwards" }
+  );
+}
+
+// dot bounce: scale 1 -> 1.35 -> 1 with a slightly leading y hop of -4.391
+function bounceDots(dots, iterations = Infinity) {
+  if (reduced) return [];
+  const CYCLE = 1000;
+  return [...dots.children].map((dot, i) =>
+    dot.animate(
+      [
+        { transform: "translateY(0) scale(1)",           offset: 0 },
+        { transform: "translateY(0) scale(1)",           offset: 90 / CYCLE,  easing: E_INOUT },
+        { transform: "translateY(-4.391px) scale(1.13)", offset: 226 / CYCLE, easing: E_DOT },
+        { transform: "translateY(-1.9px) scale(1.35)",   offset: 387 / CYCLE, easing: E_DOT },
+        { transform: "translateY(0) scale(1)",           offset: 578 / CYCLE },
+        { transform: "translateY(0) scale(1)",           offset: 1 }
+      ],
+      { duration: CYCLE, delay: DOT_STAGGER[i], iterations }
+    )
+  );
+}
+
+function fadeDotsIn(dots) {
+  dots.style.opacity = "1";
+  if (reduced) return;
+  dots.animate([{ opacity: 0 }, { opacity: 1 }], { duration: DOT_FADE_MS, easing: E_DOT });
+}
+
+// park the ellipsis at the end of the first rendered line
+function placeDots(item, p, dots) {
+  const range = document.createRange();
+  range.selectNodeContents(p);
+  const rects = range.getClientRects();
+  if (!rects.length) return;
+  const line = rects[0];
+  const box = item.getBoundingClientRect();
+  dots.style.left = Math.min(line.right - box.left + 2, 252) + "px";
+  dots.style.top = line.top - box.top + "px";
+}
+
+function rollReel(reel, value) {
+  reel.style.transform = "translateY(0)";
+  const row = reel.children[LANDING_ROW];
+  row.textContent = value;
+  const distance = reel.offsetHeight - (row.offsetTop + row.offsetHeight);
+  if (reduced) { reel.style.transform = `translateY(${distance}px)`; return null; }
+  return reel.animate(
+    [{ transform: "translateY(0)" }, { transform: `translateY(${distance}px)` }],
+    { duration: ROLL_MS, easing: E_ROLL, fill: "forwards" }
+  );
+}
+
+/* ---------------- item lifecycle ---------------- */
+
+const hasOverflow = parts => parts.p.scrollHeight > 30;
+
+function stopDots(parts) {
+  clearTimeout(parts.dotTimer);
+  (parts.dotAnims || []).forEach(a => a.cancel());
+  parts.dotAnims = null;
+  parts.dots.style.opacity = "0";
+}
+
+// truncate once the item has been quiet for IDLE_MS — every keystroke resets the clock
+function scheduleTruncate(parts, opts = {}) {
+  clearTimeout(parts.idleTimer);
+  parts.idleTimer = setTimeout(() => {
+    if (parts.p.isContentEditable) parts.p.blur();   // blur commits, which closes
+    else closeItem(parts, opts);
+  }, IDLE_MS);
+}
+
+// collapse to one line, then fade the ellipsis in and bounce it —
+// runs on the initial truncation and on every subsequent close
+function closeItem(parts, { fromHeight, dotDelay = TRUNCATE_MS } = {}) {
+  clearTimeout(parts.idleTimer);
+  const from = fromHeight ?? parts.textWrap.getBoundingClientRect().height;
+  parts.openAnim?.cancel();          // measured first — cancelling snaps the height
+  parts.openAnim = null;
+  parts.textWrap.style.height = "";
+  parts.textWrap.scrollTop = 0;      // always collapse onto the first line
+  parts.textWrap.dataset.open = "0";
+  parts.p.contentEditable = "false";
+  collapse(parts.textWrap, from, COLLAPSED_H);
+  stopDots(parts);
+  if (!hasOverflow(parts)) return;
+  parts.dotTimer = setTimeout(() => {
+    placeDots(parts.item, parts.p, parts.dots);
+    fadeDotsIn(parts.dots);
+    // loop while an estimate is in flight, otherwise a single bounce
+    parts.dotAnims = bounceDots(parts.dots, parts.pending ? Infinity : 1);
+  }, dotDelay);
+}
+
+// While open, the wrap must track the text. If it stays frozen at the height it
+// had when opened, extra typing overflows it, the caret scrolls the wrap, and the
+// collapse then reveals the scrolled-to line instead of the first one.
+function fitToText(parts) {
+  if (parts.textWrap.dataset.open !== "1") return;
+  parts.openAnim?.cancel();
+  parts.openAnim = null;
+  parts.textWrap.style.height = parts.p.scrollHeight + "px";
+  parts.textWrap.scrollTop = 0;
+}
+
+function openItem(parts) {
+  if (parts.textWrap.dataset.open === "1") return;
+  parts.textWrap.dataset.open = "1";
+  stopDots(parts);
+  const from = parts.textWrap.getBoundingClientRect().height;
+  parts.p.contentEditable = "true";
+  parts.openAnim = collapse(parts.textWrap, from, parts.p.scrollHeight);
+  if (parts.openAnim) parts.openAnim.onfinish = () => fitToText(parts);
+  else fitToText(parts);
+  parts.p.focus();
+  scheduleTruncate(parts);
+}
+
+function onItemClick(e, parts) {
+  if (parts.textWrap.dataset.open === "1") {
+    if (parts.p.contains(e.target) || e.target === parts.p) return;  // let the caret land
+    parts.p.blur();                                                  // clicking off commits
+    return;
+  }
+  openItem(parts);
+}
+
+function commitEdit(parts) {
+  const next = parts.p.textContent.replace(/\s+/g, " ").trim();
+  if (!next) parts.p.textContent = parts.text;
+  const changed = next && next !== parts.text;
+  if (changed) parts.text = next;
+  closeItem(parts);
+  if (changed) recalculate(parts);
+}
+
+// hold "Calculating" for one full ring pulse on an edit, rather than the
+// full 3278ms entry beat — the item is already on screen
+const EDIT_HOLD = PULSE_MS;
+
+async function recalculate(parts) {
+  parts.pending = true;
+  parts.rollAnim?.cancel();
+  parts.record.kcal = 0;
+  updateSummary();
+
+  const pulse = ringSweep(parts.pillRing, { iterations: Infinity });
+  const started = performance.now();
+  const kcal = await estimateCalories(parts.text);
+  const remaining = EDIT_HOLD - (performance.now() - started);
+  if (remaining > 0) await wait(remaining);
+
+  land(parts, kcal, pulse);
+}
+
+function land(parts, kcal, pulse) {
+  parts.pending = false;
+  if (pulse) pulse.cancel();
+  parts.pillRing.style.transform = "scale(0)";
+  (parts.dotAnims || []).forEach(a => a.cancel());
+  parts.dotAnims = null;
+  parts.dots.style.opacity = hasOverflow(parts) && parts.textWrap.dataset.open !== "1" ? "1" : "0";
+
+  parts.rollAnim = rollReel(parts.reel, kcal);
+  parts.record.kcal = kcal;
+  updateSummary();
+}
+
+async function addItem(text) {
+  const parts = buildItem(text);
+  parts.text = text;
+  parts.pending = true;
+  parts.record = { kcal: 0 };
+  items.push(parts.record);
+
+  listEl.appendChild(parts.item);
+  listEl.scrollTop = listEl.scrollHeight;
+
+  parts.textWrap.style.cursor = "text";
+  parts.item.addEventListener("click", e => onItemClick(e, parts));
+  parts.p.addEventListener("blur", () => commitEdit(parts));
+  parts.p.addEventListener("input", () => { fitToText(parts); scheduleTruncate(parts); });
+  parts.p.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); parts.p.blur(); }
+    if (e.key === "Escape") { parts.p.textContent = parts.text; parts.p.blur(); }
+  });
+
+  const started = performance.now();
+
+  // t=0 — text ring sweeps outward once; calories pill slides up; pill ring starts pulsing
+  ringSweep(parts.textRing, { duration: REVEAL_MS, iterations: 1 });
+  slidePillIn(parts.calContainer);
+  const pulse = ringSweep(parts.pillRing, { iterations: Infinity });
+
+  const estimate = estimateCalories(text);
+
+  // truncate once the item has sat quiet for 3s; ellipsis follows 972ms later
+  scheduleTruncate(parts, { fromHeight: EXPANDED_H, dotDelay: DOTS_AT - TRUNCATE_AT });
+
+  // t=3278 at the earliest — hold "Calculating" until then, longer if the estimate is slow
+  const kcal = await estimate;
+  const remaining = ROLL_AT - (performance.now() - started);
+  if (remaining > 0) await wait(remaining);
+
+  land(parts, kcal, pulse);
+}
+
+/* ---------------- summary ---------------- */
+
+function updateSummary() {
+  const total = items.reduce((a, b) => a + b.kcal, 0);
+  const left = Math.max(0, dailyGoal - total);
+  const over = Math.max(0, total - dailyGoal);
+  const goalEl = document.getElementById("v-goal");
+  // don't rewrite the field while the caret is in it
+  if (document.activeElement !== goalEl) goalEl.textContent = dailyGoal;
+  document.getElementById("v-left").textContent = left;
+  document.getElementById("v-over").textContent = over;
+  document.getElementById("row-over").hidden = over === 0;
+}
+
+/* ---------------- estimation ---------------- */
+
+async function estimateCalories(text) {
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        messages: [{
+          role: "user",
+          content:
+            "Estimate the total calories for this food description. Account for portion " +
+            "hints like 'half', 'shared', or 'a few'. Reply with ONLY a JSON object of the " +
+            "form {\"kcal\": <integer>} — no prose, no markdown fences.\n\n" + text
+        }]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content.filter(b => b.type === "text").map(b => b.text).join("");
+    const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim());
+    const kcal = Math.round(Number(parsed.kcal));
+    if (Number.isFinite(kcal) && kcal > 0) return Math.min(kcal, 9999);
+    throw new Error("bad value");
+  } catch (err) {
+    console.warn("Falling back to local estimate:", err);
+    const words = text.split(/\s+/).filter(Boolean).length;
+    return Math.max(80, Math.min(1200, Math.round((180 + words * 40) / 10) * 10));
+  }
+}
+
+/* ---------------- daily goal ---------------- */
+
+const goalEl = document.getElementById("v-goal");
+
+function readGoal() {
+  const digits = goalEl.textContent.replace(/\D/g, "").slice(0, 5);
+  return digits ? Number(digits) : null;
+}
+
+goalEl.addEventListener("input", () => {
+  const value = readGoal();
+  const clean = value === null ? "" : String(value);
+  if (goalEl.textContent !== clean) {           // strip anything non-numeric as it's typed
+    goalEl.textContent = clean;
+    const range = document.createRange();
+    range.selectNodeContents(goalEl);
+    range.collapse(false);
+    const sel = getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+  if (value !== null) { dailyGoal = value; updateSummary(); }
+});
+
+goalEl.addEventListener("blur", () => {
+  dailyGoal = Math.min(Math.max(readGoal() ?? dailyGoal, 1), 99999);
+  updateSummary();
+});
+
+goalEl.addEventListener("keydown", e => {
+  if (e.key === "Enter") { e.preventDefault(); goalEl.blur(); }
+  if (e.key === "Escape") { goalEl.textContent = dailyGoal; goalEl.blur(); }
+});
+
+goalEl.addEventListener("focus", () => {
+  const range = document.createRange();
+  range.selectNodeContents(goalEl);              // select all, so typing replaces
+  const sel = getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+});
+
+/* ---------------- splash ---------------- */
+/* Second timeline from Figma: 5191.142ms, four emoji beats handing off to the
+   lockup, which then shrinks and flies to its permanent spot at the top.      */
+
+const T2 = 5191.142;
+const SLOT       = 0.1159 * T2;              // ~602   per-emoji beat
+const FADE       = 0.0048 * T2;              // ~25    cross-fade
+const POP_MS     = 0.1205 * T2;              // ~626   scale 2 -> 1
+const RING_AT    = 0.4483 * T2;              // ~2327
+const RING_MS    = (0.7539 - 0.4483) * T2;   // ~1586  same sweep as the item rings
+const LOGO_AT    = 0.4635 * T2;              // ~2406  lockup takes over from the emoji
+const HOLD_AT    = 0.6586 * T2;              // ~3419  shrink + rise begin together
+const SHRINK_MS  = (0.8193 - 0.6586) * T2;   // ~834
+const RISE_MS    = (0.8624 - 0.6586) * T2;   // ~1058
+const SPLIT_AT   = 0.7539 * T2;              // ~3914  words break apart mid-flight
+const SPLIT_MS   = (0.8628 - 0.7539) * T2;   // ~565   horizontal travel
+const SETTLE_MS  = (0.9577 - 0.8628) * T2;   // ~493   vertical settle onto one line
+const WORD_MS    = SPLIT_MS + SETTLE_MS;     // ~1058
+const SPLASH_END = 0.9577 * T2;              // ~4972
+
+const LOGO_REST_SCALE = 0.8;
+const LOGO_REST_Y = 60;   // resting centre, measured from the top of the frame
+
+// x runs first, y picks up exactly where it ends, so both fit one transform track
+const WORDS = [
+  { id: "word-calorie", x: -47.115, y: 1.72,   settle: "cubic-bezier(0.328, 0.312, 0.225, 1)" },
+  { id: "word-counter", x: 64.385,  y: -29.28, settle: "cubic-bezier(0.252, 0.355, 0.068, 1)" }
+];
+
+const E_POP    = "cubic-bezier(0.336, 0.258, 0, 1)";
+const E_SHRINK = "cubic-bezier(1, 0, 0.637, 1)";
+const E_RISE   = "cubic-bezier(0.897, 0, 0.588, 1)";
+const E_SPLIT  = "cubic-bezier(1, 0, 0.68, 1)";
+const E_FADE   = E_DOT;
+
+const frameEl = document.getElementById("frame");
+const splashEl = document.getElementById("splash");
+const logoAnchor = document.getElementById("logo-anchor");
+const logoRise = document.getElementById("logo-rise");
+const logoScale = document.getElementById("logo-scale");
+const logoRing = logoScale.querySelector(".logo-ring");
+
+// Figma's -353.28px assumes a 932px frame. Derive it instead, so the lockup
+// lands on the same resting position at any viewport height.
+function riseDistance() {
+  const f = frameEl.getBoundingClientRect();
+  const a = logoAnchor.getBoundingClientRect();
+  return (a.top + a.height / 2 - f.top) - LOGO_REST_Y;
+}
+
+function restLogo() {
+  logoScale.style.opacity = "1";
+  logoScale.style.transform = `scale(${LOGO_REST_SCALE})`;
+  logoRise.style.transform = `translateY(${-riseDistance()}px)`;
+  logoRing.style.opacity = "0";
+  WORDS.forEach(w => {
+    document.getElementById(w.id).style.transform = `translate(${w.x}px, ${w.y}px)`;
+  });
+}
+
+async function runSplash() {
+  if (reduced) { restLogo(); splashEl.remove(); entryEl.focus(); return; }
+
+  const anims = [];
+  const OPACITY_MS = SLOT + 2 * FADE;
+
+  [...document.querySelectorAll(".emoji")].forEach((el, i) => {
+    const delay = i * SLOT;
+    anims.push(el.animate(
+      [
+        { opacity: 0, offset: 0, easing: E_FADE },
+        { opacity: 1, offset: FADE / OPACITY_MS, easing: "linear" },
+        { opacity: 1, offset: SLOT / OPACITY_MS, easing: E_FADE },
+        { opacity: 0, offset: 1 }
+      ],
+      { duration: OPACITY_MS, delay, fill: "both" }
+    ));
+    anims.push(el.animate(
+      [{ transform: "scale(2)" }, { transform: "scale(1)" }],
+      { duration: POP_MS, delay, easing: E_POP, fill: "both" }
+    ));
+  });
+
+  // the lockup's reveal ring starts just before the lockup itself appears
+  anims.push(logoRing.animate(
+    [{ transform: "scale(0)" }, { transform: `scale(${RING_SCALE})` }],
+    { duration: RING_MS, delay: RING_AT, easing: E_REVEAL, fill: "both" }
+  ));
+
+  anims.push(logoScale.animate(
+    [{ opacity: 0 }, { opacity: 1 }],
+    { duration: FADE, delay: LOGO_AT, easing: E_FADE, fill: "both" }
+  ));
+  anims.push(logoScale.animate(
+    [{ transform: "scale(2)" }, { transform: "scale(1)" }],
+    { duration: POP_MS, delay: LOGO_AT, easing: E_POP, fill: "both" }
+  ));
+
+  // shrink and rise start together but finish apart, so they stay on separate
+  // elements — merging them would force a single shared easing.
+  // "forwards" only: a backwards fill here would out-rank the pop above.
+  anims.push(logoScale.animate(
+    [{ transform: "scale(1)" }, { transform: `scale(${LOGO_REST_SCALE})` }],
+    { duration: SHRINK_MS, delay: HOLD_AT, easing: E_SHRINK, fill: "forwards" }
+  ));
+  anims.push(logoRise.animate(
+    [{ transform: "translateY(0)" }, { transform: `translateY(${-riseDistance()}px)` }],
+    { duration: RISE_MS, delay: HOLD_AT, easing: E_RISE, fill: "forwards" }
+  ));
+
+  // the words break apart during the flight, then drop onto a single line.
+  // x finishes exactly where y starts, so one transform track covers both.
+  WORDS.forEach(w => {
+    anims.push(document.getElementById(w.id).animate(
+      [
+        { transform: "translate(0px, 0px)", offset: 0, easing: E_SPLIT },
+        { transform: `translate(${w.x}px, 0px)`, offset: SPLIT_MS / WORD_MS, easing: w.settle },
+        { transform: `translate(${w.x}px, ${w.y}px)`, offset: 1 }
+      ],
+      { duration: WORD_MS, delay: SPLIT_AT, fill: "forwards" }
+    ));
+  });
+
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    anims.forEach(a => a.finish());
+    logoRing.style.opacity = "0";
+    splashEl.remove();
+    entryEl.focus();
+  };
+  splashEl.addEventListener("click", finish);   // tap to skip
+
+  // reveal the app underneath as the lockup starts travelling
+  await wait(HOLD_AT);
+  if (done) return;
+  splashEl.animate([{ opacity: 1 }, { opacity: 0 }],
+    { duration: 400, easing: E_FADE, fill: "forwards" });
+
+  await wait(SPLASH_END - HOLD_AT);
+  finish();
+}
+
+sizeEntry();
+updateSummary();
+runSplash();
+</script>
