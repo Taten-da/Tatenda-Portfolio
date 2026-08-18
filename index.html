@@ -1,1537 +1,270 @@
 <!DOCTYPE html>
-<html>
-  <!-- Made by Tatenda -->
-  <!-- Glad you've taken a look under the hood. Just HTML, CSS and little bit of JS, enjoy -->
-   
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tatenda Takavarasha — Portfolio</title>
-    <link rel="icon" type="image/png" href="/images/favicon-2.png"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link href="https://use.typekit.net/fln4jhp.css" rel="stylesheet">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <!-- GSAP for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QHF28VQZY4"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tatenda Takavarasha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+  /* ---------------------------------------------------------------
+     Loading-frame  ·  Figma node 402:277
+     Sequence runs once (9.4407s) and holds on the mailto link.
+     Timings are the exact keyframe percentages from the Figma timeline.
+     --------------------------------------------------------------- */
 
-          gtag('config', 'G-QHF28VQZY4');
-        </script>
-    <style>
-    html {
-          scroll-behavior: smooth;
-          scroll-padding-top: 10px;
-        }
-  
-    body {
-        background-color: #ffffff;
-        min-height: 100svh;
-        margin: 0;
-        padding: 0;
-      }
-
-
-      .nav-heading {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 1rem;
-        font-style: normal;
-        letter-spacing: -0.5px;
-        color: #6A6A78;
-      }
-
-      
-
-    .Body-grey {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 1rem;
-        font-style: normal;
-        letter-spacing: -0.5px;
-        color: #6A6A78;
-      }
-
- 
-      .Links {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 1rem;
-        font-style: normal;
-        letter-spacing: -0.5px;
-        color: #9898a9;
-        cursor: pointer;
-        text-decoration: none;
-      }
-
-
-      .Links:hover {
-        color: #000000;
-        transition: color 0.2s ease-out;
-        font-style: bold;
-      }
-
-      
-      .Heading, .Image-Video, .counter {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size:  0.875rem;
-        font-style: normal;
-        letter-spacing: -0.5px;
-        color: #6A6A78;
-      }
-
-      .Status {
-        display: flex;
-        gap: 3px;
-        flex-wrap: wrap;
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size:  0.75rem;
-        font-style: normal;
-        letter-spacing: -0.5px;
-        color: #7c7c7d;
-      }
-
-      .Stat-cat {
-        display: inline-block; 
-        padding: 5px 10px; 
-        border-radius: 20px; 
-        border-width: 1px; 
-        border-style: solid; 
-        border-color: #a6a6c2;
-      }
-
-      .Likes {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size:  0.875rem;
-        font-style: normal;
-        letter-spacing: -0.5px;
-        color: #6A6A78;
-
-
-      }
-
-      .slide-title {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 1.2rem;
-        line-height: 1.5;
-        letter-spacing: -0.5px;
-        color: #6A6A78;
-      }
-
-      .Project-Title {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 1rem;
-        font-style: normal;
-        letter-spacing: -0.5px;
-        color: #1D1D1F;
-      }
-
-      .Hero {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 20px;
-        width: 100%;
-        min-height: 100svh;
-      }
-
-      .Hero-Sticky {
-        position: sticky;
-        top: 0;
-        height: 100svh;
-        width: 24.6rem;
-        background-color: #ffffff;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 50px 50px 50px 50px;
-        box-sizing: border-box;
-      }
-  
-
-      .Hero-body {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-      }
-
-      .Body-Section {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .Links-Section {
-        display: flex;
-        flex-direction: column;
-      
-      }
-
-      .Hero-footer {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: end; 
-        gap: 30px;
-      }
-
-      .Feed {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        gap: 20px;
-        padding: 10px;
-        min-width: 200px;
-      }
-
-      .Work {
-        display: flex;
-        flex-direction: column;
-        height: 85svh;
-        gap: 15px;
-
-        overflow: hidden;
-
-      }
-
-      .Image-Video {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1; /* This will make it take remaining space */
-        width: 100%;
-        background-color: rgba(12, 12, 13, 0.05);
-        overflow: hidden;
-        border-radius: 4px;
-       
-      }
-
-      .Work-footer {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 3px;
-      }
-
-      .Description {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .Likes {
-        display: flex;
-        height: 100%;
-        flex-direction: row;
-        gap: 5px;
-        align-items: center;
-        z-index: 1;
-
-      }
-
-      .like-button {
-        cursor: pointer;
-        z-index: 10;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        font-size: 1.2rem;
-        }
-
-        .like-button:hover {
-            transform: scale(1.5);
-            transition: transform 0.2s ease-out;
-        }
-
-        .like-button:active {
-            transform: scale(0.95);
-            transition: transform 0.2s ease-out;
-        }
-
-      .carousel-container {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-      }
-
-      .carousel-track {
-          display: flex;
-          transition: transform 0.5s ease-in-out;
-          height: 100%;
-      }
-
-      .blurb {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        align-items: center;
-        padding: 20px 300px 20px 300px;
-        height: 100%;
-        gap: 10px;   
-        color: #121212;
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 1.5rem;
-        font-style: normal;
-        letter-spacing: -0.7px;
-      }
-
-      .key-points {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 1.2rem;
-        font-style: italic;
-        letter-spacing: -0.7px;
-      }
-
-      .carousel-slide {
-          min-width: 100%;
-          height: 100%;
-      }
-
-      .carousel-slide video, .carousel-slide img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 4px;
-      }
-
-      .carousel-arrow {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          background: rgba(0, 0, 0, 0.6);
-          border: none;
-          border-radius: 50%;
-          width: 50px;
-          height: 50px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.8rem;
-          color: white;
-          z-index: 20;
-          transition: all 0.3s ease;
-          opacity: 1;
-      }
-
-      .carousel-arrow:hover {
-          transform: translateY(-50%) scale(1.1);
-      }
-
-      .carousel-arrow.hidden {
-          opacity: 0;
-          pointer-events: none;
-      }
-
-      .left-arrow {
-          left: 16px;
-      }
-
-      .right-arrow {
-          right: 16px;
-      }
-
-        @keyframes pulse {
-            100%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .heart {
-            position: fixed;
-            font-size: 7rem;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-          /* ---- flex container that fills all available space ---- */
-
-
-  .stage {
-    width: 100%;
-    height: 100%;             /* grows to fill whatever room its parent gives it */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+  :root {
+    --seq-duration: 9.4407s;
+    --ink: #151515;
+    --ink-hover: #555555;
   }
 
-  .deck {
-    width: 100%;
+  * { box-sizing: border-box; }
+
+  html, body {
     height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   }
 
-  .card {
+  /* 273 × 19 frame, contents clipped */
+  .loading-frame {
+    position: relative;
+    width: 273px;
+    height: 19px;
+    overflow: hidden;
+  }
+
+  /* --- text lines ------------------------------------------------ */
+  .line {
     position: absolute;
-    border-radius: 14px;
+    top: calc(50% - 10.38px);
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: normal;
+    white-space: nowrap;
+    word-break: break-word;
+    color: var(--ink);
+    opacity: 0;
+    animation-duration: var(--seq-duration);
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  .line--1 { left: calc(50% - 67.5px);  animation-name: line-1; }
+  .line--2 { left: calc(50% - 100px);   animation-name: line-2; }
+  .line--3 { left: calc(50% - 81.5px);  animation-name: line-3; }
+  .line--4 { left: calc(50% - 96px);    animation-name: line-4; }
+  .line--5 {
+    left: calc(50% - 121px);
+    animation-name: line-5;
+    visibility: hidden; /* revealed by the keyframes at 83.488% */
+  }
+
+  /* --- the mailto ------------------------------------------------ */
+  .email {
+    text-decoration: none;
+    color: var(--ink);
+    transition: color 420ms cubic-bezier(0.33, 0, 0.2, 1);
+  }
+
+  .email:hover,
+  .email:focus-visible {
+    color: var(--ink-hover);
+  }
+
+  .email:focus-visible {
+    outline: 1px solid var(--ink-hover);
+    outline-offset: 3px;
+  }
+
+  /* --- wipes ----------------------------------------------------- */
+  .wipe {
+    position: absolute;
+    left: 50%;
+    top: calc(50% - 0.5px);
+    width: 74.965px;
+    height: 83.806px;
     display: flex;
     align-items: center;
     justify-content: center;
-    will-change: transform;
-
-
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation-duration: var(--seq-duration);
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
   }
 
-  .card.c1 { z-index: -1; }
-  .card.c2 { z-index: 0; }
-  .card.c3 { z-index: -1; }
-
-  .caption {
-    max-width: 640px;
-    margin: 18px auto 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    font-size: 12.5px;
-    line-height: 1.6;
-    color: var(--muted);
-    text-align: center;
+  .wipe__rotor {
+    display: block;
+    flex: none;
+    animation-duration: var(--seq-duration);
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
   }
 
-  code {
-    background: rgba(255,255,255,0.06);
-    padding: 1px 6px;
-    border-radius: 5px;
-    font-size: 12px;
+  .wipe__bar {
+    display: block;
+    width: 39px;
+    height: 75px;
+    background: rgba(255, 255, 255, 0.9);
+    filter: blur(9px);
   }
 
+  .wipe--1 { animation-name: wipe-1-x; }
+  .wipe--1 .wipe__rotor { animation-name: wipe-1-r; }
+  .wipe--2 { animation-name: wipe-2-x; }
+  .wipe--2 .wipe__rotor { animation-name: wipe-2-r; }
+  .wipe--3 { animation-name: wipe-3-x; }
+  .wipe--3 .wipe__rotor { animation-name: wipe-3-r; }
+  .wipe--4 { animation-name: wipe-4-x; }
+  .wipe--4 .wipe__rotor { animation-name: wipe-4-r; }
+
+  /* ================= keyframes: text ============================= */
+
+  @keyframes line-1 { /* thanks for visiting */
+    0%       { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
+    0.266%   { opacity: 1; }
+    14.736%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    14.991%  { opacity: 0; }
+    100%     { opacity: 0; }
+  }
+
+  @keyframes line-2 { /* currently updating the site */
+    0%       { opacity: 0; }
+    14.736%  { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
+    15.163%  { opacity: 1; }
+    38.378%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    38.788%  { opacity: 0; }
+    100%     { opacity: 0; }
+  }
+
+  @keyframes line-3 { /* should be ready soon */
+    0%       { opacity: 0; }
+    38.634%  { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
+    38.997%  { opacity: 1; }
+    58.709%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    59.057%  { opacity: 0; }
+    100%     { opacity: 0; }
+  }
+
+  @keyframes line-4 { /* drop me an email for now */
+    0%       { opacity: 0; }
+    59.057%  { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
+    59.491%  { opacity: 1; }
+    83.071%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    83.488%  { opacity: 0; }
+    100%     { opacity: 0; }
+  }
+
+  /* final line holds — no loop-out fade */
+  @keyframes line-5 { /* the mailto */
+    0%       { opacity: 0; visibility: hidden; }
+    83.488%  { opacity: 0; visibility: hidden; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
+    83.892%  { opacity: 1; visibility: visible; }
+    100%     { opacity: 1; visibility: visible; }
+  }
+
+  /* ================= keyframes: wipes ============================ */
+
+  @keyframes wipe-1-x {
+    0%       { translate: 119.5px 0; animation-timing-function: cubic-bezier(0.333, 0, 0, 1); }
+    14.991%  { translate: -146.5px 0; }
+    100%     { translate: -146.5px 0; }
+  }
+  @keyframes wipe-1-r {
+    0%       { rotate: 35deg; animation-timing-function: cubic-bezier(0.5, 0, 0.051, 1); }
+    14.991%  { rotate: -35deg; }
+    100%     { rotate: -35deg; }
+  }
+
+  @keyframes wipe-2-x {
+    0%       { translate: -151.5px 0; }
+    12.313%  { translate: -151.5px 0; animation-timing-function: cubic-bezier(0.876, 0, 0.562, 1); }
+    30.892%  { translate: 171.5px 0; }
+    100%     { translate: 171.5px 0; }
+  }
+  @keyframes wipe-2-r {
+    0%       { rotate: -35deg; }
+    12.313%  { rotate: -35deg; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    30.892%  { rotate: 35deg; }
+    100%     { rotate: 35deg; }
+  }
+
+  @keyframes wipe-3-x {
+    0%       { translate: 119.5px 0; }
+    38.378%  { translate: 119.5px 0; animation-timing-function: cubic-bezier(0.333, 0, 0, 1); }
+    53.370%  { translate: -130.5px 0; }
+    100%     { translate: -130.5px 0; }
+  }
+  @keyframes wipe-3-r {
+    0%       { rotate: 35deg; }
+    38.378%  { rotate: 35deg; animation-timing-function: cubic-bezier(0.5, 0, 0.051, 1); }
+    53.370%  { rotate: -35deg; }
+    100%     { rotate: -35deg; }
+  }
+
+  @keyframes wipe-4-x {
+    0%       { translate: -156.5px 0; }
+    58.802%  { translate: -156.5px 0; animation-timing-function: cubic-bezier(0.876, 0, 0.562, 1); }
+    73.793%  { translate: 170.5px 0; }
+    100%     { translate: 170.5px 0; }
+  }
+  @keyframes wipe-4-r {
+    0%       { rotate: -35deg; }
+    58.802%  { rotate: -35deg; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    73.793%  { rotate: 35deg; }
+    100%     { rotate: 35deg; }
+  }
+
+  /* ================= reduced motion ============================== */
   @media (prefers-reduced-motion: reduce) {
-    .card { transition: none; }
+    .line    { animation: none; opacity: 0; }
+    .line--5 { opacity: 1; visibility: visible; }
+    .wipe, .wipe__rotor { animation: none; }
+    .wipe { display: none; }
   }
+</style>
+</head>
+<body>
 
-        /* Media query for when Feed would be under 500px */
-@media screen and (max-width: 660px)  
-  {  
-      
-    .carousel-arrow {
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-          }
+  <!-- Loading-frame · 402:277 -->
+  <div class="loading-frame" role="status" aria-live="polite">
 
-    .carousel-arrow svg, {
-        width: 40px; /* Slightly smaller on mobile */
-        height: 40px;
-    }
+    <p class="line line--4">drop me an email for now</p>
 
+    <span class="wipe wipe--4" aria-hidden="true"><span class="wipe__rotor"><span class="wipe__bar"></span></span></span>
 
-    .Logo img {
-        width: 60px;
-    }
+    <p class="line line--3">should be ready soon</p>
 
-    .Hero {
-        flex-direction: column;
-    }
-    
-    .Hero-Sticky {
-        display: flex;
-        position: relative;
-        width: 100%;
-        height: 750px;
-        padding: 40px 40px 40px 40px;
-    }
-    
-    .Feed {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        overflow-x: hidden;
-    }
+    <span class="wipe wipe--3" aria-hidden="true"><span class="wipe__rotor"><span class="wipe__bar"></span></span></span>
 
-    .Work {
-        height: 350px  ;
-    }
+    <p class="line line--2">currently updating the site</p>
 
-    .nav-heading {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 1rem;
-        font-style: normal;
-        letter-spacing: -0.5px;
-        
-      }
+    <span class="wipe wipe--2" aria-hidden="true"><span class="wipe__rotor"><span class="wipe__bar"></span></span></span>
 
+    <p class="line line--1">thanks for visiting</p>
 
-    .blurb {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        align-items: center;
-        padding: 10px 40px 10px 40px;
-        height: 100%;
-        gap: 10px;   
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 500;
-        font-size: 0.765rem;
-        font-style: normal;
-        letter-spacing: -0.7px;
-        }
+    <span class="wipe wipe--1" aria-hidden="true"><span class="wipe__rotor"><span class="wipe__bar"></span></span></span>
 
-      .key-points {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 0.7rem;
-        font-style: italic;
-        letter-spacing: -0.7px;
-      }
+    <p class="line line--5">
+      <a class="email" href="mailto:tatendatakavarasha@gmail.com">tatendatakavarasha@gmail.com</a>
+    </p>
 
+  </div>
 
-        
-      .slide-title {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 500;
-        font-size:  0.5rem;
-        font-style: normal;
-        letter-spacing: -0.7px;
-        
-        display: block;
-      }
-
-
-    .Image-Video {
-      display: flex;
-      width: 100%;
-    }
-
-    .like-button {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-size: 2rem;
-        font-style: normal;
-        letter-spacing: -1px;
-        
-        user-select: none; /* Prevent text selection */
-        touch-action: manipulation; /* Improve touch response */
-        transition: transform 0.2s ease-out;
-      }
-
-      /* Only apply hover on devices that support hover (not touch screens) */
-@media (hover: hover) and (pointer: fine) {
-    .like-button:hover {
-        transform: scale(1.5);
-    }
-}
-
-      .like-button:active {
-      transform: scale(0.95);
-      transition: transform 0.1s ease-out;
-      }
-
-}
-  </style>
-  </head>
-  
-
-  <body>
-  <div class="Hero">
-    <div class="Hero-Sticky">
-      <div class="Hero-body">
-          <div style=" display: flex; flex-direction: row; gap: 14px; align-items:center"> 
-            <div class="Logo"><img src="images/Profile-img.png" style="width: 60px; height: 60px; object-fit: cover;"></div>
-              <div style=" display: flex; flex-direction: column; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 1rem; color: #1D1D1F;  letter-spacing: -2%; gap:2px;"><a onclick="openInNewTab('https://www.linkedin.com/in/tatendataka/');">Tatenda Takavarasha</a> 
-                <div style="font-family: 'Inter', sans-serif; font-weight:  400; font-size: 0.9rem; color: #636373; letter-spacing: -2%;">Digital Designer UX/UI</div>
-              </div>
-          </div>  
-                  
-        <div style="font-family: 'Inter', sans-serif; font-weight:350;  letter-spacing: -2%; font-size: 1.2rem; color: #636373; ">Designing products that people enjoy to use, with a keen eye for visual craft and user empathy. Currently at <a class="Links" style="font-size: 1.2rem; font-weight:350;" onclick="openInNewTab('https://www.linkedin.com/company/cappfinity/posts/?feedView=all');">Cappfinity</a>.</div>
-        </div>
-
-        <div style="gap: 2rem; display: flex; flex-direction: column;"> 
-          <div class="Hero-footer"> 
-            <div class="Body-Section"> 
-              <div class="Heading"></div>
-                <div class="Links-Section">  
-                  <a class="Links" href="mailto:tatendatakavarasha@gmail.com">Email <img src="images/Arrow-Up-S.svg"></a>
-                  <div class="Links" onclick="openInNewTab('https://www.linkedin.com/in/tatendataka/');">LinkedIn <img src="images/Arrow-Up-S.svg"></div>
-                  <div class="Links" onclick="openInNewTab('https://www.instagram.com/tatenda_taka/');">Instagram <img src="images/Arrow-Up-S.svg"></div>
-                </div>
-            </div>
-            <div class="Heading">Feed <img src="images/Arrow-Down-S.svg"></div>
-          </div>
-        </div>
-    </div>
-
-    
-    <div class="Feed">
-
-
-
-
-
-      <!-- Work Carousel Start: Deloitte Candidate Zone -->
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-
-                        <div class="carousel-slide current-slide">
-                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-CZ-Hero-v4.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; ">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Team</div> Mark Benbow — Account Director <br> Sasha Ward — Front-end Dev<br> Richard England-Lee — Front-end Lead <br> Tatenda Takavarasha — Creative Lead UX/UI</div>
-                        </div>
-                        
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Background</div>Working closely with key stakeholders and our front-end development team, we built a digital experience to guide candidates through Deloitte’s assessment journey. As Creative Lead (UX/UI), I shaped the visual direction, interaction design, and overall user experience, ensuring the platform felt engaging, intuitive, and aligned with Deloitte’s brand vision.</div>
-                        </div>
-
-                     
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Screenshot+2025-10-18+at+18.12.42.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Challenges</div> With over 20-30 pages of content, candadiates had a lot on. So it was important minimise decision fatigue and reduce cognitive load. So we kept the UI intuitive, sticking to recognisable patterns. Everything within reach and clearly labelled, nothing ambiguous.</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Screenshot+2025-10-18+at+18.13.39.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Workflow</div>Speed and consistency. With over 50 pages of content, auto-layout was essential. Allowing me to quickly build / repurpose / adjust / tweak designs at speed and scale. It also reduced friction from design to code for the dev team.</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Deloitte-CZ-Cohorts.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 100% 10%;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Results</div>14k users in first 4 months and 93% satifaction rate.</div>
-                        </div>
-
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Candidate Quote</div>"This was easily the best assessment experience I've had with a company"</div>
-                        </div>
-
-                        
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status"><div class="Stat-cat">Product Design UX/UI</div> <div class="Stat-cat">Web Product</div> <div class="Stat-cat">Prototyping</div>
-                            <div class="Stat-cat">Interaction Design</div></div>
-                      <div class="Project-Title">Deloitte x Cappfinity<a onclick="openInNewTab('https://deloitte.preparationplus.com/');" class="Links"> Visit Site <img src="images/Arrow-Up-S.svg"></a></div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-5">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div>
-      <!-- Work End -->   
-
-
-       <!-- Work Carousel Start: LBG -->
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-
-                        <div class="carousel-slide current-slide">
-                            <img src="https://d1zr7xh2e5ai67.cloudfront.net/Lloyds-Prep-Plus-Hero-v8.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; ">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Team</div> Sasha Ward — Front-end Dev <br> Richard England-Lee — Front-end Lead Developer <br> Einar Skreslett — Front-end Developer <br> Tatenda Takavarasha — Creative Lead UX/UI</div>
-                        </div>
-                        
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Background</div> We brought Lloyds new brand into a preparation hub, creating a seemless digital experience from the careers page to the final offer. I was responsible for shaping the visual direction, interaction design, and overall user experience, ensuring the platform felt engaging, intuitive, and aligned with LBG's new brand.</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Lloyds-Prep-Plus-Hero-v5.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; ">
-                        </div>
-                        
-                
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Insights</div> Wolff Ollins crafted the new brand with digital experiences at the centre. The new serif typeface paired with a WCAG aligned colour palette made building accessible UI easier, on desktop and mobile devices.</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/LBG-1.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; ">
-                        </div>
-
-                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Development</div>We built prototypes to showcase to stakeholders, helping to communicate the new design concepts and gather feedback, to which we received positive responses.</div>
-                        </div>
-
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/LBG-4.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status"><div class="Stat-cat">Product Design UX/UI</div> <div class="Stat-cat">Web Product</div> <div class="Stat-cat">Prototyping</div>
-                            <div class="Stat-cat">Interaction Design</div></div>
-                      <div class="Project-Title">Lloyds Banking Group x Cappfinity<a onclick="openInNewTab('https://lbg.preparationplus.com/');" class="Links"> Visit Site <img src="images/Arrow-Up-S.svg"></a></div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-9">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div>
-      <!-- Work End -->   
-
-
-      
-
-      <!-- Work Carousel Start: Cappfinity: Products and Brand -->
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-
-                        <div class="carousel-slide current-slide">
-                                 <div class="stage">
-                                  <div class="deck">
-                                    
-                                    <div class="card c1"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Typography-Card-v7.png" type="image/svg+xml" alt="Image" style="width: 18svw; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
-                                    <div class="card c2"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Assessment-in-Context-v7.png" type="image/svg+xml" alt="Image" style="width: 50svw; height: 100%; object-fit: cover; object-position: 1% 100%;"></div>
-                                    <div class="card c3"><img src="https://d1zr7xh2e5ai67.cloudfront.net/Colour-Card-v7.png" type="image/svg+xml" alt="Image" style="width: 25svw; height: 100%; object-fit: cover;"></div>
-                                  </div>
-                                </div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Team</div>Ben Jackson — CPO <br> Izzy Aaboud — Brand Lead<br>Sophie Marsh — Designer <br> Dani Sloan — Marketing <br> Robin Stephens — Head of Design <br> Jordan Gittens — Designer <br> Tatenda Takavarasha — Designer <br> Richard England-Lee — Front-end Lead</div>
-                        </div>
-
-                  
-                        
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Overview</div>Strong brand and great product experiences. That's the moat. Working along our talented brand team, I helped develop the new brand identity, bringing this new look and feel into our website, products, and enhancing the overall user experience.</div>
-                        </div>
-
-                      
-                          <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Opportunity</div> 
-                          Assessments can be quite technical, so it's easy to default to generic visuals as can be seen on many competitor sites. We took a different approach. We showcased each product's UI and core value in a clear, engaging way, while staying true to the actual product. This simplifies our offerings to clients and clearly positions the us a software business.</div>
-                        </div>
-
-                         <div class="carousel-slide">
-                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: contain;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Product-Visuals.mp4" type="video/mp4">
-                          </video>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Approach</div>We mapped out all the content and the sitemap. From there, I created a number of interactive prototypes that mapped the core user journey end-to-end. These were helpful in reducing friction with key stakeholders and getting the necessary feedback early before we went to build.</div>
-                        </div>
-
-
-                        
-                        <div class="carousel-slide">
-                          <img    src="https://d1zr7xh2e5ai67.cloudfront.net/Under-The-Hood.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;">
-                        </div>
-
-                         <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Challenge + AI Support</div>The nav was the main challenge. With over 30 products, it needed to be intuitive and efficient. I used ChatGPT and Claude to review the screens and spot the blockers that would hinder the user experience, and applied the insights that were relevant to us.</div>
-                        </div>
-
-
-                        <div class="carousel-slide">
-                           <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Cappfinity-Website-Refresh-Short.mp4" type="video/mp4">
-                          </video>
-                        </div>
-
-                   
-                        <div class="carousel-slide">
-                        <div class="blurb"> <div class="slide-title">Components</div>We created a comprehensive set of reusable components to ensure consistency and efficiency in our design. This in essence became our design system that our Devs could pull from.</div>
-                        </div>
-
-                         <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Components.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 1% 100%;">
-                        </div>
-
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Results</div> In the end we delivered a modular website and intuitive user experience that can flex to business demands. Engagement is great, sitting at 46% or 2.24 minutes per session.</div>
-                        </div>
-
-                        
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status"><div class="Stat-cat">Product Design UX/UI</div> <div class="Stat-cat">Web</div> <div class="Stat-cat">Prototyping</div>
-                            <div class="Stat-cat">Interaction Design</div>
-                           <div class="Stat-cat">Motion</div>
-                           <div class="Stat-cat">Visual Design</div>
-                           <div class="Stat-cat">AI Research</div>
-                          </div>
-                      <div class="Project-Title">Cappfinity.com<a onclick="openInNewTab('https://cappfinity.com/');" class="Links"> Visit Site <img src="images/Arrow-Up-S.svg"></a></div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-12">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div> 
-                <!-- Work End -->   
-
-
-
-
-      
-       <!-- Work Carousel Start: Cappfinity Improving Existing Product Workflows -->
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-
-                        <div class="carousel-slide current-slide">
-                         <iframe src="preference-slider-interaction-v2.html" width="100%" height="100%" style="border: none;"></iframe>
-                        </div>
-
-                  
-                        <div class="carousel-slide">
-                            <div class="blurb"> <div class="slide-title">Background</div>There's a business push for greater user empathy in our products, so I've been doing some self-initiated work, exploring what we can do to improve the user experience.
-                          </div>
-                        </div>
-
-          
-
-                        <div class="carousel-slide">
-                              <div class="blurb"> <div class="slide-title">Discover + Define</div> <div style="display: grid; grid-template-columns: repeat(1, 1fr); gap: 0.5rem;"> <div>I’ve identified some recurring pain points:<p class="key-points">- Static UI, not much motion or interaction. <br>- Navigation could be more intuitive. <br>- Assessments can be long and repetitive with lots of clicking and scrolling. </p></div>Whilst these don't immediately hurt the bottom line, in the long run there can be a cumulative effect. As AI development progresses the bar for product experiences goes up, leaving behind those who don't improve.</div> 
-                            </div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Develop</div> The points I'm drawn to are 'reducing the number of clicks' and adding motion to the UI, because they won't require heavy product restructuring as the navigation re-think does.
-                        </div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Develop</div> I started with a common core compenent in our products, the preference slider. Most obvious space to start, reduce 2 clicks to 1 with auto confirm. How about including a count-down with so the user know whats happening. That wasn't all was aiming for. How else can we improve it? How about changing the % values on either end. Making the whole thing behave like a weighing scale? So by visually communicating the whole action, making the user decision clearer.
-                        </div>
-                        </div>
-
-                        
-                         <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Slider-Type-Exploration-v1.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover; object-position: 100% 1%;">
-                        </div>
-
-
-                         <div class="carousel-slide">
-                           <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Figma-motion-and-Claude-Short_1.mp4" type="video/mp4">
-                          </video>
-                        </div>
-
-                      
-                          <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Develop + AI Workflow</div> 
-                          For the prototype, I pulled my screens into Figma Motion, animated exactly how each stage should behave, and handed it to Claude via Figma MCP to execute with a bit of prompt guidance. I had make minor changes to the CSS but the interaction came out exactly as intended.</div>
-                        </div>
-
-                        
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Deliver</div> 
-                          Try it.</div>
-                        </div>
-
-                         <div class="carousel-slide">
-                          <iframe src="preference-slider-interaction-v2.html" width="100%" height="100%" style="border: none;"></iframe>
-                        </div>
-
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">Learnings</div>AI agents love clear context and intent and this setup delivers just that. Product teams can now communicate behaviour with devs and AI agents in their language. In the future, we'll likely see these agent-readable motion design systems, that teams using AI agents can pull from and build on.</div>
-                        </div>
-
-                        
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status"><div class="Stat-cat">AI Prototyping</div>
-                            <div class="Stat-cat">Interaction / Behaviour Design</div>
-                           <div class="Stat-cat">Motion Systems</div>
-                           <div class="Stat-cat">Agentic Workflows</div>
-                           <div class="Stat-cat">AI Research</div>
-                          </div>
-                      <div class="Project-Title">Improving User Experience at Cappfinity</div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-22">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div> 
-                <!-- Work End -->   
-
-
-
-   <!-- Work Carousel Start: Cappfinity: UI work-->
-
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-
-                        <div class="carousel-slide current-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/DAC-9.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-
-                         <div class="carousel-slide">
-                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/DAC-1.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                             <div class="carousel-slide">
-                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/DAC-3.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                             <div class="carousel-slide">
-                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/DAC-4.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                             <div class="carousel-slide">
-                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/DAC-5.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                             <div class="carousel-slide">
-                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/DAC-6.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                             <div class="carousel-slide">
-                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/DAC-7.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                               <div class="carousel-slide">
-                           <img src="https://d1zr7xh2e5ai67.cloudfront.net/DAC-8.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status"><div class="Stat-cat">Product UI</div> <div class="Stat-cat">Web</div> 
-                           <div class="Stat-cat">Visual Design</div>
-                          </div>
-                      <div class="Project-Title">Modernising UI for CappfinityDigital Assessment Centre (Mockups)</div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-28">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div> 
-          <!-- Work End -->         
-
-
-      <!-- Work TimeBucket App -->
-                      <div class="Work">  
-                        <div class="Image-Video"> <img src="https://d1zr7xh2e5ai67.cloudfront.net/TimeBucket-v2.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
-                        <div class="Work-footer"> 
-                          <div class="Description">
-                            <div class="Status"><div class="Stat-cat">Mobile App</div> <div class="Stat-cat">Prototyping</div>
-                            <div class="Stat-cat">Brand Identity</div></div>
-                            <div class="Project-Title">Timebucket™</div>
-                          </div>
-                          <div class="Likes" data-project-id="Project-10"> <div class="like-button" id="likeBtn">🫰</div> Likes: <span class="like-count">0</span> </div>
-                        </div>
-                        </div>
-                    <!-- Work End -->
-
-
-
-                    
-
-                <!-- Quote Start -->
-                      <div class="Work">  
-                        <div class="Image-Video"><div class="blurb"> <div class="slide-title">STEVE JOBS</div>Design is not just what it looks like and feels like.<br> Design is how it works.</div> </div>
-                        <div class="Work-footer"> 
-                          <div class="Description">
-                            <div class="Status"><div class="Stat-cat">Inspiration</div></div>
-                            <div class="Project-Title">Favourite Quotes</div>
-                          </div>
-                          <div class="Likes" data-project-id="Project-7"> <div class="like-button" id="likeBtn">🫰</div> Likes: <span class="like-count">0</span> </div>
-                        </div>
-                        </div>
-                      <!-- Quote End -->
-
-  
-
-
-                    
-
-
-  <!-- Work Carousel Start: Like Heart Interaction -->
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-                        <div class="carousel-slide current-slide">
-                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Heart-interaction-v2.mov" type="video/mp4">
-                          </video>
-                        </div>
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">MICRO-INTERACTIONS</div>Micro-interactions are the secret ingredient that make apps feel aVisit Site. Those tiny moments of delight make the whole experience memorable and enjoyable. I've always enjoyed micro-interactions with first and secondary reactions. When tapped / clicked more than once they trigger something more explosive for emphasis.</div>
-                        </div>
-
-                        
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Claude-4-5-Heart-Button-v2.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">STEPS</div>I jumped into Claude and prompted until I got it to a decent level, with plenty of commentary on the trickier functions.</div>
-                        </div>
-
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Claude-4-5-Heart-Button-GSAP.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">STEPS</div>Then I brought it into my site and styled it to my taste. Few adjustments were needed after testing on mobile as touch behaviours hadn't been accounted (didn't explicitly include this in the original prompt).</div>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/VS-code-adjustment.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">STEPS</div>Give it a try.</div>
-                        </div>
-
-
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status"><div class="Stat-cat">Claude AI</div> <div class="Stat-cat">HTML</div>
-                      <div class="Stat-cat">JavaScript</div>
-                      <div class="Stat-cat">Prototyping</div>
-                            <div class="Stat-cat">Interaction Design</div></div>
-                      <div class="Project-Title">Like Button Micro-interaction</div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-8">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- Work End -->
-
-
-
-                <!-- Work Carousel Start: Convo -->
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-                        <div class="carousel-slide current-slide">
-                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/03-Page-header-video-Convo.mp4" type="video/mp4">
-                          </video>
-                        </div>
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">PROBLEM FRAMING</div>Not all mentors wear capes. Convo is conceptual project, aimed at connecting people for personal/professional development. Prioritising in-person experiences facilitated by a modern app. I've found that the positive experiences that people shared of a mentor tended to be, informal, 50/50 relationships, without pressure on one side.</div>
-                        </div>
-
-                        
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Screenshot+2025-10-21+130528.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                         <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Convo-Image-1.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                         <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/Convo-Site-map.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/T-Shirts+PSD+Mockup.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-
-                        <div class="carousel-slide">
-                          <video     autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/Mobile+preview.mp4" type="video/mp4">
-                          </video>
-                        </div>
-
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status">
-                        <div class="Stat-cat">Brand Identity</div>
-                        <div class="Stat-cat">Motion Design</div></div>
-                      <div class="Project-Title">Convo™</div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-2">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- Work End -->      
-
-
-                      
-                <!-- Work Carousel Start: Mott MacDonald
-                <div class="Work">  
-                  <div class="Image-Video">
-                    <div class="carousel-container">
-                      <div class="carousel-track">
-
-                        <div class="carousel-slide current-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/MM-Mockup-Spreads+1.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <div class="blurb"> <div class="slide-title">BACKGROUND</div> Worked closely with the exceptional copywriters, marketers, and social creatives to push the Mott MacDonald brand forward. I was responsible for nurturing and mentoring junior designers and the production of digital collateral: motion-centric assets for web, social, and digital campaigns, emails/newsletters, short and long-form video content, printed materials, UX/UI prototyping, HTML banner ads, and more.</div>
-                        </div>
-                        
-                        <div class="carousel-slide">
-                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/07-MM-header-video-3.mp4" type="video/mp4">
-                          </video>
-                        </div>
-
-                        <div class="carousel-slide">
-                          <img src="https://d1zr7xh2e5ai67.cloudfront.net/A4_Brochure_Mockup-web.png" type="image/png" alt="Image" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-
-                        <div class="carousel-slide">
-                          <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://d1zr7xh2e5ai67.cloudfront.net/MM+Laptop+video_1.mp4" type="video/mp4">
-                          </video>
-                        </div>
-                        
-                      </div>
-                      <button class="carousel-arrow left-arrow hidden"><img src="/images/Back.svg"></button>
-                      <button class="carousel-arrow right-arrow"><img src="/images/Forward.svg"></button>
-                    </div>
-                  </div>
-                  <div class="Work-footer"> 
-                    <div class="Description">
-                      <div class="Status"><div class="Stat-cat">EDITORIAL</div> <div class="Stat-cat">MOTION</div> <div class="Stat-cat">GRAPHIC DESIGN</div>
-                       </div>
-                      <div class="Project-Title">Mott MacDonald</div>
-                    </div>
-                    <div class="Likes" data-project-id="Project-3">
-                      <div class="like-button">🫰</div> 
-                      Likes: <span class="like-count">0</span>
-                    </div>
-                  </div>
-                </div>
-                Work End -->     
-
-                
-
-      </div> 
-    </div>
-  </div> 
-
-  <script>
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDph0klb9jAwHMuKfC7PuGhmR6I4nujna8",
-  authDomain: "portfolio-like-counter-47b48.firebaseapp.com",
-  projectId: "portfolio-like-counter-47b48",
-  storageBucket: "portfolio-like-counter-47b48.appspot.com",
-  messagingSenderId: "523939149509",
-  appId: "YOUR_APP_ID" 
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-function openInNewTab(url) {
-  window.open(url, '_blank').focus();
-}
-
-// Load likes from database when page loads
-async function loadLikes() {
-  const likeContainers = document.querySelectorAll('.Likes[data-project-id]');
-  
-  for (const container of likeContainers) {
-    const projectId = container.dataset.projectId;
-    const likeCount = container.querySelector('.like-count');
-    
-    try {
-      const doc = await db.collection('likes').doc(projectId).get();
-      if (doc.exists) {
-        likeCount.textContent = doc.data().count || 0;
-      }
-    } catch (error) {
-      console.error('Error loading likes:', error);
-    }
-  }
-}
-
-// Update likes in database
-async function updateLikesInDB(projectId, newCount) {
-  try {
-    await db.collection('likes').doc(projectId).set({
-      count: newCount,
-      lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  } catch (error) {
-    console.error('Error updating likes:', error);
-  }
-}
-
-// Event delegation for multiple like buttons
-document.addEventListener('click', async function(e) {
-  if (e.target.closest('.like-button')) {
-
-    e.preventDefault(); // Prevent double-firing on mobile
-    e.stopPropagation(); // Stop event bubbling
-
-    const likeBtn = e.target.closest('.like-button');
-    
-    // Find associated counter if it exists
-    const container = likeBtn.closest('.Likes');
-    const likeCount = container ? container.querySelector('.like-count') : null;
-    const projectId = container ? container.dataset.projectId : null;
-    
-    if (likeCount && projectId) {
-      let count = parseInt(likeCount.textContent) || 0;
-      count++;
-      likeCount.textContent = count;
-      
-      // Update database
-      await updateLikesInDB(projectId, count);
-    }
-
-    // Add pulse effect to button
-    likeBtn.classList.add('liked');
-    setTimeout(() => likeBtn.classList.remove('liked'),  400);
-
-    // Create multiple hearts
-    const numHearts = Math.floor(Math.random() * 3) + 3;
-    
-    for (let i = 0; i < numHearts; i++) {
-      setTimeout(() => createFloatingHeart(), i * 100);
-    }
-  }
-});
-
-// Touch feedback for like buttons (mobile) - ADD THIS HERE
-document.addEventListener('touchstart', function(e) {
-  if (e.target.closest('.like-button')) {
-    const likeBtn = e.target.closest('.like-button');
-    likeBtn.style.transform = 'scale(0.5)';
-  }
-}, { passive: true });
-
-document.addEventListener('touchend', function(e) {
-  if (e.target.closest('.like-button')) {
-    const likeBtn = e.target.closest('.like-button');
-    likeBtn.style.transform = 'scale(1)';
-  }
-}, { passive: true });
-
-document.addEventListener('touchcancel', function(e) {
-  if (e.target.closest('.like-button')) {
-    const likeBtn = e.target.closest('.like-button');
-    likeBtn.style.transform = 'scale(1)';
-  }
-}, { passive: true });
-
-function createFloatingHeart() {
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.textContent = '🫰';
-  
-  const randomX = Math.random() * (window.innerWidth - 100);
-  
-  heart.style.left = randomX + 'px';
-  heart.style.bottom = '0px';
-  
-  document.body.appendChild(heart);
-
-  const randomRotation = (Math.random() - 0.5) * 360;
-
-  gsap.timeline({
-    onComplete: () => heart.remove()
-  })
-  .fromTo(heart, {
-    y: 0,
-    opacity: 1,
-    scale: 1
-  }, {
-    y: -window.innerHeight - 100,
-    rotation: randomRotation,
-    opacity: 1,
-    scale: 1,
-    duration: 2 + Math.random(),
-    ease: "power1.out"
-  });
-}
-
-/* ============================================================
-   Card fan interaction — GSAP version
-   ------------------------------------------------------------
-   Same visual idea as before (three cards peeking up from the
-   bottom of the stage, fanning out on hover) but now driven by
-   GSAP instead of CSS `:hover` + `transition-delay`. Why bother:
-
-     - transition-delay was approximating a "deal" sequence —
-       GSAP gives an actual stagger you control in one place.
-     - if the mouse re-enters mid-animation, competing CSS
-       transitions can visibly stutter. GSAP's `overwrite: "auto"`
-       cleanly takes over an in-flight tween instead.
-     - one easing curve, one duration, one object per card — all
-       readable in a single `layout` map rather than split across
-       several `.stage:hover .card.cX` rules.
-   ============================================================ */
-
-function initCardFan() {
-  // querySelectorAll (not querySelector) so this stays reusable if the
-  // fan pattern gets reused on another project tile later.
-  const stages = document.querySelectorAll('.stage');
-
-  stages.forEach(stage => {
-    const cards = stage.querySelectorAll('.card');
-    if (!cards.length) return;
-
-    // Each card's "resting" (stacked/peeking) and "fanned" (hover)
-    // position, expressed the way GSAP wants it:
-    //   xPercent / yPercent -> % of the CARD'S OWN size — this is what
-    //                          the old `transform: translate(%, %)` did.
-    //   x                   -> an extra fixed offset (px/rem). GSAP adds
-    //                          this together with xPercent for you, which
-    //                          is exactly what `calc(-130% - 2rem)` was
-    //                          doing by hand before.
-    //   rotation            -> degrees, same as the old `rotate()`.
-    const layout = {
-      c1: {
-        rest:   { xPercent: -140, yPercent: 5, rotation: 0 },
-        fanned: { xPercent: -146, yPercent: -5, rotation: -5 }
-      },
-      c2: {
-        rest:   { xPercent: -0, yPercent: 22,  rotation: 0 },
-        fanned: { xPercent: -0, yPercent: 19, rotation: 0 }
-      },
-      c3: {
-        rest:   { xPercent: 85, yPercent: 10, rotation: 0 },
-        fanned: { xPercent: 90, yPercent: 5, rotation: 5 }
-      }
-    };
-
-    // Paint the resting position with GSAP itself (gsap.set = instant,
-    // no animation) rather than leaving it to a CSS `transform:` rule.
-    // That way GSAP owns the transform from frame one — nothing for it
-    // to "fight" with when the first hover tween kicks off.
-    cards.forEach(card => {
-      const key = [...card.classList].find(c => layout[c]);
-      if (key) gsap.set(card, layout[key].rest);
-    });
-
-    // Deal order on hover-in: c3 first, then c2, then c1 — mirrors the
-    // old transition-delay values (0s / .06s / .1s).
-    const dealOrder = ['c3', 'c2', 'c1'];
-    // Gather order on hover-out: reverse, like scooping the fan back
-    // into your hand starting with the card nearest you.
-    const gatherOrder = ['c1', 'c2', 'c3'];
-
-    function animateTo(state, order) {
-      order.forEach((key, i) => {
-        const card = stage.querySelector('.card.' + key);
-        if (!card) return;
-        gsap.to(card, {
-          ...layout[key][state],
-          duration: 0.45,
-          ease: 'power3.out',   // close match to the old cubic-bezier(.16,.84,.32,1)
-          delay: i * 0.03,      // the stagger between cards
-          overwrite: 'auto'     // takes over cleanly if hover fires again mid-tween
-        });
-      });
-    }
-
-    stage.addEventListener('mouseenter', () => animateTo('fanned', dealOrder));
-    stage.addEventListener('mouseleave', () => animateTo('rest', gatherOrder));
-  });
-}
-
-// Carousel functionality
-function initCarousels() {
-  const carousels = document.querySelectorAll('.carousel-container');
-  
-  carousels.forEach(container => {
-    const track = container.querySelector('.carousel-track');
-    const slides = Array.from(track.children);
-    const nextButton = container.querySelector('.right-arrow');
-    const prevButton = container.querySelector('.left-arrow');
-    
-    // If only one slide, hide arrows and return
-    if (slides.length <= 1) {
-      nextButton.classList.add('hidden');
-      prevButton.classList.add('hidden');
-      return;
-    }
-    
-    // Function to set slide positions
-    const setSlidePosition = (slide, index) => {
-      const slideWidth = slides[0].getBoundingClientRect().width;
-      slide.style.left = slideWidth * index + 'px';
-    };
-    
-    // Function to update carousel position
-    const updateCarouselPosition = () => {
-      const slideWidth = slides[0].getBoundingClientRect().width;
-      const currentSlide = track.querySelector('.current-slide');
-      const currentIndex = slides.indexOf(currentSlide);
-      
-      // Reposition all slides
-      slides.forEach(setSlidePosition);
-      
-      // Update transform to current slide
-      track.style.transform = 'translateX(-' + (slideWidth * currentIndex) + 'px)';
-    };
-    
-    // Initial setup
-    slides.forEach(setSlidePosition);
-    
-    // Update arrow visibility
-    const updateArrows = () => {
-      const currentSlide = track.querySelector('.current-slide');
-      const currentIndex = slides.indexOf(currentSlide);
-      
-      // Hide left arrow if at first slide
-      if (currentIndex === 0) {
-        prevButton.classList.add('hidden');
-      } else {
-        prevButton.classList.remove('hidden');
-      }
-      
-      // Hide right arrow if at last slide
-      if (currentIndex === slides.length - 1) {
-        nextButton.classList.add('hidden');
-      } else {
-        nextButton.classList.remove('hidden');
-      }
-    };
-    
-    // Initial arrow state
-    updateArrows();
-    
-    // Next slide
-    nextButton.addEventListener('click', e => {
-      e.stopPropagation();
-      const currentSlide = track.querySelector('.current-slide');
-      const nextSlide = currentSlide.nextElementSibling;
-      
-      if (!nextSlide) return;
-      
-      const amountToMove = nextSlide.style.left;
-      track.style.transform = 'translateX(-' + amountToMove + ')';
-      currentSlide.classList.remove('current-slide');
-      nextSlide.classList.add('current-slide');
-      
-      updateArrows();
-    });
-    
-    // Previous slide
-    prevButton.addEventListener('click', e => {
-      e.stopPropagation();
-      const currentSlide = track.querySelector('.current-slide');
-      const prevSlide = currentSlide.previousElementSibling;
-      
-      if (!prevSlide) return;
-      
-      const amountToMove = prevSlide.style.left;
-      track.style.transform = 'translateX(-' + amountToMove + ')';
-      currentSlide.classList.remove('current-slide');
-      prevSlide.classList.add('current-slide');
-      
-      updateArrows();
-    });
-    
-    // Handle window resize with debounce
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        updateCarouselPosition();
-      }, 100);
-    });
-  });
-}
-
-// With this:
-window.addEventListener('DOMContentLoaded', loadLikes);
-window.addEventListener('DOMContentLoaded', initCarousels);
-window.addEventListener('DOMContentLoaded', initCardFan);
-
-
-
-</script>
-    </body>
+</body>
 </html>
