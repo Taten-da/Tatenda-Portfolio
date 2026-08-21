@@ -3,52 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tatenda Takavarasha</title>
+<title>Tatenda Takavarasha — Digital Designer UX/UI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
 <style>
   /* ---------------------------------------------------------------
-     Loading-frame  ·  Figma node 402:277
-     Sequence runs once (9.930488s) and holds on the mailto link.
+     Slide 16:9 - 1  ·  Figma node 401:251
+     Sequence runs once (15.009852s) and holds on the profile card.
      Percentages and easing are taken verbatim from the Figma timeline.
 
-     Layer order (bottom -> top) mirrors Figma, because each wipe
-     reveals the line that sits directly beneath it:
-       line 4 / wipe 538:75 / line 3 / wipe 538:67 / line 2 /
-       wipe 540:140 / line 1 / wipe 404:345 / email / wipe 538:59
+     Two stacked pieces:
+       402:277  Loading-frame  — 4 text lines + 4 wipes
+       556:167  Profile card   — staggered rise-in + one large wipe
      --------------------------------------------------------------- */
 
   :root {
-    --seq-duration: 9.930488s;
-    --ink: #151515;
+    --seq-duration: 15.009852s;
+    --ink: #151515;     /* loading lines */
+    --ink-card: #000000;/* card copy */
     --ink-hover: #555555;
   }
 
   * { box-sizing: border-box; }
 
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
+  html, body { height: 100%; margin: 0; }
 
   body {
     background: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--ink-card);
   }
 
-  /* 273 x 19 frame, contents clipped */
-  .loading-frame {
+  /* The Figma artboard is 1920 wide with its centre at x=960.
+     Offsets below are kept relative to that centre so the geometry
+     survives being dropped into a normal viewport. */
+  .stage {
     position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* ============ 402:277  Loading-frame ============================ */
+  .loading-frame {
+    position: absolute;
+    left: calc(50% - 170px);   /* Figma x=790, artboard centre 960 */
+    top: calc(50% + 0.5px);
+    transform: translateY(-50%);
     width: 273px;
     height: 19px;
     overflow: hidden;
   }
 
-  /* --- text lines ------------------------------------------------ */
   .line {
     position: absolute;
     top: calc(50% - 10.38px);
@@ -72,30 +79,7 @@
   .line--3 { left: calc(50% - 81.5px); animation-name: line-3; }
   .line--4 { left: calc(50% - 96px);   animation-name: line-4; }
 
-  .line--5 {
-    left: calc(50% - 121px);
-    animation-name: line-5;
-    visibility: hidden; /* revealed by the keyframes at 78.4% */
-  }
-
-  /* --- the mailto ------------------------------------------------ */
-  .email {
-    text-decoration: none;
-    color: var(--ink);
-    transition: color 420ms cubic-bezier(0.33, 0, 0.2, 1);
-  }
-
-  .email:hover,
-  .email:focus-visible {
-    color: var(--ink-hover);
-  }
-
-  .email:focus-visible {
-    outline: 1px solid var(--ink-hover);
-    outline-offset: 3px;
-  }
-
-  /* --- wipes ----------------------------------------------------- */
+  /* --- line wipes ------------------------------------------------ */
   .wipe {
     position: absolute;
     left: 50%;
@@ -130,164 +114,394 @@
     filter: blur(9px);
   }
 
-  .wipe--1 { animation-name: wipe-1-x; }   /* 404:345  -> reveals line 1 */
+  .wipe--1 { animation-name: wipe-1-x; }   /* 404:345 -> reveals line 1 */
   .wipe--1 .wipe__rotor { animation-name: wipe-1-r; }
-  .wipe--2 { animation-name: wipe-2-x; }   /* 540:140  -> reveals line 2 */
+  .wipe--2 { animation-name: wipe-2-x; }   /* 540:140 -> reveals line 2 */
   .wipe--2 .wipe__rotor { animation-name: wipe-2-r; }
-  .wipe--3 { animation-name: wipe-3-x; }   /* 538:67   -> reveals line 3 */
+  .wipe--3 { animation-name: wipe-3-x; }   /* 538:67  -> reveals line 3 */
   .wipe--3 .wipe__rotor { animation-name: wipe-3-r; }
-  .wipe--4 { animation-name: wipe-4-x; }   /* 538:75   -> reveals line 4 */
+  .wipe--4 { animation-name: wipe-4-x; }   /* 538:75  -> reveals line 4 */
   .wipe--4 .wipe__rotor { animation-name: wipe-4-r; }
-  .wipe--5 { animation-name: wipe-5-x; }   /* 538:59   -> reveals email  */
-  .wipe--5 .wipe__rotor { animation-name: wipe-5-r; }
 
-  /* ================= keyframes: text ============================= */
+  /* ============ 556:167  Profile card ============================= */
+  .card {
+    position: absolute;
+    left: calc(50% - 1px);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    visibility: hidden;             /* gated so links aren't clickable early */
+    animation: card-gate var(--seq-duration) linear 1 forwards;
+  }
+
+  /* every card element rises 38.25px and fades in, staggered */
+  .card__part {
+    opacity: 0;
+    animation-duration: var(--seq-duration);
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  .card__row    { animation-name: card-row;   }  /* 556:171 */
+  .card__bio    { animation-name: card-bio;   }  /* 556:180 */
+  .card__link-1 { animation-name: card-link1; }  /* 556:185 */
+  .card__link-2 { animation-name: card-link2; }  /* 556:191 */
+
+  /* --- identity row ---------------------------------------------- */
+  .card__row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  /* PLACEHOLDER — swap the inner .avatar__ph for
+     <img class="avatar__img" src="…" alt="Tatenda Takavarasha"> */
+  .avatar {
+    flex-shrink: 0;
+    width: 47.5px;
+    height: 47.5px;
+    border-radius: 126px;
+    background: #ffffff;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .avatar__ph {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e6e6e6;
+    color: #9a9a9a;
+    font-size: 15px;
+    letter-spacing: -0.3px;
+    user-select: none;
+  }
+
+  .avatar__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card__names {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: stretch;
+    gap: 4px;
+    flex: 1 0 0;
+    min-width: 0;
+    line-height: 1.1;
+    white-space: nowrap;
+    word-break: break-word;
+  }
+
+  .card__name { margin: 0; font-size: 16px; letter-spacing: -0.32px; }
+  .card__role { margin: 0; font-size: 14px; letter-spacing: -0.28px; }
+
+  /* --- bio -------------------------------------------------------- */
+  .card__bio {
+    margin: 0;
+    width: 292.017px;
+    font-size: 18px;
+    line-height: 1.1;
+    letter-spacing: -0.36px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* --- links ------------------------------------------------------ */
+  .card__links {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    flex-shrink: 0;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.32px;
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--ink-card);
+    transition: color 420ms cubic-bezier(0.33, 0, 0.2, 1);
+  }
+
+  .link:hover,
+  .link:focus-visible { color: var(--ink-hover); }
+
+  .link:focus-visible {
+    outline: 1px solid var(--ink-hover);
+    outline-offset: 3px;
+  }
+
+  .link__arrow {
+    width: 9.914px;
+    height: 9.914px;
+    flex-shrink: 0;
+    display: block;
+    color: inherit;              /* arrow fades with the label */
+  }
+
+  /* --- card wipe (556:197) ---------------------------------------- */
+  .card-wipe {
+    position: absolute;
+    left: calc(50% - 6.17px);
+    top: calc(50% + 8.82px);
+    width: 190.394px;
+    height: 248.656px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    animation: card-wipe-x var(--seq-duration) linear 1 forwards,
+               card-wipe-o var(--seq-duration) linear 1 forwards;
+  }
+
+  .card-wipe__rotor { display: block; flex: none; rotate: 35deg; }
+
+  .card-wipe__bar {
+    display: block;
+    width: 39px;
+    height: 276.245px;
+    background: rgba(255, 255, 255, 0.9);
+    filter: blur(15px);
+  }
+
+  /* ================= keyframes: loading text ===================== */
 
   @keyframes line-1 { /* thanks for visiting */
     0%       { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
-    0.253%   { opacity: 1; }
-    14.009%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
-    14.252%  { opacity: 0; }
+    0.168%   { opacity: 1; }
+    9.268%   { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    9.429%   { opacity: 0; }
     100%     { opacity: 0; }
   }
 
   @keyframes line-2 { /* currently updating the site */
     0%       { opacity: 0; }
-    14.009%  { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
-    14.415%  { opacity: 1; }
-    36.485%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
-    36.875%  { opacity: 0; }
+    9.268%   { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
+    9.537%   { opacity: 1; }
+    24.139%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    24.396%  { opacity: 0; }
     100%     { opacity: 0; }
   }
 
   @keyframes line-3 { /* should be ready soon */
     0%       { opacity: 0; }
-    36.485%  { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
-    36.830%  { opacity: 1; }
-    55.570%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
-    55.901%  { opacity: 0; }
+    24.139%  { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
+    24.367%  { opacity: 1; }
+    36.765%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    36.984%  { opacity: 0; }
     100%     { opacity: 0; }
   }
 
   @keyframes line-4 { /* drop me an email for now */
     0%       { opacity: 0; }
-    55.570%  { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
-    55.983%  { opacity: 1; }
-    78.400%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
-    78.796%  { opacity: 0; }
+    36.765%  { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
+    37.038%  { opacity: 1; }
+    51.869%  { opacity: 1; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    52.131%  { opacity: 0; }
     100%     { opacity: 0; }
   }
 
-  /* final line holds — Figma's loop-out fade at 99.632% is dropped */
-  @keyframes line-5 { /* the mailto */
-    0%       { opacity: 0; visibility: hidden; }
-    78.400%  { opacity: 0; visibility: hidden; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
-    78.784%  { opacity: 1; visibility: visible; }
-    100%     { opacity: 1; visibility: visible; }
-  }
-
-  /* ================= keyframes: wipes ============================ */
+  /* ================= keyframes: line wipes ======================= */
 
   @keyframes wipe-1-x {
     0%       { translate: 119.5px 0; animation-timing-function: cubic-bezier(0.333, 0, 0, 1); }
-    14.252%  { translate: -146.5px 0; }
+    9.429%   { translate: -146.5px 0; }
     100%     { translate: -146.5px 0; }
   }
   @keyframes wipe-1-r {
     0%       { rotate: 35deg; animation-timing-function: cubic-bezier(0.5, 0, 0.051, 1); }
-    14.252%  { rotate: -35deg; }
+    9.429%   { rotate: -35deg; }
     100%     { rotate: -35deg; }
   }
 
   @keyframes wipe-2-x {
     0%       { translate: -151.5px 0; }
-    11.706%  { translate: -151.5px 0; animation-timing-function: cubic-bezier(0.876, 0, 0.562, 1); }
-    29.368%  { translate: 171.5px 0; }
+    7.744%   { translate: -151.5px 0; animation-timing-function: cubic-bezier(0.876, 0, 0.562, 1); }
+    19.430%  { translate: 171.5px 0; }
     100%     { translate: 171.5px 0; }
   }
   @keyframes wipe-2-r {
     0%       { rotate: -35deg; }
-    11.706%  { rotate: -35deg; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
-    29.368%  { rotate: 35deg; }
+    7.744%   { rotate: -35deg; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    19.430%  { rotate: 35deg; }
     100%     { rotate: 35deg; }
   }
 
   @keyframes wipe-3-x {
     0%       { translate: 119.5px 0; }
-    36.485%  { translate: 119.5px 0; animation-timing-function: cubic-bezier(0.333, 0, 0, 1); }
-    50.737%  { translate: -130.5px 0; }
+    24.139%  { translate: 119.5px 0; animation-timing-function: cubic-bezier(0.333, 0, 0, 1); }
+    33.568%  { translate: -130.5px 0; }
     100%     { translate: -130.5px 0; }
   }
   @keyframes wipe-3-r {
     0%       { rotate: 35deg; }
-    36.485%  { rotate: 35deg; animation-timing-function: cubic-bezier(0.5, 0, 0.051, 1); }
-    50.737%  { rotate: -35deg; }
+    24.139%  { rotate: 35deg; animation-timing-function: cubic-bezier(0.5, 0, 0.051, 1); }
+    33.568%  { rotate: -35deg; }
     100%     { rotate: -35deg; }
   }
 
   @keyframes wipe-4-x {
     0%       { translate: -156.5px 0; }
-    54.303%  { translate: -156.5px 0; animation-timing-function: cubic-bezier(0.876, 0, 0.562, 1); }
-    68.555%  { translate: 170.5px 0; }
+    35.926%  { translate: -156.5px 0; animation-timing-function: cubic-bezier(0.876, 0, 0.562, 1); }
+    45.356%  { translate: 170.5px 0; }
     100%     { translate: 170.5px 0; }
   }
   @keyframes wipe-4-r {
     0%       { rotate: -35deg; }
-    54.303%  { rotate: -35deg; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
-    68.555%  { rotate: 35deg; }
+    35.926%  { rotate: -35deg; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
+    45.356%  { rotate: 35deg; }
     100%     { rotate: 35deg; }
   }
 
-  @keyframes wipe-5-x {
-    0%       { translate: -170.5px 0; }
-    78.400%  { translate: -170.5px 0; animation-timing-function: cubic-bezier(0.876, 0, 0.562, 1); }
-    96.062%  { translate: 171.5px 0; }
-    100%     { translate: 171.5px 0; }
+  /* ================= keyframes: card ============================= */
+
+  @keyframes card-gate {
+    0%       { visibility: hidden; }
+    51.869%  { visibility: hidden; }
+    52.142%  { visibility: visible; }
+    100%     { visibility: visible; }
   }
-  @keyframes wipe-5-r {
-    0%       { rotate: -35deg; }
-    78.400%  { rotate: -35deg; animation-timing-function: cubic-bezier(1, 0, 0.5, 1); }
-    96.062%  { rotate: 35deg; }
-    100%     { rotate: 35deg; }
+
+  @keyframes card-row { /* 556:171 */
+    0%       { opacity: 0; translate: 0 38.25px; }
+    51.869%  { opacity: 0; translate: 0 38.25px; animation-timing-function: cubic-bezier(0.274, 0, 0.046, 1); }
+    52.142%  { opacity: 1; }
+    56.335%  { translate: 0 0; }
+    100%     { opacity: 1; translate: 0 0; }
+  }
+
+  @keyframes card-bio { /* 556:180 */
+    0%       { opacity: 0; translate: 0 38.25px; }
+    52.302%  { opacity: 0; translate: 0 38.25px; animation-timing-function: cubic-bezier(0.274, 0, 0.046, 1); }
+    52.575%  { opacity: 1; }
+    56.768%  { translate: 0 0; }
+    100%     { opacity: 1; translate: 0 0; }
+  }
+
+  @keyframes card-link1 { /* 556:185 */
+    0%       { opacity: 0; translate: 0 38.25px; }
+    52.608%  { opacity: 0; translate: 0 38.25px; animation-timing-function: cubic-bezier(0.274, 0, 0.046, 1); }
+    52.881%  { opacity: 1; }
+    57.074%  { translate: 0 0; }
+    100%     { opacity: 1; translate: 0 0; }
+  }
+
+  @keyframes card-link2 { /* 556:191 */
+    0%       { opacity: 0; translate: 0 38.25px; }
+    53.031%  { opacity: 0; translate: 0 38.25px; animation-timing-function: cubic-bezier(0.274, 0, 0.046, 1); }
+    53.304%  { opacity: 1; }
+    57.497%  { translate: 0 0; }
+    100%     { opacity: 1; translate: 0 0; }
+  }
+
+  @keyframes card-wipe-o {
+    0%       { opacity: 0; }
+    55.185%  { opacity: 0; animation-timing-function: cubic-bezier(0.5, 0, 0, 1); }
+    55.458%  { opacity: 1; }
+    100%     { opacity: 1; }
+  }
+  @keyframes card-wipe-x {
+    0%       { translate: 251.164px 0; }
+    55.185%  { translate: 251.164px 0; animation-timing-function: cubic-bezier(0.333, 0, 0.133, 1); }
+    61.298%  { translate: -258.836px 0; }
+    100%     { translate: -258.836px 0; }
   }
 
   /* ================= reduced motion ============================== */
   @media (prefers-reduced-motion: reduce) {
-    .line    { animation: none; opacity: 0; }
-    .line--5 { opacity: 1; visibility: visible; }
-    .wipe, .wipe__rotor { animation: none; }
-    .wipe    { display: none; }
+    .line, .wipe, .wipe__rotor, .card-wipe { animation: none; }
+    .line, .wipe, .card-wipe { display: none; }
+    .card { visibility: visible; animation: none; }
+    .card__part { opacity: 1; translate: 0 0; animation: none; }
   }
 </style>
 </head>
 <body>
 
-  <!-- Loading-frame · 402:277 -->
+<div class="stage">
+
+  <!-- 402:277 · Loading-frame -->
   <div class="loading-frame" role="status" aria-live="polite">
 
     <p class="line line--4">drop me an email for now</p>
-
     <span class="wipe wipe--4" aria-hidden="true"><span class="wipe__rotor"><span class="wipe__bar"></span></span></span>
 
     <p class="line line--3">should be ready soon</p>
-
     <span class="wipe wipe--3" aria-hidden="true"><span class="wipe__rotor"><span class="wipe__bar"></span></span></span>
 
     <p class="line line--2">currently updating the site</p>
-
     <span class="wipe wipe--2" aria-hidden="true"><span class="wipe__rotor"><span class="wipe__bar"></span></span></span>
 
     <p class="line line--1">thanks for visiting</p>
-
     <span class="wipe wipe--1" aria-hidden="true"><span class="wipe__rotor"><span class="wipe__bar"></span></span></span>
 
-    <p class="line line--5">
-      <a class="email" href="mailto:tatendatakavarasha@gmail.com">tatendatakavarasha@gmail.com</a>
-    </p>
+  </div>
 
-    <span class="wipe wipe--5" aria-hidden="true"><span class="wipe__rotor"><span class="wipe__bar"></span></span></span>
+  <!-- 556:167 · Profile card -->
+  <div class="card">
+
+    <!-- 556:171 -->
+    <div class="card__part card__row">
+
+      <div class="avatar">
+        <img class="avatar__img" src="images/Profile-img.png" alt="Tatenda Takavarasha">
+      </div>
+
+      <!-- 556:174 -->
+      <div class="card__names">
+        <p class="card__name">Tatenda Takavarasha</p>
+        <p class="card__role">Digital Designer UX/UI</p>
+      </div>
+    </div>
+
+    <!-- 556:180 -->
+    <p class="card__part card__bio">I design products that people <br aria-hidden="true">enjoy to use, with a keen eye <br aria-hidden="true">for visual craft and user empathy.</p>
+
+    <!-- 556:181 -->
+    <div class="card__links">
+      <a class="card__part card__link-1 link" href="mailto:tatendatakavarasha@gmail.com">
+        Email
+        <svg class="link__arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+          <path d="M1.6 8.4L8.4 1.6M8.4 1.6H3.2M8.4 1.6V6.8" stroke="currentColor" stroke-width="1.15" stroke-linecap="square"/>
+        </svg>
+      </a>
+
+      <a class="card__part card__link-2 link" href="https://www.linkedin.com/in/tatendataka" target="_blank" rel="noopener noreferrer">
+        Linkedin
+        <svg class="link__arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+          <path d="M1.6 8.4L8.4 1.6M8.4 1.6H3.2M8.4 1.6V6.8" stroke="currentColor" stroke-width="1.15" stroke-linecap="square"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- 556:197 · Wipe -->
+    <span class="card-wipe" aria-hidden="true"><span class="card-wipe__rotor"><span class="card-wipe__bar"></span></span></span>
 
   </div>
+
+</div>
 
 </body>
 </html>
