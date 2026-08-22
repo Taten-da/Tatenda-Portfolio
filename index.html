@@ -35,9 +35,9 @@
     color: var(--ink-card);
   }
 
-  /* The Figma artboard is 1920 wide with its centre at x=960.
-     Offsets below are kept relative to that centre so the geometry
-     survives being dropped into a normal viewport. */
+  /* Loading frame and card share one centre line on the viewport.
+     (In the Figma artboard the loading frame sits at x=790, ~33px
+     left of the 960 centre — that offset is deliberately dropped.) */
   .stage {
     position: relative;
     width: 100%;
@@ -48,9 +48,9 @@
   /* ============ 402:277  Loading-frame ============================ */
   .loading-frame {
     position: absolute;
-    left: calc(50% - 170px);   /* Figma x=790, artboard centre 960 */
+    left: 50%;
     top: calc(50% + 0.5px);
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
     width: 273px;
     height: 19px;
     overflow: hidden;
@@ -126,7 +126,7 @@
   /* ============ 556:167  Profile card ============================= */
   .card {
     position: absolute;
-    left: calc(50% - 1px);
+    left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     display: flex;
